@@ -1,134 +1,62 @@
-% IEEE Access related work v0.1 (2026-10-24).
-% Preamble: \usepackage{booktabs,tabularx,array}
-% Bibliography: \bibliographystyle{IEEEtran} \bibliography{paper/references}
+% Literature synthesis v0.2 (2026-10-24), 30 references.
+% Include using \input{paper/related_work}; requires booktabs and tabularx.
 \section{Related Work}\label{sec:related_work}
-\subsection{Detection and Corpus Reliability}
-Phishing-email detection evolved from engineered header, link, and text
-features with supervised classifiers \cite{fette2007learning}
-to diverse machine-learning and neural approaches reviewed by Kavya and
-Sumathi \cite{kavya2025review}. However, corpus-specific formatting,
-collection period, source overlap, and ambiguous class definitions
-can inflate in-domain results. Spam is not necessarily phishing;
-phishing-only collections cannot measure false positives on benign mail.
-Pajola \emph{et al.} \cite{pajola2025ephishgen}
-reassessed legacy evaluations and released the multilingual
-E-PhishLLM benchmark of 16,616 synthetic messages through E-PhishGEN.
-Bhuiyan and Bhuiyan \cite{bhuiyan2026fragility}
-subsequently investigated leave-one-corpus-out transfer,
-source artifacts, prevalence shift, and alert budgets. Thus,
-source shift and shortcut diagnosis are critical methodological
-controls rather than stand-alone novelty.
 
-\subsection{LLM-Written and Rephrased Email}
-Heiding \emph{et al.} \cite{heiding2024devising} analyzed both the design and detection of LLM-generated phishing with human participants, establishing the dual-use context for email security. Weinz \emph{et al.} \cite{weinz2025impact} studied LLM-assisted
-phishing in organizational simulations. Opara \emph{et al.}
-\cite{opara2025stylometry} tested commercial mail filters
-and introduced stylometric detection using 47 features. Importantly,
-authorship inference (AI versus human) is not identical to maliciousness
-inference (phishing versus legitimate). The open-domain MAGE study
-\cite{li2024mage} reports cross-generator weaknesses in
-machine-text detection, but does not establish phishing
-classification performance.
+\subsection{Threat Model, Dataset Labels, and Email Phishing}
+Supervised phishing-email filtering initially emphasized message content, URL, and structural features, as illustrated by Fette \emph{et al.}~\cite{fette2007learning}. Contemporary surveys synthesize machine-learning and NLP approaches~\cite{kavya2025review} and the dual offensive and defensive role of LLMs~\cite{sivaneswaran2026review}. An important evaluation distinction is frequently obscured by aggregate accuracy: predicting phishing versus legitimate intent is not the same as attributing an email to an AI rather than a human author. Likewise, spam cannot automatically be treated as phishing or as legitimate mail. The intended decision, inputs, and class semantics must therefore be fixed before performance comparisons.
 
-Ferrell \emph{et al.} \cite{ferrell2025rephrasing}
-tested LLM rephrasings of both phishing and safe emails, finding
-performance reductions and improvement after retraining.
-Nance \emph{et al.} \cite{nance2025augmentation} independently investigated LLM-based data augmentation for phishing email detection. Kulal \emph{et al.} \cite{kulal2025robust} assessed preprocessing
-against LLM-generated and adversarial email. These studies rule
-out claims that ordinary rephrasing experiments or augmented
-training are new.
+Heiding \emph{et al.}~\cite{heiding2024devising} assessed LLM-assisted phishing generation and detection in a human-participant study, while Weinz \emph{et al.}~\cite{weinz2025impact} evaluated emerging phishing and quishing threats in organizational settings. These results motivate realistic security evaluation but do not directly determine the generalization error of a binary text classifier under controlled rewriting.
 
-\subsection{Generator Transfer, Calibration, and Provenance}
-Gutierrez \emph{et al.} \cite{gutierrez2026crossmodel}
-used phishing-only human and LLM examples from GPT-4.1,
-DeepSeek 3.2, and Llama 3.3 70B. Their stylometric classifier
-exhibited a pronounced cross-generator F1 gap despite strong
-ranking ability; threshold adaptation using some target labels
-narrowed that gap. Their experimental labels indicate
-AI-versus-human origin \emph{among phishing messages}, not
-phishing-versus-legitimate intent. Therefore, their results
-cannot quantify false alarms on legitimate AI-written mail,
-and target-label calibration is not a zero-shot result.
-Predictive confidence itself requires explicit calibration
-analysis \cite{guo2017calibration}. We consider generator
-identity a stratification variable and prohibit test-target
-threshold selection.
+\subsection{LLM Classification, Behavioral Evidence, and Style}
+LLM-based phishing detection already spans multiple inference designs. Zhang \emph{et al.}~\cite{zhang2025sme} evaluated base LLMs on human- and AI-written phishing and legitimate emails for small and midsize enterprises. ChatSpamDetector~\cite{koide2026chatspamdetector} uses message headers and body text to produce phishing assessments and rationales. PRIME~\cite{tian2025prime} aggregates LLM-evaluated social-engineering cues through quantitative and fuzzy scoring, although its reported phishing-only evaluation cannot independently establish benign false-positive rates. Pan \emph{et al.}~\cite{pan2026psychology} quantified persuasion and sensitive-request cues and studied systematic LLM prompting on a large email corpus. MultiPhishGuard~\cite{xue2025multiphishguard} introduced a multi-agent approach combining text, URL, and metadata analysis with adversarial augmentation. Thus, security cues, rationales, adversarially generated email variants, and LLM reasoning are already investigated; any lightweight model must be evaluated against relevant alternatives with comparable access to metadata.
 
-\subsection{Pairwise Robustness and Operational Risk}
-Toth \emph{et al.} \cite{toth2026phishfuzzer} released PhishFuzzer
-with 3,300 seed emails and 19,800 linked variants spanning
-phishing, spam, and valid mail, including sender, URL, and
-attachment metadata. Parent linking supports paired robustness
-analysis, but editing these artifacts can alter security
-semantics: a shared parent does not prove a same-label pair.
-Independent review is essential before declaring an edit
-style-preserving or label-changing.
+Stylometry represents a related but different target. Opara \emph{et al.}~\cite{opara2025stylometry} investigated commercial spam filters and stylometric cues on AI-generated phishing. CuePhish~\cite{commey2026cuephish} studies interpretable linguistic and stylistic features for distinguishing LLM-generated from non-AI phishing, including adaptive evasion. MAGE~\cite{li2024mage} studies machine-text attribution across generators and domains outside phishing. These studies caution against inferring malicious intent simply from writing style or AI provenance.
 
-Arharbi and El Qadi \cite{arharbi2026shifts} already explored
-generative shift, prediction stability, DistilBERT,
-and SHAP/entropy-based mitigation. Risk--coverage trade-offs
-are also established in selective classification
-\cite{geifman2019selectivenet}. Therefore, neither
-shift-robust DistilBERT nor abstention alone constitutes
-novelty. Realized test false-positive rates, review workload,
-and phishing recall at preregistered operating thresholds
-must be reported alongside PR-AUC
-\cite{saito2015precision}.
+\subsection{Rewriting, Generator Transfer, and Corpus Shift}
+Ferrell \emph{et al.}~\cite{ferrell2025rephrasing} evaluated detectors after multiple LLMs rephrased phishing and safe messages, reporting degradation and benefits from retraining. Nance \emph{et al.}~\cite{nance2025augmentation} separately explored LLM-generated training augmentation, and Kulal \emph{et al.}~\cite{kulal2025robust} investigated preprocessing against conventional, LLM-generated, and adversarial phishing. Accordingly, ordinary paraphrase testing and augmentation are prior art.
 
-\subsection{Positioning of the Present Research}
-Table~\ref{tab:related_comparison} contrasts existing
-studies by \emph{task} and evaluation, avoiding comparisons
-of accuracy across incompatible benchmarks. The proposed
-research investigates two separate desiderata for
-phishing-versus-legitimate classification:
-stability under \emph{human-verified security-equivalent}
-rewrites, and sensitivity to \emph{adjudicated
-security-changing} counterfactuals. Proposed learning
-objectives must be compared with classification-only,
-ordinary augmentation, same-label consistency, and
-matched-budget strong controls. Joint generator and
-corpus holdouts will be attempted only if provenance
-permits them. No performance advantage or novel
-algorithm is asserted without such evidence.
+Gutierrez \emph{et al.}~\cite{gutierrez2026crossmodel} studied cross-generator stylometric detection using human and LLM phishing-only samples from three generators. Their cross-model F1 degradation was reduced by recalibration on labeled examples from the target generator. This is important prior evidence for domain-sensitive thresholds, but its positive and negative classes both concern phishing origin. It does not measure benign-AI false alarms, and target-labeled calibration cannot be described as zero-shot generalization.
+
+E-PhishGEN~\cite{pajola2025ephishgen} introduced a multilingual synthetic phishing/legitimate email benchmark to expose weaknesses of older corpora. Bhuiyan and Bhuiyan~\cite{bhuiyan2026fragility} investigated leave-one-corpus-out transfer, prevalence shift, and source artifacts. Their findings connect to the broader shortcut-learning analysis of Geirhos \emph{et al.}~\cite{geirhos2020shortcut} and worst-group robustness methods such as group DRO~\cite{sagawa2020groupdro}. Cross-corpus testing, group robustness, and source-bias diagnosis are consequently necessary controls, not new contributions in themselves.
+
+PhishFuzzer~\cite{toth2026phishfuzzer} provides 3,300 seed messages and 19,800 linked variants covering phishing, spam, and valid email, including sender, URL, and attachment metadata. Parent linkage permits paired analyses, but modifying security-relevant fields can change the correct label. Therefore, a derived message cannot be assumed meaning-preserving merely because its parent ID is known. All derivatives must be grouped before splitting, and source dataset provenance, rather than the superficial generator label, must govern leave-one-generator and joint source-generator tests.
+
+\subsection{Counterfactual Behavioral Testing and Security-Sensitive Edits}
+The general distinction between prediction invariance and response to meaningful edits has already been established. CheckList~\cite{ribeiro2020checklist} explicitly defines invariance and directional-expectation tests. Gardner \emph{et al.}~\cite{gardner2020contrast} introduced manually constructed contrast sets to probe local decision boundaries after label-changing modifications. Kaushik \emph{et al.}~\cite{kaushik2020cad} used human-authored, minimally changed counterfactuals to mitigate spurious NLP correlations. Accordingly, bidirectional testing, counterfactual augmentation, and paired sensitivity cannot be claimed as original concepts.
+
+Our proposed phishing-specific investigation must instead determine whether independently verified security-equivalent rewrites and adjudicated security-changing edits can expose or reduce reliance on irrelevant surface features. A changed brand, URL string, or sender field does not by itself establish a legitimate-to-phishing label transition: original context, authority, and actual target must be verified. The experimental question is whether a defined security-semantic annotation protocol and corresponding training strategy outperform equal-budget augmentation, classification-only, and same-label consistency controls on genuinely held-out generators and corpora. No positive finding is assumed.
+
+\subsection{Calibration, Abstention, and Deployment Constraints}
+Discrimination and confidence are distinct: Guo \emph{et al.}~\cite{guo2017calibration} analyzed neural calibration, while SelectiveNet~\cite{geifman2019selectivenet} studied rejection under a risk-coverage objective. Tibshirani \emph{et al.}~\cite{tibshirani2019conformal} established conformal methods under specified covariate-shift assumptions, rather than arbitrary distribution-free protection after any unknown shift. Evaluation under rare phishing prevalence needs precision--recall reporting~\cite{saito2015precision}, realized false-positive rates, phishing recall at thresholds frozen from development data, and analyst-review workload.
+
+Arharbi and El Qadi~\cite{arharbi2026shifts} already studied GenAI-induced drift, stability, interpretability, and SHAP/entropy-based gating with lightweight phishing detection. Risk-aware gating alone is therefore prior work. Any additional benefit must be shown under a realistic false-alarm budget without selecting thresholds or rejection policies from the final unseen-generator test labels.
+
+\subsection{Synthesis and Positioning}
+Table~\ref{tab:related_comparison} compares the closest work by actual prediction target and experimental scope, rather than pooling accuracy values from incompatible corpora. The literature covers LLM-written phishing, authorship, rephrasing, synthetic benchmarks, stylistic cues, source artifacts, invariant tests, label-changing counterfactuals, and risk-aware decisions. The narrower proposed question is whether a human-adjudicated security-equivalence and security-change protocol supports a measurable improvement on phishing-versus-legitimate classification under parent-disjoint, generator-aware, source-disjoint tests at an explicit false-alarm/review budget. Its novelty and performance remain hypotheses pending dataset and experimental validation.
 
 \begin{table*}[!t]
 \centering
-\caption{Closest work, its target task, and the relevant scientific boundary.}
+\caption{Closest related work and exact boundaries of the present research. Statements characterize the cited experiments, not definitive absence claims.}
 \label{tab:related_comparison}
 \footnotesize
-\renewcommand{\arraystretch}{1.14}
-\begin{tabularx}{\textwidth}{@{}p{2.7cm}p{3.1cm}X X@{}}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\textwidth}{@{}p{2.8cm}p{2.9cm}X X@{}}
 \toprule
-Study & Task & Prior contribution & Boundary for present research\\
+Study & Prediction target & Prior capability & Boundary for this study\\
 \midrule
-Opara \emph{et al.} \cite{opara2025stylometry} &
-AI phishing/style signals & Stylometry; email filters &
-Machine provenance differs from malicious intent.\\
-Koide \emph{et al.} \cite{koide2026chatspamdetector} &
-LLM phishing decision & Structured rationales; email headers &
-LLM-based phishing detection is published in IEEE Access.\\
-Ferrell \emph{et al.} \cite{ferrell2025rephrasing} &
-Phishing vs. safe & Multi-LLM rephrasing and retraining &
-Rewriting robustness already studied.\\
-Pajola \emph{et al.} \cite{pajola2025ephishgen} &
-Email phishing benchmarking & Multilingual synthetic corpus &
-Cross-dataset generalization is prior art.\\
-Gutierrez \emph{et al.} \cite{gutierrez2026crossmodel} &
-AI vs. human within phishing & Generator transfer; calibration &
-No legitimate AI-mail false-positive evaluation.\\
-Toth \emph{et al.} \cite{toth2026phishfuzzer} &
-Phishing/spam/valid & Parent-linked metadata variants &
-Edit/label equivalence must be verified.\\
-Bhuiyan and Bhuiyan \cite{bhuiyan2026fragility} &
-Phishing classification & Source artifacts, prevalence, alert budget &
-Corpus shift itself is not new.\\
-Arharbi and El Qadi \cite{arharbi2026shifts} &
-GenAI-shift phishing defense & DistilBERT, stability, XAI gating &
-Shift-aware defenses are prior art.\\
-\textbf{Proposed (unvalidated)} &
-\textbf{Phishing vs. legitimate} &
-\textbf{Verified invariant and security-changing pairs} &
-\textbf{Empirical value not yet established.}\\
+Zhang \emph{et al.}~\cite{zhang2025sme} & Phishing/legitimate & Human and AI email, base LLMs & Four origin--intent strata already studied.\\
+Koide \emph{et al.}~\cite{koide2026chatspamdetector} & Phishing/legitimate & LLM header/body reasoning & Explainable phishing decisions are prior art.\\
+Opara; CuePhish~\cite{opara2025stylometry,commey2026cuephish} & AI vs.\ human phishing signals & Style and adaptive evasion & Authorship differs from phishing intent.\\
+Ferrell \emph{et al.}~\cite{ferrell2025rephrasing} & Phishing/legitimate & LLM rewriting and retraining & Rewriting robustness already studied.\\
+E-PhishGEN~\cite{pajola2025ephishgen} & Email benchmarking & Multilingual synthetic data & Synthetic data and transfer already studied.\\
+Gutierrez \emph{et al.}~\cite{gutierrez2026crossmodel} & Authorship within phishing & Cross-generator and target calibration & Cannot measure legitimate AI-mail FPR.\\
+PhishFuzzer~\cite{toth2026phishfuzzer} & Phishing/spam/valid & Parent-linked variants and metadata & Parentage is not semantic equivalence.\\
+Bhuiyan and Bhuiyan~\cite{bhuiyan2026fragility} & Phishing/legitimate & Source, prevalence, operational shift & Corpus-shift diagnostics are prior art.\\
+CheckList and contrast sets~\cite{ribeiro2020checklist,gardner2020contrast} & General NLP behavioral tests & Invariance and meaningful-change tests & Bidirectional behavior testing is established.\\
+Arharbi and El Qadi~\cite{arharbi2026shifts} & Phishing under GenAI shift & Stability and explainable gating & Uncertainty/review mechanisms are prior work.\\
+\textbf{Our planned study} & \textbf{Phishing/legitimate} &
+\textbf{Adjudicated security-equivalent/changed pairs} &
+\textbf{Contribution subject to external validation.}\\
 \bottomrule
 \end{tabularx}
 \end{table*}
