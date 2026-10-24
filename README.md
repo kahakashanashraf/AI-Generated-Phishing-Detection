@@ -2,6 +2,14 @@
 
 **Status: RESEARCH PLANNING / PRE-DATA AUDIT. No phishing model has been scientifically validated yet.**
 
+## M0 manuscript literature outputs (2026-10-24)
+- **[Related Work — copy into IEEE Access LaTeX](paper/related_work.tex)** — 5 subsections, 18 in-text citations, double-column comparison table.
+- **[BibTeX references](paper/references.bib)** — 18 entries with journal/conference DOI or authoritative URL.
+- **[Evidence/access audit](paper/LITERATURE_EVIDENCE_AUDIT.md)** — which Related Work sections we genuinely read vs abstracts only, exact novelty overlaps and pending papers.
+- **[LaTeX integration instructions](paper/README.md)** — required packages, `\\input`, BibTeX and publication QA.
+
+Research gate M0 remains **IN PROGRESS**, even though the first draft is committed. Source limitations and still-unverified novelty are documented, and no results are invented.
+
 ## START HERE — one checkbox at a time
 - **[MASTER ROADMAP](ROADMAP.md)** — 10 milestones, each with a linked GitHub Issue and evidence-only checkbox.
 - **[BEGINNER'S GUIDE](docs/BEGINNERS_GUIDE.md)** — step-by-step lessons, plain-language concepts and what output to show after each task.
