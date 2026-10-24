@@ -1,6 +1,8 @@
-# IEEE Access Research Blueprint — version 0.1 (2026-10-24)
+# PLOS ONE Research Blueprint — version 0.1 (2026-10-24)
 
-> Status: **PLANNED, NOT VALIDATED.** Do not assert novelty, successful experiment, improved robustness, IEEE acceptance, or actual dataset readiness before evidence. This is a training-and-research roadmap for a first-time researcher using Kaggle free 2x Tesla T4.
+> Status: **PLANNED, NOT VALIDATED.** Do not assert novelty, successful experiment, improved robustness, PLOS ONE acceptance, or actual dataset readiness before evidence. This is a training-and-research roadmap for a first-time researcher using Kaggle free 2x Tesla T4.
+
+**Journal target:** PLOS ONE. See [journal policy and compliance](PLOS_ONE_TARGET.md). A rigorously controlled negative/null result can be publishable if it constitutes original valid research, but reproducibility and legal data access are hard gates. The goal is not to manufacture a new neural architecture.
 
 ## 0. North star
 **Working title:** *Security-Sensitive Invariance Learning for Reliable Phishing Email Detection Under Unseen LLM Rewriting and Domain Shift*.
