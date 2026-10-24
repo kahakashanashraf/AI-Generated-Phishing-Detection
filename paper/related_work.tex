@@ -1,0 +1,131 @@
+% IEEE Access related work v0.1 (2026-10-24).
+% Preamble: \usepackage{booktabs,tabularx,array}
+% Bibliography: \bibliographystyle{IEEEtran} \bibliography{paper/references}
+\section{Related Work}\label{sec:related_work}
+\subsection{Detection and Corpus Reliability}
+Phishing-email detection evolved from engineered header, link, and text
+features with supervised classifiers \cite{fette2007learning}
+to diverse machine-learning and neural approaches reviewed by Kavya and
+Sumathi \cite{kavya2025review}. However, corpus-specific formatting,
+collection period, source overlap, and ambiguous class definitions
+can inflate in-domain results. Spam is not necessarily phishing;
+phishing-only collections cannot measure false positives on benign mail.
+Pajola \emph{et al.} \cite{pajola2025ephishgen}
+reassessed legacy evaluations and released the multilingual
+E-PhishLLM benchmark of 16,616 synthetic messages through E-PhishGEN.
+Bhuiyan and Bhuiyan \cite{bhuiyan2026fragility}
+subsequently investigated leave-one-corpus-out transfer,
+source artifacts, prevalence shift, and alert budgets. Thus,
+source shift and shortcut diagnosis are critical methodological
+controls rather than stand-alone novelty.
+
+\subsection{LLM-Written and Rephrased Email}
+Weinz \emph{et al.} \cite{weinz2025impact} studied LLM-assisted
+phishing in organizational simulations. Opara \emph{et al.}
+\cite{opara2025stylometry} tested commercial mail filters
+and introduced stylometric detection using 47 features. Importantly,
+authorship inference (AI versus human) is not identical to maliciousness
+inference (phishing versus legitimate). The open-domain MAGE study
+\cite{li2024mage} reports cross-generator weaknesses in
+machine-text detection, but does not establish phishing
+classification performance.
+
+Ferrell \emph{et al.} \cite{ferrell2025rephrasing}
+tested LLM rephrasings of both phishing and safe emails, finding
+performance reductions and improvement after retraining.
+Kulal \emph{et al.} \cite{kulal2025robust} assessed preprocessing
+against LLM-generated and adversarial email. These studies rule
+out claims that ordinary rephrasing experiments or augmented
+training are new.
+
+\subsection{Generator Transfer, Calibration, and Provenance}
+Gutierrez \emph{et al.} \cite{gutierrez2026crossmodel}
+used phishing-only human and LLM examples from GPT-4.1,
+DeepSeek 3.2, and Llama 3.3 70B. Their stylometric classifier
+exhibited a pronounced cross-generator F1 gap despite strong
+ranking ability; threshold adaptation using some target labels
+narrowed that gap. Their experimental labels indicate
+AI-versus-human origin \emph{among phishing messages}, not
+phishing-versus-legitimate intent. Therefore, their results
+cannot quantify false alarms on legitimate AI-written mail,
+and target-label calibration is not a zero-shot result.
+Predictive confidence itself requires explicit calibration
+analysis \cite{guo2017calibration}. We consider generator
+identity a stratification variable and prohibit test-target
+threshold selection.
+
+\subsection{Pairwise Robustness and Operational Risk}
+Toth \emph{et al.} \cite{toth2026phishfuzzer} released PhishFuzzer
+with 3,300 seed emails and 19,800 linked variants spanning
+phishing, spam, and valid mail, including sender, URL, and
+attachment metadata. Parent linking supports paired robustness
+analysis, but editing these artifacts can alter security
+semantics: a shared parent does not prove a same-label pair.
+Independent review is essential before declaring an edit
+style-preserving or label-changing.
+
+Arharbi and El Qadi \cite{arharbi2026shifts} already explored
+generative shift, prediction stability, DistilBERT,
+and SHAP/entropy-based mitigation. Risk--coverage trade-offs
+are also established in selective classification
+\cite{geifman2019selectivenet}. Therefore, neither
+shift-robust DistilBERT nor abstention alone constitutes
+novelty. Realized test false-positive rates, review workload,
+and phishing recall at preregistered operating thresholds
+must be reported alongside PR-AUC
+\cite{saito2015precision}.
+
+\subsection{Positioning of the Present Research}
+Table~\ref{tab:related_comparison} contrasts existing
+studies by \emph{task} and evaluation, avoiding comparisons
+of accuracy across incompatible benchmarks. The proposed
+research investigates two separate desiderata for
+phishing-versus-legitimate classification:
+stability under \emph{human-verified security-equivalent}
+rewrites, and sensitivity to \emph{adjudicated
+security-changing} counterfactuals. Proposed learning
+objectives must be compared with classification-only,
+ordinary augmentation, same-label consistency, and
+matched-budget strong controls. Joint generator and
+corpus holdouts will be attempted only if provenance
+permits them. No performance advantage or novel
+algorithm is asserted without such evidence.
+
+\begin{table*}[!t]
+\centering
+\caption{Closest work, its target task, and the relevant scientific boundary.}
+\label{tab:related_comparison}
+\footnotesize
+\renewcommand{\arraystretch}{1.14}
+\begin{tabularx}{\textwidth}{@{}p{2.7cm}p{3.1cm}X X@{}}
+\toprule
+Study & Task & Prior contribution & Boundary for present research\\
+\midrule
+Opara \emph{et al.} \cite{opara2025stylometry} &
+AI phishing/style signals & Stylometry; email filters &
+Machine provenance differs from malicious intent.\\
+Ferrell \emph{et al.} \cite{ferrell2025rephrasing} &
+Phishing vs. safe & Multi-LLM rephrasing and retraining &
+Rewriting robustness already studied.\\
+Pajola \emph{et al.} \cite{pajola2025ephishgen} &
+Email phishing benchmarking & Multilingual synthetic corpus &
+Cross-dataset generalization is prior art.\\
+Gutierrez \emph{et al.} \cite{gutierrez2026crossmodel} &
+AI vs. human within phishing & Generator transfer; calibration &
+No legitimate AI-mail false-positive evaluation.\\
+Toth \emph{et al.} \cite{toth2026phishfuzzer} &
+Phishing/spam/valid & Parent-linked metadata variants &
+Edit/label equivalence must be verified.\\
+Bhuiyan and Bhuiyan \cite{bhuiyan2026fragility} &
+Phishing classification & Source artifacts, prevalence, alert budget &
+Corpus shift itself is not new.\\
+Arharbi and El Qadi \cite{arharbi2026shifts} &
+GenAI-shift phishing defense & DistilBERT, stability, XAI gating &
+Shift-aware defenses are prior art.\\
+\textbf{Proposed (unvalidated)} &
+\textbf{Phishing vs. legitimate} &
+\textbf{Verified invariant and security-changing pairs} &
+\textbf{Empirical value not yet established.}\\
+\bottomrule
+\end{tabularx}
+\end{table*}
