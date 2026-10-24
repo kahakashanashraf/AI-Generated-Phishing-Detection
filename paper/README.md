@@ -59,3 +59,8 @@ Never treat a working LaTeX file as peer-reviewed or already novel.
 - Automated [LaTeX smoke-test workflow](../.github/workflows/paper-latex.yml) compiles an ordinary article-based validation manuscript. This is **NOT** the journal's official IEEE Access class/word layout; test it separately before submission.
 - Crucial correction: CheckList (ACL 2020) already defines invariance and directional expectation; Gardner/Kaushik similarly cover label-changing counterfactuals. Do NOT describe bidirectional behavior testing as a new concept.
 - Some IEEE/Elsevier papers remain publisher-abstract only; their full methods are not claimed as reviewed. The literature gate cannot be marked GO based solely on this draft.
+
+## Verified standalone LaTeX CI result
+- **PASS**: [GitHub Actions manuscript-latex-smoke-test run 40103390554](https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection/actions/runs/40103390554) completed successfully on 2026-10-24, including BibTeX compilation and PDF artifact upload.
+- The validation uses `paper/validation_main.tex` with the generic two-column `article` class. It verifies the linked draft builds but is **not** the official IEEE Access template. Official-class typesetting is still unchecked.
+- The generated PDF is a workflow artifact on the linked Actions run, not a downloadable file created inside this ChatGPT conversation.
