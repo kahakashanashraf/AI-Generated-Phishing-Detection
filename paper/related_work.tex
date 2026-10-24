@@ -34,13 +34,19 @@ Arharbi and El Qadi~\cite{arharbi2026shifts} already studied GenAI-induced drift
 \subsection{Synthesis and Positioning}
 Table~\ref{tab:related_comparison} compares the closest work by actual prediction target and experimental scope, rather than pooling accuracy values from incompatible corpora. The literature covers LLM-written phishing, authorship, rephrasing, synthetic benchmarks, stylistic cues, source artifacts, invariant tests, label-changing counterfactuals, and risk-aware decisions. The narrower proposed question is whether a human-adjudicated security-equivalence and security-change protocol supports a measurable improvement on phishing-versus-legitimate classification under parent-disjoint, generator-aware, source-disjoint tests at an explicit false-alarm/review budget. Its novelty and performance remain hypotheses pending dataset and experimental validation.
 
-\begin{table*}[!t]
+Table~\ref{tab:our_positioning} makes the proposed contribution's
+scope and the exact evidence required for each claim explicit. The
+comparison is a research design, not an assertion that earlier studies
+never considered these questions. A row will only support a contribution
+claim after the stated validation is executed.
+
+\begin{table}[!htbp]
 \centering
 \caption{Closest related work and exact boundaries of the present research. Statements characterize the cited experiments, not definitive absence claims.}
 \label{tab:related_comparison}
 \footnotesize
 \renewcommand{\arraystretch}{1.12}
-\begin{tabularx}{\textwidth}{@{}p{2.8cm}p{2.9cm}X X@{}}
+\begin{tabularx}{\linewidth}{@{}p{2.65cm}p{2.8cm}X X@{}}
 \toprule
 Study & Prediction target & Prior capability & Boundary for this study\\
 \midrule
@@ -59,4 +65,59 @@ Arharbi and El Qadi~\cite{arharbi2026shifts} & Phishing under GenAI shift & Stab
 \textbf{Contribution subject to external validation.}\\
 \bottomrule
 \end{tabularx}
-\end{table*}
+\end{table}
+
+
+% PLOS ONE positioning table: research hypotheses, not demonstrated novelty.
+\begin{table}[!htbp]
+\centering
+\caption{Positioning of the proposed research relative to established
+approaches. All proposed tests are prospective; meeting an evaluation
+criterion has not yet been demonstrated.}
+\label{tab:our_positioning}
+\footnotesize
+\renewcommand{\arraystretch}{1.17}
+\begin{tabularx}{\linewidth}{@{}p{2.45cm}X X X@{}}
+\toprule
+Research strand (prior art) &
+Established basis &
+Our specific research question / protocol &
+Evidence required before a claim \\
+\midrule
+Authorship and stylistic cues
+\cite{opara2025stylometry,gutierrez2026crossmodel,commey2026cuephish} &
+AI--human attribution and cross-generator style transfer &
+Predict \emph{phishing vs.\ legitimate}; stratify by verified human/AI origin, including AI-written legitimate messages &
+Verified labels and provenance; separate benign-AI false-positive rates \\
+\addlinespace[2pt]
+LLM rewriting and fuzzing
+\cite{ferrell2025rephrasing,nance2025augmentation,toth2026phishfuzzer} &
+Rephrase-based stress tests, augmentation and parent-linked variants &
+Distinguish human-verified, security-equivalent rewrites from adjudicated security-changing edits &
+Parent-disjoint pairs; blinded pair-validity audit, disagreements and flip/sensitivity metrics \\
+\addlinespace[2pt]
+Corpus and generator shift
+\cite{pajola2025ephishgen,bhuiyan2026fragility} &
+Synthetic/cross-corpus testing and source-artifact diagnoses &
+Evaluate separately held-out generator and source, then a joint holdout \emph{only if} data coverage allows &
+Exact source/model IDs, zero parent overlap, fixed split and sufficient strata \\
+\addlinespace[2pt]
+Behavioral counterfactuals
+\cite{ribeiro2020checklist,gardner2020contrast,kaushik2020cad} &
+Invariance, directional expectation and label-changing revisions &
+Test whether a security-specific dual objective adds value over established controls &
+Matched-budget augmentation, same-label-only, sensitivity-only and full-model ablations \\
+\addlinespace[2pt]
+Calibration and risk
+\cite{arharbi2026shifts,geifman2019selectivenet} &
+Shift monitoring, reject-option and risk--coverage evaluation &
+Assess recall at development-chosen false-alarm budgets with optional human review &
+Untouched test set, realized FPR, recall, review load and uncertainty intervals \\
+\midrule
+\textbf{Combined positioning (planned)} &
+\textbf{No first-of-its-kind claim} &
+\textbf{Security-validated pairs + shift-aware evaluation + risk accounting} &
+\textbf{Independent replication and statistically supported benefit or an honest null result} \\
+\bottomrule
+\end{tabularx}
+\end{table}
