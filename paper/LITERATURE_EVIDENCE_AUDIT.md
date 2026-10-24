@@ -1,3 +1,5 @@
+> **ARCHIVED first-pass audit (18 papers). The current 30-study version is [STUDY_MATRIX_30.md](STUDY_MATRIX_30.md). Do not treat the counts below as current.**
+
 # Related-work evidence audit — M0 working record
 
 **Search date: 2026-10-24. Status: DRAFT for manuscript, NOT literature novelty GO.**
