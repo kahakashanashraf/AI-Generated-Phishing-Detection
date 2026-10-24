@@ -1,6 +1,6 @@
-# MASTER ROADMAP — IEEE Access Phishing Research
+# MASTER ROADMAP — PLOS ONE Phishing Research
 
-**Version:** 0.1, 2026-10-24. **This document is the task entrypoint.** We are learning research from first principles while enforcing reproducible, journal-grade evidence.
+**Version:** 0.2, 2026-10-24. **Current journal:** [PLOS ONE](docs/PLOS_ONE_TARGET.md); previous target IEEE Access retained in decision history. **This document is the task entrypoint.** We are learning research from first principles while enforcing reproducible, journal-grade evidence.
 
 **Working problem:** *Security-Sensitive Invariance Learning for Reliable Phishing Email Detection Under Unseen LLM Rewriting and Domain Shift.*
 
@@ -18,8 +18,8 @@
 - [ ] **M5** — [Security-sensitive style consistency method (#6)](https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection/issues/6). Properly validated style and security-change objectives; ablations.
 - [ ] **M6** — [Unseen LLM + corpus generalization and risk (#7)](https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection/issues/7). LO-generator, LO-corpus, conditional joint shift; fixed-FPR/review.
 - [ ] **M7** — [Multiple seeds, statistics, error analysis (#8)](https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection/issues/8). Parent-bootstrap 95% CI, compute cost.
-- [ ] **M8** — [Paper writing and scientific integrity audit (#9)](https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection/issues/9). IEEE Access structure, clear claims, figures, citations.
-- [ ] **M9** — [Final reproducibility/submission package (#10)](https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection/issues/10). Clean notebook, artifact checks, manuscript deliverables.
+- [ ] **M8** — [Paper writing and scientific integrity audit (#9)](https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection/issues/9). PLOS ONE structure, Vancouver references, Data Availability and ethics, clear claims, figures, citations.
+- [ ] **M9** — [Final reproducibility/submission package (#10)](https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection/issues/10). Clean notebook, open code and minimal dataset/access plan, artifact checks, manuscript deliverables.
 
 **Important:** This master list is NOT automatically synchronized with Issue checkboxes. Each time an entire milestone is verified, close the issue and manually replace `[ ]` with `[x]` here **in the same update**. Individual issue tasks get checked **only with evidence**. Until then all above remain unchecked.
 
