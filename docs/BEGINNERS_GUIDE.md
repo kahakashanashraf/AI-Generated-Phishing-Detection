@@ -53,7 +53,7 @@ PLOS ONE requires sufficient data and code access to reproduce the findings. See
 
 ## Your first hands-on activity — no GPU training
 1. Open https://zenodo.org/records/8339691.
-2. Write the file names and dataset source histories in `reports/dataset_receipts/D1.md`.
+2. Write the file names and dataset source histories in `data/audit/receipts/D1.md`.
 3. Record the visible file checksums, license status and how labels are defined. **Mark UNKNOWN instead of guessing**.
 4. Inspect a tiny, sanitized sample; never click links inside emails.
 5. Report columns, number of rows by class/source, missing fields, apparent duplicated copies.
@@ -66,3 +66,6 @@ PLOS ONE requires sufficient data and code access to reproduce the findings. See
 - Don't ever call `cross-dataset` results valid when overlapping source corpora remain.
 - Report what did not work. Statistical significance on *parent-group* resamples, not individual paraphrase rows.
 - Update the linked milestone GitHub issue as a learning journal. The paper is built from these evidence receipts.
+
+## Where every dataset file goes (new)
+The single canonical [data workspace](../data/README.md) houses all five sources. On Kaggle, run `!python scripts/init_data_workspace.py`. Keep D1 Nazario under `data/datasets/D1_curated_emails/raw/Nazario.csv`, audit locally using `!python scripts/audit_d1_preview.py --file data/datasets/D1_curated_emails/raw/Nazario.csv --output data/audit/quality/D1_Nazario_preview.json` and only copy a redacted metadata summary into `data/audit/receipts/D1.md`. Do not train yet. Check `.gitignore` before committing anything.

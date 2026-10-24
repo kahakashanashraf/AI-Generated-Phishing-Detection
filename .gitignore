@@ -1,12 +1,10 @@
-# Credentials
+# Secrets, credentials and generated outputs
 .env
 .env.*
 !.env.example
 kaggle.json
 *.pem
 *.key
-# Private or large data
-data/
 datasets/
 outputs/
 checkpoints/
@@ -14,6 +12,8 @@ models/
 *.pt
 *.pth
 *.safetensors
+# Deliberately DO NOT ignore all of data/: metadata and audit Markdown must be tracked.
+# Nested privacy rules live in data/.gitignore.
 # Python
 __pycache__/
 *.pyc

@@ -36,7 +36,7 @@
 - Keep raw `text` and suspicious URLs in private secured inputs, **not** public GitHub.
 - Any label-preserving pairs and label-changing security edits require independent audit.
 
-## Repeatable dataset receipt (one file `reports/dataset_receipts/Dx.md`)
+## Repeatable dataset receipt (one file `data/audit/receipts/Dx.md`)
 - Source URL and version/commit/DOI; original citation.
 - Fetch date, file name, SHA256 and bytes.
 - License text URL and underlying source rights. Unknown means redistribution BLOCKED.
@@ -50,3 +50,6 @@
 
 ## Responsible data rules
 Open-source availability is not an automatic redistribution license. Public email corpora may contain personal data. No live URL clicks, email sending, phishing deployment, attachment execution, or publishing raw records. Preserve only citations, aggregate counts, hashes and redacted illustrative examples.
+
+## Canonical dataset workspace organization (2026-10-24)
+See [data/README.md](../data/README.md) for D1–D5 source folders, raw/interim/processed local storage, audit evidence by type, split manifests, annotations and release planning. New dataset receipts live in `data/audit/receipts/D1.md` etc. **Do not upload raw corpus data to this public repo.**

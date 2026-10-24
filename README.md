@@ -14,6 +14,10 @@
 
 Research gate M0 remains **IN PROGRESS**, even though the first draft is committed. Source limitations and still-unverified novelty are documented, and no results are invented.
 
+## Single data workspace (new)
+- **[data/ — datasets, audits, splits and annotations](data/README.md)** is now the canonical home for **all five** research datasets. Raw/processed files stay private and are ignored; dataset receipts are centralized under [data/audit/receipts](data/audit/receipts).
+- Create/verify local folders with `python scripts/init_data_workspace.py` (safe and idempotent). No data are downloaded by this command.
+
 ## START HERE — one checkbox at a time
 - **[MASTER ROADMAP](ROADMAP.md)** — 10 milestones, each with a linked GitHub Issue and evidence-only checkbox.
 - **[BEGINNER'S GUIDE](docs/BEGINNERS_GUIDE.md)** — step-by-step lessons, plain-language concepts and what output to show after each task.
@@ -22,7 +26,7 @@ Research gate M0 remains **IN PROGRESS**, even though the first draft is committ
 - [RELATED WORK MATRIX](docs/RELATED_WORK_MATRIX.md) — 2025–2026 closest competitor papers and novelty checks.
 - [PAIR ANNOTATION RUBRIC](docs/ANNOTATION_RUBRIC.md) — tell harmless rewrites from security-changing edits.
 - [DECISION LOG](docs/DECISION_LOG.md) — append-only history of scientific decisions and uncertainties.
-- [DATASET AUDIT RECEIPT](reports/dataset_receipts/_TEMPLATE.md) — template to copy to D1.md, D2.md, etc.
+- [DATASET AUDIT RECEIPT](data/audit/receipts/_TEMPLATE.md) — template to copy to D1.md, D2.md, etc.
 
 ### Project question
 Can a detector classify **phishing vs legitimate** accurately under unseen LLM rewriting **while remaining stable for verified same-intent edits and sensitive to verified security-changing edits**, without excessive false alarms on legitimate AI-written email?

@@ -6,6 +6,8 @@
 
 **Primary label:** phishing vs legitimate. AI/human author is a **subgroup attribute**; don't mistakenly interpret the original `src/baseline.py` origin classifier as solving phishing detection. Treat spam separately.
 
+**Canonical D1–D5 workspace:** [data/README.md](data/README.md) — source directories, audit receipts, split storage, annotations and safe releases. All actual dataset downloads are still pending.
+
 **Main docs:** [Research Blueprint](docs/RESEARCH_BLUEPRINT.md) | [Dataset Playbook](docs/DATASET_PLAYBOOK.md) | [Beginner's Guide](docs/BEGINNERS_GUIDE.md) | [Decision Log](docs/DECISION_LOG.md) | [Existing Literature and Gaps](docs/LITERATURE_AND_GAPS.md).
 
 ## One step at a time — master checklist

@@ -1,0 +1,52 @@
+# PRIVACY FIRST. Block raw and derived email datasets by directory and by extension.
+# Markdown documentation, .gitkeep and reviewed receipts are trackable.
+**/raw/**
+!**/raw/.gitkeep
+**/interim/**
+!**/interim/.gitkeep
+**/processed/**
+!**/processed/.gitkeep
+**/private/**
+!**/private/.gitkeep
+**/cache/**
+**/downloads/**
+**/tmp/**
+# Extension backstop throughout this subtree, including audit/ and splits/.
+*.csv
+*.tsv
+*.json
+*.jsonl
+*.ndjson
+*.parquet
+*.arrow
+*.feather
+*.xlsx
+*.xls
+*.eml
+*.msg
+*.mbox
+*.txt
+*.zip
+*.tar
+*.gz
+*.7z
+*.npy
+*.npz
+*.pkl
+*.pickle
+*.joblib
+*.sqlite
+*.sqlite3
+*.db
+*.pdf
+*.html
+*.htm
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.pt
+*.pth
+*.safetensors
+# These are safeguards, not substitutes for reviewing staged files
+# before every commit. NEVER use git add -f to commit confidential data.
