@@ -1,0 +1,20 @@
+# Credentials
+.env
+.env.*
+!.env.example
+kaggle.json
+*.pem
+*.key
+# Private or large data
+data/
+datasets/
+outputs/
+checkpoints/
+models/
+*.pt
+*.pth
+*.safetensors
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
