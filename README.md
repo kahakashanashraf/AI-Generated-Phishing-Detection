@@ -3,9 +3,10 @@
 **Status: RESEARCH PLANNING / PRE-DATA AUDIT. No phishing model has been scientifically validated yet.**
 
 ## M0 manuscript literature outputs (2026-10-24)
-- **[Related Work — copy into IEEE Access LaTeX](paper/related_work.tex)** — 5 subsections, 18 in-text citations, double-column comparison table.
-- **[BibTeX references](paper/references.bib)** — 18 entries with journal/conference DOI or authoritative URL.
-- **[Evidence/access audit](paper/LITERATURE_EVIDENCE_AUDIT.md)** — which Related Work sections we genuinely read vs abstracts only, exact novelty overlaps and pending papers.
+- **[Related Work — copy into IEEE Access LaTeX](paper/related_work.tex)** — 6 thematic subsections, 30 in-text citations, double-column comparison table.
+- **[BibTeX references](paper/references.bib)** — 30 entries with journal/conference DOI or authoritative URL.
+- **[Evidence/access audit](paper/LITERATURE_EVIDENCE_AUDIT.md)** — which papers were read as full text vs abstract only, exact novelty overlaps and pending papers.
+- **[30-study detailed analysis matrix](paper/STUDY_MATRIX_30.md)** — each study's actual task, method, relevance, source link and full-text access status.
 - **[LaTeX integration instructions](paper/README.md)** — required packages, `\\input`, BibTeX and publication QA.
 
 Research gate M0 remains **IN PROGRESS**, even though the first draft is committed. Source limitations and still-unverified novelty are documented, and no results are invented.
