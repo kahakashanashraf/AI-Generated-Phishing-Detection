@@ -1,0 +1,32 @@
+name: manuscript-latex-smoke-test
+on:
+  push:
+    paths:
+      - 'paper/**'
+      - '.github/workflows/paper-latex.yml'
+  pull_request:
+    paths:
+      - 'paper/**'
+      - '.github/workflows/paper-latex.yml'
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile related-work draft with BibTeX
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: paper/validation_main.tex
+          work_in_root_file_dir: false
+          latexmk_use_xelatex: false
+          args: "-pdf -file-line-error -halt-on-error -interaction=nonstopmode"
+      - name: Upload validation PDF
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: manuscript-validation
+          path: |
+            validation_main.pdf
+            validation_main.log
+            validation_main.blg
+          if-no-files-found: ignore
