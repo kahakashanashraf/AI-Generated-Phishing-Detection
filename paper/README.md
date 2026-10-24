@@ -2,7 +2,7 @@
 
 The following two files are **ready to paste into a manuscript project**:
 - \`paper/related_work.tex\` — English Related Work with \`\\cite{}\`, subsections, and a \`table*\`.
-- \`paper/references.bib\` — BibTeX with DOI/URL for 16 cited studies.
+- \`paper/references.bib\` — BibTeX with DOI/URL for 18 cited studies.
 
 ## In the main IEEE Access template, not a replacement for the official class
 1. Put \`related_work.tex\` and \`references.bib\` under \`paper/\` relative to the main \`.tex\`.
@@ -38,7 +38,7 @@ Use \`\\cite{pajola2025ephishgen}\` in the running text. \`hyperref\` (when supp
 
 ## Before paper submission
 - [ ] Actual IEEE Access template compile succeeds without warnings from this input.
-- [ ] BibTeX creates all 16 entries with no undefined citations.
+- [ ] BibTeX creates all 18 entries with no undefined citations.
 - [ ] Reference author lists and dates verified against publisher Export Citation.
 - [ ] M0 literature novelty gate complete; abstract-only claims appropriately qualified.
 - [ ] Table fits two-column double-column width; no awkward overfull boxes.
