@@ -1,4 +1,4 @@
-# Start Here: A Beginner's Research Course (IEEE Access-level rigor)
+# Start Here: A Beginner's Research Course (PLOS ONE-level scientific and reproducibility rigor)
 
 This is your **first journal project**; every step must teach (1) why, (2) how, (3) what output means, (4) what could go wrong, and (5) how to validate. Do not confuse **code uploaded** with **research result obtained**.
 
@@ -47,6 +47,9 @@ If you already cloned it, inside that folder run `!git pull --ff-only` instead. 
 
 ## Rule for checking any box
 A box becomes `[x]` only with **(a)** an artifact (file, notebook, figure or receipt), **(b)** a test/audit, **(c)** a reproducible run URL or commit ID, and **(d)** dated GO/NO-GO note. If any is missing, leave `[ ]` and say what's missing. Tests failing isn't 'done'.
+
+## Target-journal compliance first
+PLOS ONE requires sufficient data and code access to reproduce the findings. See [journal target instructions](PLOS_ONE_TARGET.md). Verify underlying data copyright, privacy, de-identification, and third-party access instructions before training. A new model is optional; scientifically sound evidence is not.
 
 ## Your first hands-on activity — no GPU training
 1. Open https://zenodo.org/records/8339691.
