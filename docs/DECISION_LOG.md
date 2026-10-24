@@ -36,3 +36,9 @@ What was observed (include failure):
 Decision and scope:
 Consequence and next item:
 ```
+
+## D006 — 2026-10-24 — Journal target changed to PLOS ONE
+**Decision:** Primary submission target changed from IEEE Access to PLOS ONE at the user's explicit direction. All data/provenance, research questions, related-paper evidence, and statistical standards remain unchanged. PLOS uses scientific rigor over subjective perceived novelty but still requires original research.
+**Policy sources:** https://journals.plos.org/plosone/s/criteria-for-publication ; https://journals.plos.org/plosone/s/submission-guidelines ; https://journals.plos.org/plosone/s/data-availability ; https://journals.plos.org/plosone/s/latex .
+**New blocking requirement:** Share/recreate the minimal necessary data under third-party license/privacy rules and accessible code; use the current PLOS Vancouver bibliographic template instead of IEEEtran. See [PLOS ONE plan](PLOS_ONE_TARGET.md).
+**Status:** TARGET SELECTED; feasibility contingent on data reuse rights and ethical compliance. No claim of submission or acceptance.
