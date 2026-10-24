@@ -2,7 +2,7 @@
 
 The following two files are **ready to paste into a manuscript project**:
 - \`paper/related_work.tex\` — English Related Work with \`\\cite{}\`, subsections, and a \`table*\`.
-- \`paper/references.bib\` — BibTeX with DOI/URL for 18 cited studies.
+- \`paper/references.bib\` — BibTeX with DOI/URL for 30 cited studies.
 
 ## In the main IEEE Access template, not a replacement for the official class
 1. Put \`related_work.tex\` and \`references.bib\` under \`paper/\` relative to the main \`.tex\`.
@@ -38,7 +38,7 @@ Use \`\\cite{pajola2025ephishgen}\` in the running text. \`hyperref\` (when supp
 
 ## Before paper submission
 - [ ] Actual IEEE Access template compile succeeds without warnings from this input.
-- [ ] BibTeX creates all 18 entries with no undefined citations.
+- [ ] BibTeX creates all 30 entries with no undefined citations.
 - [ ] Reference author lists and dates verified against publisher Export Citation.
 - [ ] M0 literature novelty gate complete; abstract-only claims appropriately qualified.
 - [ ] Table fits two-column double-column width; no awkward overfull boxes.
@@ -51,3 +51,11 @@ Use \`\\cite{pajola2025ephishgen}\` in the running text. \`hyperref\` (when supp
 - Literature completeness: **M0 IN PROGRESS**; see [evidence audit](LITERATURE_EVIDENCE_AUDIT.md).
 
 Never treat a working LaTeX file as peer-reviewed or already novel.
+
+## Literature round v0.2 — 30 selected studies (2026-10-24)
+- [30-study evidence matrix](STUDY_MATRIX_30.md) identifies task, contribution, exact novelty constraint, URL, and whether full text or only abstract was inspected for each source.
+- [related_work.tex](related_work.tex) now cites **all 30 unique BibTeX entries** in six thematic subsections plus a comparable-task table.
+- [references.bib](references.bib) contains exactly 30 entries; citation/brace/key checks passed on 2026-10-24.
+- Automated [LaTeX smoke-test workflow](../.github/workflows/paper-latex.yml) compiles an ordinary article-based validation manuscript. This is **NOT** the journal's official IEEE Access class/word layout; test it separately before submission.
+- Crucial correction: CheckList (ACL 2020) already defines invariance and directional expectation; Gardner/Kaushik similarly cover label-changing counterfactuals. Do NOT describe bidirectional behavior testing as a new concept.
+- Some IEEE/Elsevier papers remain publisher-abstract only; their full methods are not claimed as reviewed. The literature gate cannot be marked GO based solely on this draft.
