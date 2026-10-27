@@ -2,7 +2,7 @@
 
 | ID | Source | Role in study | Primary task? | Gate |
 |---|---|---|---|---|
-| D1 | [Champa et al. curated email corpora](https://zenodo.org/records/8339691) | Original human email sources; baseline and corpus-holdout candidates. Examine Nazario, SpamAssasin, Enron and CEAS_08 first. | Candidate subject to audit | license, labels, provenance, overlap |
+| D1 | [Champa et al. curated email corpora](https://zenodo.org/records/8339691) | Nazario subset: 1,565 all label=1; full-file scan found 13 normalized duplicate extras and 2 unconfirmed admin candidates. Other corpora pending. | NOT APPROVED: candidate positive slice only | [Nazario receipt](audit/receipts/D1.md); source label truth, rights, cross-corpus overlap pending |
 | D2 | [HarmJ0y PhishingSpamDataSet](https://github.com/HarmJ0y/PhishingSpamDataSet) | Candidate original/rewrite human/AI email and legitimate-AI control; conditional generator holdout. | Candidate subject to audit | license, labels, provenance, overlap |
 | D3 | [PhishFuzzer](https://github.com/DataPhish/PhishFuzzer) | Parent-linked phishing/spam/valid variants for robustness analysis. | Candidate subject to audit | license, labels, provenance, overlap |
 | D4 | [LLMGen Phishing Email Dataset](https://huggingface.co/datasets/Dizzzy0x00/LLMGen-Phishing-Email-Dataset) | Auxiliary synthetic and AI-written legitimate stratum if labels verified. | Auxiliary only | license, labels, provenance, overlap |
