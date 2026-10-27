@@ -11,3 +11,15 @@
 
 ## Executed evidence
 The researcher provided an executed five-cell Kaggle Notebook (`ai-generated-phishing-detection.ipynb`) whose Nazario quality JSON shows 1,565 rows, all label=1, no exact extras, **13** whitespace/case-normalized extra duplicate rows, no label conflicts and **2** unconfirmed heuristic admin candidate rows. See [canonical D1.2 receipt](../../audit/receipts/D1.md). Do not merge Nazario and Nazario_5 before cross-source identity verification. Existing exact/normalized counts are summaries, **not instructions to delete rows**.
+
+## D1.3 — Private candidate-index review (tooling ready; not yet executed on real file)
+
+After syncing GitHub updates, run:
+
+```bash
+python scripts/review_d1_candidates.py --file data/datasets/D1_curated_emails/raw/Nazario.csv --output-dir data/audit/quality
+```
+
+Creates **gitignored private** `D1_Nazario_review_index.json` and `D1_Nazario_review_sheet.csv`. Neither contains email bodies, subjects, sender addresses or URLs; the files only index 1-based data-row numbers, duplicate groups, and heuristic administrative reasons. Do not publish even those row IDs before privacy review. The scanner is read-only with respect to Nazario; it does not remove data.
+
+Expected from earlier full-file scan: **13 normalized duplicate extra rows**, but the number of distinct duplicate groups is **unknown**; **2 heuristic admin candidates** remain unresolved. Fill decisions only after private, contextual inspection; do not report automated counts as human adjudication. M1 remains open.
