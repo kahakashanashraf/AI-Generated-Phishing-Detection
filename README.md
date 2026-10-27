@@ -14,6 +14,9 @@
 
 Research gate M0 remains **IN PROGRESS**, even though the first draft is committed. Source limitations and still-unverified novelty are documented, and no results are invented.
 
+## Kaggle one-cell resume / prevent repeated setup
+- [Session persistence and reusable one-cell setup](docs/KAGGLE_PERSISTENCE.md) — restores GitHub workspace, mounts approved private Kaggle inputs, skips unchanged metadata audits; no dataset re-download by default. Save notebook and use Persistence > Files only when available.
+
 ## Single data workspace (new)
 - **[data/ — datasets, audits, splits and annotations](data/README.md)** is now the canonical home for **all five** research datasets. Raw/processed files stay private and are ignored; dataset receipts are centralized under [data/audit/receipts](data/audit/receipts).
 - Create/verify local folders with `python scripts/init_data_workspace.py` (safe and idempotent). No data are downloaded by this command.
