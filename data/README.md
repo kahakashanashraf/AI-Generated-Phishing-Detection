@@ -50,6 +50,9 @@ data/
 
 Full scientific purpose: [CATALOG.md](CATALOG.md) and [Dataset Playbook](../docs/DATASET_PLAYBOOK.md).
 
+## No more repeated Kaggle setup
+Use [Kaggle persistence + one-cell resume](../docs/KAGGLE_PERSISTENCE.md). If a verified private Nazario.csv is present under an attached Kaggle Input, the resume script symlinks it and skips unchanged cached audit results. No source dataset is automatically uploaded, downloaded or redistributed.
+
 ## Kaggle/local setup
 Within a cloned repo, **no GPU needed**:
 ```bash
