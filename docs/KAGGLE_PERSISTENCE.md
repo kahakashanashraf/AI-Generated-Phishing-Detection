@@ -1,5 +1,20 @@
 # Kaggle Persistence and One-Cell Resume (2026-10-27)
 
+## UI correction from Kaggle editor screenshot (2026-10-27)
+
+Researcher's live Kaggle Notebook editor shows **Settings** with Internet, Accelerator, and Environment Preferences only; **no Persistence menu is exposed**. Do NOT tell this user to find a control that is not present. `Environment Preferences > Pin to original environment` changes the environment/image selection, **NOT data-file persistence**.
+
+The notebook sidebar shows **Input: No input attached**, while **Output: 8.3 MiB / 19.5 GiB** and the running quality audit reports Nazario checksum and 1,565 rows. The 8.3 MiB shown does not, by itself, prove those files are persisted in a published notebook Version or that they may be lawfully republished.
+
+**Immediate workflow without Persistence:**
+1. Keep the first cell containing the one-cell clone/update + `kaggle_resume.py` logic.
+2. Use **Save Version > Quick Save** to preserve notebook code/progress; check any advanced options and never presume it preserves live working files.
+3. **Do not save/share notebook output containing raw third-party emails** until rights and privacy are explicitly approved. Files under `/kaggle/working` may be included in a notebook output Version when enabled, so inspect output contents before publication/version sharing.
+4. Once rights are verified, store private source files as an authorized **private Kaggle Dataset** or a private notebook output version; attach with the screenshot's **Input > Add Input**. Then the bootstrap verifies the published MD5 and symlinks `/kaggle/input/.../Nazario.csv`, making the data available from a fresh session without redownloading.
+5. Current completed quality audit's **non-sensitive statistics** can be read from `data/audit/quality/D1_Nazario_full_quality.json` and recorded to canonical GitHub Markdown receipt; no rerun needed for this evidence.
+
+Sources: https://www.kaggle.com/docs/notebooks and https://www.kaggle.com/docs/datasets
+
 ## Why the reset occurs
 Kaggle editing sessions are often ephemeral. Files in the working directory may disappear with a new session; files attached from Kaggle Inputs are read-only and can be reattached. Saving a notebook version preserves the version and its output artifacts, not unconditional live restoration of the next session's working files.
 
