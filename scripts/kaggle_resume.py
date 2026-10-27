@@ -19,13 +19,17 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
 import sys
 from pathlib import Path
 
-from audit_d1_preview import analyze
-from audit_d1_quality import inspect
-from init_data_workspace import ensure_workspace
+if __package__:
+    from .audit_d1_preview import analyze
+    from .audit_d1_quality import inspect
+    from .init_data_workspace import ensure_workspace
+else:
+    from audit_d1_preview import analyze
+    from audit_d1_quality import inspect
+    from init_data_workspace import ensure_workspace
 
 NAZARIO_MD5 = "4022d055bb7cf8602f30f768f652e91e"
 
