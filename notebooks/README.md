@@ -31,6 +31,13 @@ One notebook = one research milestone. Start with Notebook 01 and do not proceed
 
 **HIGH review-sheet problem corrected in [Notebook 03 v1.2](03_Pair_and_Security_Counterfactual_Review.ipynb):** Private review panel now includes original/variant sender, explicit URL, attachment, source and year (in addition to subject/body); stable v1.1 review IDs; idempotent decision-template preservation; optional private completed-decisions input; two-reviewer agreement/adjudication validation. The v1.2 notebook is pushed but **has not yet been run on Kaggle**. Do not mark M2 complete or create frozen research splits until provenance, label and pair approval requirements pass. Private panel contents must never enter public GitHub/Kaggle outputs.
 
+## External rights/labels audit — completed without another Kaggle rerun (2026-10-31)
+
+- [D1–D5 source rights, label definitions and D2→D3 row-ID inheritance audit](../data/audit/readiness/D1_D5_rights_labels_D2_D3_lineage_2026-10-31.md) and [machine-readable conservative source label/gate policy](../data/audit/readiness/source_label_gate_v1.json) are committed. This resolves the mysterious D2 35 class values as **`Phishing Simulation`**, not bad/missing data.
+- Direct pinned-source inspection proves that **all 3,075 D2 original `No.` IDs recur in the 3,300 D3 seeds**; 2,971 same-ID texts unchanged, 104 altered. D3 adds 225 other IDs (74 Spam, 151 Valid; zero new Phishing labels). There are **35 `Phishing Simulation→Phishing`** D2→D3 category remaps and **one `Valid→Phishing`** conflict by the original ID. This is **not an independent cross-corpus data source**.
+- D1 Zenodo catalog reports CC BY 4.0, D4 card declares Apache-2.0, D5 record states data CC BY 4.0/code MIT. **D2 and D3 public GitHub repositories have no discovered explicit LICENSE file/GitHub-declared license**: public download does not establish broad redistribution or unrestricted use rights. D1 original spam-vs-ham sources need careful source-label handling; downstream strict-phishing binary mapping remains scientifically unresolved.
+- **No extra Notebook 04B run is needed merely to identify the 35 labels or the D2→D3 derived ID structure.** These checks were completed directly from the pinned public files. Remaining steps require real human review and rights/provenance judgments; future baseline training is gated and not authorized yet.
+
 ## Notebook 04 — Final executed descriptive audit (2026-10-31)
 
 - **N04 v1.2 executed** on Kaggle; **13/13 verified SHA256-pinned inputs**, 121,536 source-file rows, 85,721 candidate components, 4,838 multi-source-file components, 3,018 cross-family components; one candidate D2/D3 three-class text-label conflict. CPU 174.18 s; peak RSS 653.22 MB; download 242,291,702 B.
