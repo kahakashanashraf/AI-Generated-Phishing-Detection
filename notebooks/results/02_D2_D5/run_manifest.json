@@ -1,0 +1,31 @@
+{
+  "release": "D2D5-N02-v1.0-2026-10-31",
+  "report_status": "ALL_SOURCE_AUDITS_COMPLETED_RESEARCH_GATES_PENDING",
+  "python": "3.13.15",
+  "source_revision": {
+    "D2": "d13e9bb73d03f458e6d5b6cb6c7b0a708ea47e3d",
+    "D3": "1e21dd4edbe5c64694f156bf5318c97c7c80681c",
+    "D4": "d717e54",
+    "D5": "Zenodo record 20250116 / pinned MD5"
+  },
+  "input_sha256_by_source": {
+    "D2_original": "b48026c91e8db399ea321d20e7e709f538aff685b9073d1a312ec09bee2e6d9c",
+    "D2_rephrase_deepseek": "352dbd0fb7e065e819fb126e704b60d3c574f0ab8ea46ddb48306963d3787e0a",
+    "D2_rephrase_gpt4o": "caac542ff660e5003eab68b908133ea42d9947f67284435ded9ac34b6a77b794",
+    "D2_rephrase_randomapi": "2568744267134c722ad247f937deb154aad44cc90e85a5ccadb652c3d1cd71d7",
+    "D2_categorized": "d9e08dc306aac1b037f9087a3ab804986ce8a3515ca35d468d9033adfee6c022",
+    "D3_seeds": "394d542e27dcef57321bc69f0f93b03e5965531f616eb3d3c79416cc60a30765",
+    "D3_variants": "62f9c1231cf7e9d1b4a9740680aefcf8723e689ac60ae171ea4e0eef70f1275d",
+    "D4_chinese": "102e2c44239698c73e5e34abe277ca7aca25424cacb8af9425549a30fb0fc529",
+    "D4_english": "e3a335c8acacec09afaa4b9a14c7010195063310e4dcfbae38c1fa50b8d48dc3",
+    "D5_archive": "8366769dd18e8c10a78dc5f30389caa70491116deeda8dd5ec27a361717c2d2d"
+  },
+  "generated_artifacts": [
+    "environment.json",
+    "resource_usage.json",
+    "d2_d5_aggregate_report.json",
+    "run_manifest.json",
+    "summary.txt"
+  ],
+  "reproducibility_limitation": "Notebook 02 GitHub commit must be recorded externally; run code must be versioned."
+}
