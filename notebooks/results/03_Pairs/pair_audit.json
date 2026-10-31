@@ -1,0 +1,269 @@
+{
+  "release": "N03-PAIR-v1.1-2026-10-31",
+  "run_utc": "2026-10-31T05:26:02.246762+00:00",
+  "self_test": "PASS",
+  "status": "STRUCTURAL_PAIR_AUDIT_COMPLETE_HUMAN_REVIEW_PENDING",
+  "data_files": {
+    "D2_original": {
+      "status": "PASS_INTEGRITY",
+      "revision": "d13e9bb73d03f458e6d5b6cb6c7b0a708ea47e3d",
+      "expected_sha256": "b48026c91e8db399ea321d20e7e709f538aff685b9073d1a312ec09bee2e6d9c",
+      "source_mode": "verified_official_revision_download",
+      "rejected_unverified_cache_candidates": 0,
+      "bytes": 7370034,
+      "sha256": "b48026c91e8db399ea321d20e7e709f538aff685b9073d1a312ec09bee2e6d9c",
+      "rows": 3075
+    },
+    "D2_deepseek": {
+      "status": "PASS_INTEGRITY",
+      "revision": "d13e9bb73d03f458e6d5b6cb6c7b0a708ea47e3d",
+      "expected_sha256": "352dbd0fb7e065e819fb126e704b60d3c574f0ab8ea46ddb48306963d3787e0a",
+      "source_mode": "verified_official_revision_download",
+      "rejected_unverified_cache_candidates": 0,
+      "bytes": 7528880,
+      "sha256": "352dbd0fb7e065e819fb126e704b60d3c574f0ab8ea46ddb48306963d3787e0a",
+      "rows": 3075
+    },
+    "D2_gpt4o": {
+      "status": "PASS_INTEGRITY",
+      "revision": "d13e9bb73d03f458e6d5b6cb6c7b0a708ea47e3d",
+      "expected_sha256": "caac542ff660e5003eab68b908133ea42d9947f67284435ded9ac34b6a77b794",
+      "source_mode": "verified_official_revision_download",
+      "rejected_unverified_cache_candidates": 0,
+      "bytes": 7079916,
+      "sha256": "caac542ff660e5003eab68b908133ea42d9947f67284435ded9ac34b6a77b794",
+      "rows": 3075
+    },
+    "D2_randomapi": {
+      "status": "PASS_INTEGRITY",
+      "revision": "d13e9bb73d03f458e6d5b6cb6c7b0a708ea47e3d",
+      "expected_sha256": "2568744267134c722ad247f937deb154aad44cc90e85a5ccadb652c3d1cd71d7",
+      "source_mode": "verified_official_revision_download",
+      "rejected_unverified_cache_candidates": 0,
+      "bytes": 7124691,
+      "sha256": "2568744267134c722ad247f937deb154aad44cc90e85a5ccadb652c3d1cd71d7",
+      "rows": 3075
+    },
+    "D3_seeds": {
+      "status": "PASS_INTEGRITY",
+      "revision": "1e21dd4edbe5c64694f156bf5318c97c7c80681c",
+      "expected_sha256": "394d542e27dcef57321bc69f0f93b03e5965531f616eb3d3c79416cc60a30765",
+      "source_mode": "verified_official_revision_download",
+      "rejected_unverified_cache_candidates": 0,
+      "bytes": 8218997,
+      "sha256": "394d542e27dcef57321bc69f0f93b03e5965531f616eb3d3c79416cc60a30765",
+      "rows": 3300
+    },
+    "D3_variants": {
+      "status": "PASS_INTEGRITY",
+      "revision": "1e21dd4edbe5c64694f156bf5318c97c7c80681c",
+      "expected_sha256": "62f9c1231cf7e9d1b4a9740680aefcf8723e689ac60ae171ea4e0eef70f1275d",
+      "source_mode": "verified_official_revision_download",
+      "rejected_unverified_cache_candidates": 0,
+      "bytes": 48159145,
+      "sha256": "62f9c1231cf7e9d1b4a9740680aefcf8723e689ac60ae171ea4e0eef70f1275d",
+      "rows": 19800
+    }
+  },
+  "pair_analyses": {
+    "D2_deepseek": {
+      "source": "D2_deepseek",
+      "original_key_audit": {
+        "records": 3075,
+        "unique_keys": 3075,
+        "missing_keys": 0,
+        "duplicate_keys": 0
+      },
+      "variant_key_audit": {
+        "records": 3075,
+        "unique_keys": 3075,
+        "missing_keys": 0,
+        "duplicate_keys": 0
+      },
+      "variants_total": 3075,
+      "joined_pairs": 3075,
+      "unjoined_variants": 0,
+      "parent_groups_matched": 3075,
+      "family_size_histogram": {
+        "1": 3075
+      },
+      "candidate_labels_of_joined_pairs": {
+        "Phishing": 1090,
+        "<unrecognized>": 35,
+        "Spam": 1000,
+        "Valid": 950
+      },
+      "changed_attribute_pair_counts": {
+        "subject_changed": 2141,
+        "body_changed": 2555,
+        "source_changed": 3075,
+        "year_changed": 2787,
+        "embedded_url_changed": 31,
+        "security_cue_changed": 31
+      },
+      "parent_link_structure": "CANDIDATE_STRUCTURAL_LINK",
+      "label_preservation": "NOT_HUMAN_VERIFIED",
+      "security_counterfactual_gold": "NOT_AVAILABLE"
+    },
+    "D2_gpt4o": {
+      "source": "D2_gpt4o",
+      "original_key_audit": {
+        "records": 3075,
+        "unique_keys": 3075,
+        "missing_keys": 0,
+        "duplicate_keys": 0
+      },
+      "variant_key_audit": {
+        "records": 3075,
+        "unique_keys": 3075,
+        "missing_keys": 0,
+        "duplicate_keys": 0
+      },
+      "variants_total": 3075,
+      "joined_pairs": 3075,
+      "unjoined_variants": 0,
+      "parent_groups_matched": 3075,
+      "family_size_histogram": {
+        "1": 3075
+      },
+      "candidate_labels_of_joined_pairs": {
+        "Phishing": 1090,
+        "<unrecognized>": 35,
+        "Spam": 1000,
+        "Valid": 950
+      },
+      "changed_attribute_pair_counts": {
+        "subject_changed": 2563,
+        "body_changed": 2811,
+        "source_changed": 3075,
+        "embedded_url_changed": 101,
+        "security_cue_changed": 101,
+        "year_changed": 2787
+      },
+      "parent_link_structure": "CANDIDATE_STRUCTURAL_LINK",
+      "label_preservation": "NOT_HUMAN_VERIFIED",
+      "security_counterfactual_gold": "NOT_AVAILABLE"
+    },
+    "D2_randomapi": {
+      "source": "D2_randomapi",
+      "original_key_audit": {
+        "records": 3075,
+        "unique_keys": 3075,
+        "missing_keys": 0,
+        "duplicate_keys": 0
+      },
+      "variant_key_audit": {
+        "records": 3075,
+        "unique_keys": 3075,
+        "missing_keys": 0,
+        "duplicate_keys": 0
+      },
+      "variants_total": 3075,
+      "joined_pairs": 3075,
+      "unjoined_variants": 0,
+      "parent_groups_matched": 3075,
+      "family_size_histogram": {
+        "1": 3075
+      },
+      "candidate_labels_of_joined_pairs": {
+        "Phishing": 1090,
+        "<unrecognized>": 35,
+        "Spam": 1000,
+        "Valid": 950
+      },
+      "changed_attribute_pair_counts": {
+        "subject_changed": 2326,
+        "body_changed": 2515,
+        "source_changed": 3075,
+        "embedded_url_changed": 65,
+        "security_cue_changed": 65,
+        "year_changed": 2787
+      },
+      "parent_link_structure": "CANDIDATE_STRUCTURAL_LINK",
+      "label_preservation": "NOT_HUMAN_VERIFIED",
+      "security_counterfactual_gold": "NOT_AVAILABLE"
+    },
+    "D3_variants": {
+      "source": "D3_variants",
+      "original_key_audit": {
+        "records": 3300,
+        "unique_keys": 3300,
+        "missing_keys": 0,
+        "duplicate_keys": 0
+      },
+      "variant_key_audit": {
+        "records": 19800,
+        "unique_keys": 3300,
+        "missing_keys": 0,
+        "duplicate_keys": 16500
+      },
+      "variants_total": 19800,
+      "joined_pairs": 19800,
+      "unjoined_variants": 0,
+      "parent_groups_matched": 3300,
+      "family_size_histogram": {
+        "6": 3300
+      },
+      "candidate_labels_of_joined_pairs": {
+        "Phishing": 6756,
+        "Spam": 6444,
+        "Valid": 6600
+      },
+      "changed_attribute_pair_counts": {
+        "sender_changed": 19787,
+        "explicit_url_changed": 18324,
+        "subject_changed": 19799,
+        "body_changed": 19799,
+        "embedded_url_changed": 17016,
+        "source_changed": 19800,
+        "year_changed": 19410,
+        "security_cue_changed": 19800,
+        "attachment_changed": 1167
+      },
+      "parent_link_structure": "CANDIDATE_STRUCTURAL_LINK",
+      "label_preservation": "NOT_HUMAN_VERIFIED",
+      "security_counterfactual_gold": "NOT_AVAILABLE"
+    }
+  },
+  "linked_candidate_pairs": 29025,
+  "private_review_rows_selected": 142,
+  "review_sampling_strata_counts": {
+    "('D2_deepseek', 'no_flagged_security_cue_change', 'Phishing')": 1069,
+    "('D2_deepseek', 'no_flagged_security_cue_change', '<unrecognized>')": 35,
+    "('D2_deepseek', 'no_flagged_security_cue_change', 'Spam')": 995,
+    "('D2_deepseek', 'no_flagged_security_cue_change', 'Valid')": 945,
+    "('D2_deepseek', 'security_cue_changed', 'Phishing')": 21,
+    "('D2_deepseek', 'security_cue_changed', 'Spam')": 5,
+    "('D2_deepseek', 'security_cue_changed', 'Valid')": 5,
+    "('D2_gpt4o', 'no_flagged_security_cue_change', 'Phishing')": 1057,
+    "('D2_gpt4o', 'no_flagged_security_cue_change', '<unrecognized>')": 35,
+    "('D2_gpt4o', 'no_flagged_security_cue_change', 'Spam')": 994,
+    "('D2_gpt4o', 'no_flagged_security_cue_change', 'Valid')": 888,
+    "('D2_gpt4o', 'security_cue_changed', 'Spam')": 6,
+    "('D2_gpt4o', 'security_cue_changed', 'Valid')": 62,
+    "('D2_gpt4o', 'security_cue_changed', 'Phishing')": 33,
+    "('D2_randomapi', 'no_flagged_security_cue_change', 'Phishing')": 1058,
+    "('D2_randomapi', 'no_flagged_security_cue_change', '<unrecognized>')": 34,
+    "('D2_randomapi', 'no_flagged_security_cue_change', 'Spam')": 995,
+    "('D2_randomapi', 'no_flagged_security_cue_change', 'Valid')": 923,
+    "('D2_randomapi', 'security_cue_changed', 'Phishing')": 32,
+    "('D2_randomapi', 'security_cue_changed', 'Spam')": 5,
+    "('D2_randomapi', 'security_cue_changed', 'Valid')": 27,
+    "('D2_randomapi', 'security_cue_changed', '<unrecognized>')": 1,
+    "('D3_variants', 'security_cue_changed', 'Phishing')": 6756,
+    "('D3_variants', 'security_cue_changed', 'Spam')": 6444,
+    "('D3_variants', 'security_cue_changed', 'Valid')": 6600
+  },
+  "human_label_agreement": "NOT_MEASURED",
+  "style_invariance_gold": "NOT_AVAILABLE",
+  "security_change_gold": "NOT_AVAILABLE",
+  "source_rights": "NOT_CLEARED",
+  "training_gate": "NO_GO",
+  "important_limitations": [
+    "D2 'No.' and D3 'Original_ID' are structural linkage candidates, not proof of gold semantic equivalence.",
+    "URL, sender and attachment edits are risk indicators only; automatic label flips are prohibited.",
+    "The source class annotation is not independently validated; spam remains separate from phishing and legitimate.",
+    "The sampled private panel can contain third-party personal or copyrighted data; do not publish it.",
+    "Reviewer agreement and paired gold labels require independent human judgments."
+  ]
+}
