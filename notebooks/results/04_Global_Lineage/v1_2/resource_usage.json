@@ -1,0 +1,25 @@
+{
+  "total_seconds": 174.18,
+  "source_seconds": {
+    "D1_Nazario": 10.604,
+    "D1_Nazario5": 13.189,
+    "D1_SpamAssasin": 17.307,
+    "D1_Enron": 52.11,
+    "D1_CEAS08": 58.469,
+    "D2_original": 2.02,
+    "D2_deepseek": 1.919,
+    "D2_gpt4o": 1.798,
+    "D2_randomapi": 1.905,
+    "D3_seeds": 1.893,
+    "D3_variants": 9.801,
+    "D4_chinese": 0.808,
+    "D4_english": 1.456
+  },
+  "peak_process_rss_mb": 653.22,
+  "download_bytes": 242291702,
+  "scratch_disk_free_bytes_after": 1125898903552,
+  "gpu_training_performed": false,
+  "gpu_training_hours": 0,
+  "unique_parent_ids_in_memory": 92511,
+  "unique_strict_keys_in_memory": 113463
+}
