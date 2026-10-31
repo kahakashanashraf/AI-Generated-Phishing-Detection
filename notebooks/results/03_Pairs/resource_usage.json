@@ -1,0 +1,19 @@
+{
+  "elapsed_seconds": 23.018,
+  "peak_process_rss_mb": 609.84,
+  "download_bytes": 85481663,
+  "source_seconds": {
+    "D2_original": 1.103,
+    "D2_deepseek": 1.173,
+    "D2_gpt4o": 1.041,
+    "D2_randomapi": 1.983,
+    "D3_seeds": 0.999,
+    "D3_variants": 3.284
+  },
+  "gpu_training_performed": false,
+  "gpu_hours": 0,
+  "scratch_disk_free_after_bytes": 1126055350272,
+  "private_review_rows": 142,
+  "private_panel_bytes": 371286,
+  "estimated_input_bytes": 85481663
+}
