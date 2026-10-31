@@ -1,0 +1,22 @@
+{
+  "total_elapsed_seconds": 22.442,
+  "per_source_elapsed_seconds": {
+    "D2_original": 1.038,
+    "D2_rephrase_deepseek": 0.909,
+    "D2_rephrase_gpt4o": 0.834,
+    "D2_rephrase_randomapi": 0.852,
+    "D2_categorized": 3.04,
+    "D3_seeds": 0.879,
+    "D3_variants": 4.945,
+    "D4_chinese": 0.504,
+    "D4_english": 0.668,
+    "D5_archive": 8.735
+  },
+  "peak_process_rss_mb": 588.66,
+  "scratch_disk_free_before_bytes": 1126141222912,
+  "scratch_disk_free_after_bytes": 1126006980608,
+  "gpu_training_performed": false,
+  "gpu_hours_used_by_training": 0,
+  "gpu_runtime_metrics": "not_applicable_cpu_only",
+  "data_download_total_bytes": 134216458
+}
