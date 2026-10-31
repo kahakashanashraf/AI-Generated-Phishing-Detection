@@ -1,0 +1,17 @@
+Notebook 02 D2–D5
+Status: ALL_SOURCE_AUDITS_COMPLETED_RESEARCH_GATES_PENDING
+Synthetic self-test: PASS
+Python: 3.13.15
+CPU cores: 4
+GPU: 0 observed
+Peak process RSS MB: 588.66
+Total elapsed seconds: 22.442
+Source audits:
+  D2: 5/5 DESCRIPTIVE_PASS
+  D3: 2/2 DESCRIPTIVE_PASS
+  D4: 2/2 DESCRIPTIVE_PASS
+  D5: 1/1 DESCRIPTIVE_PASS
+Primary phishing detector TRAINING: NO-GO
+Rights, label semantics, upstream provenance, parent validity: PENDING
+Send only aggregate report/environment/resource_usage/summary files.
+Do not publish raw email source files from /kaggle/temp or attached private inputs.
