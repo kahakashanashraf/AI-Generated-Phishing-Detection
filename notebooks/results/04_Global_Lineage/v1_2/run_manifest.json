@@ -1,0 +1,33 @@
+{
+  "release": "N04-GLOBAL-LINEAGE-v1.2-2026-10-31",
+  "source_sha256_by_id": {
+    "D1_Nazario": "b8fbc4158fbdfaff1ed98584c43d72e283c6352d7ade4d457d34c1d79488d184",
+    "D1_Nazario5": "afef69828165619ced6661ca14a95444a1db82c7b25ae9c2619bbbb108844a44",
+    "D1_SpamAssasin": "3bfe8f8abff89f69a98456be50413c2fcb20a476141116dd84ee1507b980c00e",
+    "D1_Enron": "11f28a5bdd3603f1829681ab6b55071b5f9af781b4e6694e39216b2996a96883",
+    "D1_CEAS08": "22375e7d5f5a8229dbe987914ee9b3705656c590038662a7df6054629b376074",
+    "D2_original": "b48026c91e8db399ea321d20e7e709f538aff685b9073d1a312ec09bee2e6d9c",
+    "D2_deepseek": "352dbd0fb7e065e819fb126e704b60d3c574f0ab8ea46ddb48306963d3787e0a",
+    "D2_gpt4o": "caac542ff660e5003eab68b908133ea42d9947f67284435ded9ac34b6a77b794",
+    "D2_randomapi": "2568744267134c722ad247f937deb154aad44cc90e85a5ccadb652c3d1cd71d7",
+    "D3_seeds": "394d542e27dcef57321bc69f0f93b03e5965531f616eb3d3c79416cc60a30765",
+    "D3_variants": "62f9c1231cf7e9d1b4a9740680aefcf8723e689ac60ae171ea4e0eef70f1275d",
+    "D4_chinese": "102e2c44239698c73e5e34abe277ca7aca25424cacb8af9425549a30fb0fc529",
+    "D4_english": "e3a335c8acacec09afaa4b9a14c7010195063310e4dcfbae38c1fa50b8d48dc3"
+  },
+  "source_revision": {
+    "D1": "Zenodo 8339691",
+    "D2": "d13e9bb73d03f458e6d5b6cb6c7b0a708ea47e3d",
+    "D3": "1e21dd4edbe5c64694f156bf5318c97c7c80681c",
+    "D4": "d717e54"
+  },
+  "output_files": [
+    "lineage_audit.json",
+    "environment.json",
+    "resource_usage.json",
+    "run_manifest.json",
+    "summary.txt"
+  ],
+  "notebook_source_revision": "This notebook's GitHub commit must be recorded externally on execution review",
+  "scientific_holdout_split_is_frozen": false
+}
