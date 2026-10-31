@@ -1,0 +1,20 @@
+D1 NOTEBOOK 01 SUMMARY
+Release: D1-N01-v1.1-2026-10-31
+Status: DESCRIPTIVE_AUDIT_COMPLETE_RESEARCH_GATES_PENDING
+Sources passed: 5/5
+Self-test: PASS
+Binary training gate: NO_GO
+Shared normalized keys (source pairs):
+  Nazario.csv <-> Nazario_5.csv: 1552
+  Nazario.csv <-> SpamAssasin.csv: 0
+  Nazario.csv <-> Enron.csv: 0
+  Nazario.csv <-> CEAS_08.csv: 0
+  Nazario_5.csv <-> SpamAssasin.csv: 239
+  Nazario_5.csv <-> Enron.csv: 0
+  Nazario_5.csv <-> CEAS_08.csv: 298
+  SpamAssasin.csv <-> Enron.csv: 2
+  SpamAssasin.csv <-> CEAS_08.csv: 0
+  Enron.csv <-> CEAS_08.csv: 0
+Manual review candidate entries: 1031
+Rights/labels/parent-safe splits remain pending.
+Share only d1_aggregate_report.json or d1_aggregate_report.txt.
