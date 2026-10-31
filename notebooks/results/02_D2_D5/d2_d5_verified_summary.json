@@ -1,0 +1,209 @@
+{
+  "status": "ALL_SOURCE_AUDITS_COMPLETED_RESEARCH_GATES_PENDING",
+  "original_kaggle_report_release": "D2D5-N02-v1.0-2026-10-31",
+  "report_kind": "Reviewed derivative summary from submitted Kaggle report, NOT byte-for-byte copy of full uploaded aggregate JSON",
+  "review_date_utc": "2026-10-31",
+  "source_family_status": {
+    "D2": "5/5 PASS_DESCRIPTIVE",
+    "D3": "2/2 PASS_DESCRIPTIVE",
+    "D4": "2/2 PASS_DESCRIPTIVE",
+    "D5": "1/1 PASS_DESCRIPTIVE"
+  },
+  "files": [
+    {
+      "id": "D2_original",
+      "family": "D2",
+      "rows": 3075,
+      "candidate_labels": {
+        "Phishing": 1090,
+        "Spam": 1000,
+        "Valid": 950,
+        "unresolved": 35
+      },
+      "normalized_duplicate_extra_rows": 75,
+      "parent_key_evidence": null,
+      "source_sha256": "b48026c91e8db399ea321d20e7e709f538aff685b9073d1a312ec09bee2e6d9c"
+    },
+    {
+      "id": "D2_rephrase_deepseek",
+      "family": "D2",
+      "rows": 3075,
+      "candidate_labels": {
+        "Phishing": 1090,
+        "Spam": 1000,
+        "Valid": 950,
+        "unresolved": 35
+      },
+      "normalized_duplicate_extra_rows": 26,
+      "parent_key_evidence": null,
+      "source_sha256": "352dbd0fb7e065e819fb126e704b60d3c574f0ab8ea46ddb48306963d3787e0a"
+    },
+    {
+      "id": "D2_rephrase_gpt4o",
+      "family": "D2",
+      "rows": 3075,
+      "candidate_labels": {
+        "Phishing": 1090,
+        "Spam": 1000,
+        "Valid": 950,
+        "unresolved": 35
+      },
+      "normalized_duplicate_extra_rows": 17,
+      "parent_key_evidence": null,
+      "source_sha256": "caac542ff660e5003eab68b908133ea42d9947f67284435ded9ac34b6a77b794"
+    },
+    {
+      "id": "D2_rephrase_randomapi",
+      "family": "D2",
+      "rows": 3075,
+      "candidate_labels": {
+        "Phishing": 1090,
+        "Spam": 1000,
+        "Valid": 950,
+        "unresolved": 35
+      },
+      "normalized_duplicate_extra_rows": 4,
+      "parent_key_evidence": null,
+      "source_sha256": "2568744267134c722ad247f937deb154aad44cc90e85a5ccadb652c3d1cd71d7"
+    },
+    {
+      "id": "D2_categorized",
+      "family": "D2",
+      "rows": 12300,
+      "candidate_labels": {
+        "Phishing": 4360,
+        "Spam": 4000,
+        "Valid": 3800,
+        "unresolved": 140
+      },
+      "normalized_duplicate_extra_rows": 1360,
+      "parent_key_evidence": null,
+      "source_sha256": "d9e08dc306aac1b037f9087a3ab804986ce8a3515ca35d468d9033adfee6c022"
+    },
+    {
+      "id": "D3_seeds",
+      "family": "D3",
+      "rows": 3300,
+      "candidate_labels": {
+        "Phishing": 1126,
+        "Spam": 1074,
+        "Valid": 1100
+      },
+      "normalized_duplicate_extra_rows": 75,
+      "parent_key_evidence": {
+        "parents": 3300,
+        "groupsize": 1
+      },
+      "source_sha256": "394d542e27dcef57321bc69f0f93b03e5965531f616eb3d3c79416cc60a30765"
+    },
+    {
+      "id": "D3_variants",
+      "family": "D3",
+      "rows": 19800,
+      "candidate_labels": {
+        "Phishing": 6756,
+        "Spam": 6444,
+        "Valid": 6600
+      },
+      "normalized_duplicate_extra_rows": 0,
+      "parent_key_evidence": {
+        "parents": 3300,
+        "groupsize": 6
+      },
+      "source_sha256": "62f9c1231cf7e9d1b4a9740680aefcf8723e689ac60ae171ea4e0eef70f1275d"
+    },
+    {
+      "id": "D4_chinese",
+      "family": "D4",
+      "rows": 3030,
+      "candidate_labels": {
+        "0": 1010,
+        "1": 2020
+      },
+      "normalized_duplicate_extra_rows": 0,
+      "parent_key_evidence": null,
+      "source_sha256": "102e2c44239698c73e5e34abe277ca7aca25424cacb8af9425549a30fb0fc529"
+    },
+    {
+      "id": "D4_english",
+      "family": "D4",
+      "rows": 3746,
+      "candidate_labels": {
+        "0": 1269,
+        "1": 2477
+      },
+      "normalized_duplicate_extra_rows": 0,
+      "parent_key_evidence": null,
+      "source_sha256": "e3a335c8acacec09afaa4b9a14c7010195063310e4dcfbae38c1fa50b8d48dc3"
+    },
+    {
+      "id": "D5_archive",
+      "family": "D5",
+      "rows": null,
+      "candidate_labels": {
+        "phishing_only_origin_attribution": true
+      },
+      "normalized_duplicate_extra_rows": null,
+      "parent_key_evidence": {
+        "archive_entries": 28,
+        "csv_tables": 11,
+        "feature_table_rows": 9986,
+        "human_origin_rows": 5000,
+        "model_origin_rows": 4986
+      },
+      "source_sha256": "8366769dd18e8c10a78dc5f30389caa70491116deeda8dd5ec27a361717c2d2d"
+    }
+  ],
+  "environment": {
+    "runtime": "Kaggle",
+    "python": "3.13.15",
+    "cpu_logical_cores": 4,
+    "os": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "gpu_observed": 0,
+    "packages": {
+      "numpy": "2.1.3",
+      "pandas": "2.3.3",
+      "torch": "2.11.0+cpu",
+      "transformers": "5.16.1",
+      "datasets": "4.8.5",
+      "scikit_learn": "1.6.1",
+      "scipy": "1.16.3"
+    }
+  },
+  "resource_from_zip": {
+    "elapsed_seconds": 22.442,
+    "peak_rss_mb": 588.66,
+    "download_bytes": 134216458,
+    "gpu_training": false
+  },
+  "separate_saved_notebook_console": {
+    "elapsed_seconds": 12.879,
+    "peak_rss_mb": 589.16,
+    "provenance": "different execution output: do not merge timing evidence"
+  },
+  "provenance": {
+    "original_notebook_sha256": "a90c0a7c7f8116bb8c134549f397b689d811d962f8090344425ea75ca4afed18",
+    "original_zip_sha256": "afb0a7ff09cdb2c1a0bda89f8874798172b2801f8384115315853e04f6fab84b",
+    "original_aggregate_json_sha256": "377c9484f29a934165cd91b694038c7a18a740230c5083c7ca2221f590f4e327",
+    "original_environment_json_sha256": "6d6a3f126002fac82a9187e56a3f061aaf07858e64162398d3e6f2fb9a26c91c",
+    "original_resource_json_sha256": "cca9b32840abf94921a4a1ed4415ea90ede9610f02f3e436618d028e0d5850af",
+    "original_run_manifest_sha256": "e6dc0f90771df1c78b91db98907434e945cf4f01b2616f44ff3e58f0ce5bdc26",
+    "original_summary_txt_sha256": "9ec01e4c255a5aaf112a663fbd052032c02f42b5889354adfbf5494a82a38e86"
+  },
+  "scientific_gates": {
+    "source_integrity": "PASS_DESCRIPTIVE",
+    "source_level_label_truth": "PENDING",
+    "D2_original_rewrite_ancestry": "UNVERIFIED_PARENT_FIELD_NOT_RECOGNIZED",
+    "D3_parent_cardinality": "3300*6_OBSERVED",
+    "D3_security_meaning": "HUMAN_REVIEW_PENDING",
+    "dataset_rights": "PENDING",
+    "primary_binary_training": "NO_GO"
+  },
+  "notes": [
+    "D2_categorized contains four 3075-row groups and is NOT another independent dataset.",
+    "35 D2 candidate label entries per each 3075-row group were not recognized by safe label whitelist; exact semantics need private adjudication.",
+    "D3 Original_ID links are structural evidence; not proof of label-preserving edits.",
+    "D4 language/model confounding prevents clean leave-one-generator claim.",
+    "D5 9986 examples are AI-vs-human authorship among phishing-like material, NOT binary maliciousness ground truth."
+  ]
+}
