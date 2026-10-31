@@ -1,0 +1,20 @@
+NOTEBOOK 03 PAIR / COUNTERFACTUAL CUE AUDIT
+STATUS: STRUCTURAL_PAIR_AUDIT_COMPLETE_HUMAN_REVIEW_PENDING
+Self-test: PASS
+Input files verified: 6/6
+Structurally joined candidate pairs: 29025
+Private human-review candidates sampled: 142
+Time (s): 23.018; peak RSS (MB): 609.84
+Pair family summaries:
+ D2_deepseek: 3075 joined; 0 unmatched; CANDIDATE_STRUCTURAL_LINK
+    security cue flags: 31
+ D2_gpt4o: 3075 joined; 0 unmatched; CANDIDATE_STRUCTURAL_LINK
+    security cue flags: 101
+ D2_randomapi: 3075 joined; 0 unmatched; CANDIDATE_STRUCTURAL_LINK
+    security cue flags: 65
+ D3_variants: 19800 joined; 0 unmatched; CANDIDATE_STRUCTURAL_LINK
+    security cue flags: 19800
+Training and publication of derived email text: NO-GO
+Independent human judgment and label semantics: PENDING
+SAFE TO SHARE: /kaggle/working/phishing_pair_evidence/
+PRIVATE - DO NOT SHARE: /kaggle/temp/phishing_pair_private/
