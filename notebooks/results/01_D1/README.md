@@ -1,6 +1,6 @@
 # Notebook 01 — D1 v1.1 results (aggregate only)
 
-**Source:** The researcher's executed Kaggle notebook and uploaded `results (2)(1).zip` (2026-10-31). Only aggregate statistics are stored here. These results have **not** been recomputed by downloading/reprocessing restricted emails in ChatGPT. They are derived from the verified uploaded result archive. The JSON here has been serialized from the uploaded safe fields, so it is semantically equivalent, not promised byte-for-byte identical to the original JSON.
+**Source:** The researcher's executed Kaggle notebook and uploaded `results (2)(1).zip` (2026-10-31). Only aggregate statistics are stored here. These results have **not** been recomputed by downloading/reprocessing restricted emails in ChatGPT. They are derived from the verified uploaded result archive. The committed JSON and TXT are now byte-for-byte identical to the safe aggregate files supplied in the user's ZIP (the Git blob SHA1 values were checked against the uploaded files).
 
 **Validated from supplied run**
 - Release: `D1-N01-v1.1-2026-10-31`.
