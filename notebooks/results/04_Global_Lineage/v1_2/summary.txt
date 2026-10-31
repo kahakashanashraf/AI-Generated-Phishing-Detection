@@ -1,0 +1,16 @@
+NOTEBOOK 04 — GLOBAL LEAKAGE AUDIT
+STATUS: GLOBAL_DESCRIPTIVE_AUDIT_COMPLETE
+Selftest: PASS
+Verified sources: 13/13
+Total rows scanned: 121536
+Parent components: 85721
+Multi-source components: 4838
+Cross-family components: 3018
+Three-class strict-text label-conflict candidates: 1
+Elapsed seconds: 174.18
+Peak RSS MB: 653.22
+Downloaded bytes: 242291702
+SPLIT FREEZE: NO-GO (rights/labels/pair approval pending)
+TRAINING: NO-GO
+Safe reports in /kaggle/working/phishing_global_lineage_evidence
+No raw emails, text hashes, parent IDs, unsafe URLs or private decisions published.
