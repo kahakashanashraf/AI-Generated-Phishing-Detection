@@ -13,6 +13,12 @@ One notebook = one research milestone. Start with Notebook 01 and do not proceed
 | 07 | 07_Unseen_Shift_Risk_and_Statistics.ipynb | Leave-one-generator/corpus and conditional joint shifts, AI-written legitimate errors, grouped bootstrap and calibrated review-load analysis | Frozen models/thresholds only; honest conditional claims |
 | 08 | 08_Paper_Tables_Figures_and_Release_Audit.ipynb | Final figures/tables, seed and CI reporting, evidence hashes, efficiency, privacy/data availability checklist | No invented paper results or unauthorized redistribution |
 
+## Committed execution evidence (aggregate only)
+
+- **Notebook 01 v1.1** — [full privacy-safe aggregate JSON](results/01_D1/d1_aggregate_report.json), [Kaggle summary TXT](results/01_D1/d1_aggregate_report.txt), and [provenance/rights gate receipt](results/01_D1/README.md).
+- Executed notebook source, SHA256 fingerprints and output totals were checked against the uploaded 2026-10-31 run. These files contain **aggregate metadata only**, not raw third-party emails or per-record data.
+- **Notebook 02** — not executed by the researcher yet. Once reviewed, its safe aggregate outputs will be committed in `results/02_D2_D5/` under the same privacy and reproducibility rules.
+
 ## Execution log
 
 - **Notebook 01 FINAL GO (descriptive only):** User-provided executed **v1.1** Kaggle notebook and aggregate results ZIP independently inspected 2026-10-31. Five of five published-MD5-pinned D1 CSVs scanned, 79,360 source rows (not independent/unique), all files `PASS_DESCRIPTIVE`, synthetic self-test `PASS`. Normalized subject/body overlap: Nazario ↔ Nazario_5 **1,552 keys / 1,565 rows on each side**; Nazario_5 ↔ SpamAssasin **239 keys**, Nazario_5 ↔ CEAS_08 **298 keys**, SpamAssasin ↔ Enron **2 keys**. Private review queue bug corrected to **1-based CSV data-record index**; isolated multiline CSV test PASS (second record begins on physical line four). Execution output matches corrected v1.1 release; safe results ZIP contains only aggregate JSON/TXT. For reproducibility, provided-run artifact SHA256: notebook `133fc513db82bd710afdccfd300f7ddb2d681c2d5e6f8b6f55498d7314a9691e`; results ZIP `fdd301efdee9faf577892735c32bf5f31e5d682375c9ecb274bc11a7c9f15fa4`; aggregate JSON `71fc63aea2d8663344b9f78e8c40190a3a61d6400c788b2782619e3ca4cb6c56`. **No further Notebook 01 rerun required. Training/rights/labels/parent-safe split gates remain NO-GO/PENDING; manual candidate adjudication remains outstanding.**
