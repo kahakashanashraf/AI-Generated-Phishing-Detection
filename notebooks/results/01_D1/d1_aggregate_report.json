@@ -140,8 +140,8 @@
         "urls"
       ],
       "candidate_label_counts": {
-        "0": 17312,
-        "1": 21842
+        "1": 21842,
+        "0": 17312
       },
       "invalid_or_unusual_label_rows": 0,
       "blank_counts": {
