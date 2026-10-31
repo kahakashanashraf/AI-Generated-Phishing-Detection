@@ -13,6 +13,11 @@ One notebook = one research milestone. Start with Notebook 01 and do not proceed
 | 07 | 07_Unseen_Shift_Risk_and_Statistics.ipynb | Leave-one-generator/corpus and conditional joint shifts, AI-written legitimate errors, grouped bootstrap and calibrated review-load analysis | Frozen models/thresholds only; honest conditional claims |
 | 08 | 08_Paper_Tables_Figures_and_Release_Audit.ipynb | Final figures/tables, seed and CI reporting, evidence hashes, efficiency, privacy/data availability checklist | No invented paper results or unauthorized redistribution |
 
+## Execution log
+
+- **Notebook 01:** User-provided executed Kaggle output reviewed 2026-10-31. All five pinned D1 CSVs scanned, 79,360 source rows (not independent/unique), including 1,552 shared normalized subject/body keys between Nazario and Nazario_5; additional Nazario_5 overlaps with CEAS_08 (298 keys) and SpamAssasin (239). Descriptive D1 gate: GO. **Scientific dataset/rights/label/split gates: NO-GO/PENDING.** Corrected the private review queue identifier from mislabeled physical line number to 1-based CSV data-record index in Notebook 01 v1.1; test with a multiline CSV fixture passed. Earlier aggregate report remains usable.
+- **Notebook 02:** Authored and pushed; includes source-identity verification, environment inventory, CPU/RAM/disk/GPU availability, measured resource usage, fail-closed source audit, privacy-safe outputs and offline synthetic self-test. **Not yet executed on Kaggle.** Run it and review aggregate evidence before Notebook 03.
+
 ## Mandatory environment and resource contract — Notebooks 02–08
 
 Every remaining notebook must be a **self-contained end-to-end milestone** with a compact environment/resource preflight and a machine-readable safe execution receipt; do not ask the researcher to run isolated cells manually. Include the following, as applicable to the workload:
