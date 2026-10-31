@@ -1,0 +1,1092 @@
+{
+  "release": "N04-GLOBAL-LINEAGE-v1.2-2026-10-31",
+  "utc": "2026-10-31T05:53:42.026010+00:00",
+  "status": "GLOBAL_DESCRIPTIVE_AUDIT_COMPLETE",
+  "synthetic_selftest": "PASS",
+  "expected_sources": 13,
+  "sources_passed": 13,
+  "source_audits": {
+    "D1_Nazario": {
+      "family": "D1",
+      "expected_sha256": "b8fbc4158fbdfaff1ed98584c43d72e283c6352d7ade4d457d34c1d79488d184",
+      "source_revision": "8339691",
+      "status": "PASS_DESCRIPTIVE",
+      "file_bytes": 7811841,
+      "sha256": "b8fbc4158fbdfaff1ed98584c43d72e283c6352d7ade4d457d34c1d79488d184",
+      "access_mode": "OFFICIAL_VERIFIED_DOWNLOAD",
+      "rows": 1565,
+      "candidate_label_counts": {
+        "1": 1565
+      },
+      "missing_subject_and_body_or_content": 0,
+      "rows_with_explicit_parent_identifier": 0,
+      "unique_strict_text_keys": 1552,
+      "extra_exact_normalized_rows": 13,
+      "unique_body_only_keys": 1526,
+      "unique_coarse_template_keys": 1493
+    },
+    "D1_Nazario5": {
+      "family": "D1",
+      "expected_sha256": "afef69828165619ced6661ca14a95444a1db82c7b25ae9c2619bbbb108844a44",
+      "source_revision": "8339691",
+      "status": "PASS_DESCRIPTIVE",
+      "file_bytes": 11755517,
+      "sha256": "afef69828165619ced6661ca14a95444a1db82c7b25ae9c2619bbbb108844a44",
+      "access_mode": "OFFICIAL_VERIFIED_DOWNLOAD",
+      "rows": 3065,
+      "candidate_label_counts": {
+        "0": 1500,
+        "1": 1565
+      },
+      "missing_subject_and_body_or_content": 0,
+      "rows_with_explicit_parent_identifier": 0,
+      "unique_strict_text_keys": 3050,
+      "extra_exact_normalized_rows": 15,
+      "unique_body_only_keys": 3023,
+      "unique_coarse_template_keys": 2952
+    },
+    "D1_SpamAssasin": {
+      "family": "D1",
+      "expected_sha256": "3bfe8f8abff89f69a98456be50413c2fcb20a476141116dd84ee1507b980c00e",
+      "source_revision": "8339691",
+      "status": "PASS_DESCRIPTIVE",
+      "file_bytes": 14879195,
+      "sha256": "3bfe8f8abff89f69a98456be50413c2fcb20a476141116dd84ee1507b980c00e",
+      "access_mode": "OFFICIAL_VERIFIED_DOWNLOAD",
+      "rows": 5809,
+      "candidate_label_counts": {
+        "0": 4091,
+        "1": 1718
+      },
+      "missing_subject_and_body_or_content": 0,
+      "rows_with_explicit_parent_identifier": 0,
+      "unique_strict_text_keys": 5802,
+      "extra_exact_normalized_rows": 7,
+      "unique_body_only_keys": 5784,
+      "unique_coarse_template_keys": 5643
+    },
+    "D1_Enron": {
+      "family": "D1",
+      "expected_sha256": "11f28a5bdd3603f1829681ab6b55071b5f9af781b4e6694e39216b2996a96883",
+      "source_revision": "8339691",
+      "status": "PASS_DESCRIPTIVE",
+      "file_bytes": 44837129,
+      "sha256": "11f28a5bdd3603f1829681ab6b55071b5f9af781b4e6694e39216b2996a96883",
+      "access_mode": "OFFICIAL_VERIFIED_DOWNLOAD",
+      "rows": 29767,
+      "candidate_label_counts": {
+        "0": 15791,
+        "1": 13976
+      },
+      "missing_subject_and_body_or_content": 0,
+      "rows_with_explicit_parent_identifier": 0,
+      "unique_strict_text_keys": 29424,
+      "extra_exact_normalized_rows": 343,
+      "unique_body_only_keys": 29360,
+      "unique_coarse_template_keys": 26890
+    },
+    "D1_CEAS08": {
+      "family": "D1",
+      "expected_sha256": "22375e7d5f5a8229dbe987914ee9b3705656c590038662a7df6054629b376074",
+      "source_revision": "8339691",
+      "status": "PASS_DESCRIPTIVE",
+      "file_bytes": 67902056,
+      "sha256": "22375e7d5f5a8229dbe987914ee9b3705656c590038662a7df6054629b376074",
+      "access_mode": "OFFICIAL_VERIFIED_DOWNLOAD",
+      "rows": 39154,
+      "candidate_label_counts": {
+        "1": 21842,
+        "0": 17312
+      },
+      "missing_subject_and_body_or_content": 0,
+      "rows_with_explicit_parent_identifier": 0,
+      "unique_strict_text_keys": 38964,
+      "extra_exact_normalized_rows": 190,
+      "unique_body_only_keys": 38359,
+      "unique_coarse_template_keys": 29533
+    },
+    "D2_original": {
+      "family": "D2",
+      "expected_sha256": "b48026c91e8db399ea321d20e7e709f538aff685b9073d1a312ec09bee2e6d9c",
+      "source_revision": "d13e9bb73d03f458e6d5b6cb6c7b0a708ea47e3d",
+      "status": "PASS_DESCRIPTIVE",
+      "file_bytes": 7370034,
+      "sha256": "b48026c91e8db399ea321d20e7e709f538aff685b9073d1a312ec09bee2e6d9c",
+      "access_mode": "OFFICIAL_VERIFIED_DOWNLOAD",
+      "rows": 3075,
+      "candidate_label_counts": {
+        "Phishing": 1090,
+        "<unknown>": 35,
+        "Spam": 1000,
+        "Valid": 950
+      },
+      "missing_subject_and_body_or_content": 0,
+      "rows_with_explicit_parent_identifier": 3075,
+      "unique_strict_text_keys": 3000,
+      "extra_exact_normalized_rows": 75,
+      "unique_body_only_keys": 2981,
+      "unique_coarse_template_keys": 2943
+    },
+    "D2_deepseek": {
+      "family": "D2",
+      "expected_sha256": "352dbd0fb7e065e819fb126e704b60d3c574f0ab8ea46ddb48306963d3787e0a",
+      "source_revision": "d13e9bb73d03f458e6d5b6cb6c7b0a708ea47e3d",
+      "status": "PASS_DESCRIPTIVE",
+      "file_bytes": 7528880,
+      "sha256": "352dbd0fb7e065e819fb126e704b60d3c574f0ab8ea46ddb48306963d3787e0a",
+      "access_mode": "OFFICIAL_VERIFIED_DOWNLOAD",
+      "rows": 3075,
+      "candidate_label_counts": {
+        "Phishing": 1090,
+        "<unknown>": 35,
+        "Spam": 1000,
+        "Valid": 950
+      },
+      "missing_subject_and_body_or_content": 0,
+      "rows_with_explicit_parent_identifier": 3075,
+      "unique_strict_text_keys": 3049,
+      "extra_exact_normalized_rows": 26,
+      "unique_body_only_keys": 3044,
+      "unique_coarse_template_keys": 3023
+    },
+    "D2_gpt4o": {
+      "family": "D2",
+      "expected_sha256": "caac542ff660e5003eab68b908133ea42d9947f67284435ded9ac34b6a77b794",
+      "source_revision": "d13e9bb73d03f458e6d5b6cb6c7b0a708ea47e3d",
+      "status": "PASS_DESCRIPTIVE",
+      "file_bytes": 7079916,
+      "sha256": "caac542ff660e5003eab68b908133ea42d9947f67284435ded9ac34b6a77b794",
+      "access_mode": "OFFICIAL_VERIFIED_DOWNLOAD",
+      "rows": 3075,
+      "candidate_label_counts": {
+        "Phishing": 1090,
+        "<unknown>": 35,
+        "Spam": 1000,
+        "Valid": 950
+      },
+      "missing_subject_and_body_or_content": 0,
+      "rows_with_explicit_parent_identifier": 3075,
+      "unique_strict_text_keys": 3058,
+      "extra_exact_normalized_rows": 17,
+      "unique_body_only_keys": 3054,
+      "unique_coarse_template_keys": 3027
+    },
+    "D2_randomapi": {
+      "family": "D2",
+      "expected_sha256": "2568744267134c722ad247f937deb154aad44cc90e85a5ccadb652c3d1cd71d7",
+      "source_revision": "d13e9bb73d03f458e6d5b6cb6c7b0a708ea47e3d",
+      "status": "PASS_DESCRIPTIVE",
+      "file_bytes": 7124691,
+      "sha256": "2568744267134c722ad247f937deb154aad44cc90e85a5ccadb652c3d1cd71d7",
+      "access_mode": "OFFICIAL_VERIFIED_DOWNLOAD",
+      "rows": 3075,
+      "candidate_label_counts": {
+        "Phishing": 1090,
+        "<unknown>": 35,
+        "Spam": 1000,
+        "Valid": 950
+      },
+      "missing_subject_and_body_or_content": 0,
+      "rows_with_explicit_parent_identifier": 3075,
+      "unique_strict_text_keys": 3071,
+      "extra_exact_normalized_rows": 4,
+      "unique_body_only_keys": 3070,
+      "unique_coarse_template_keys": 3038
+    },
+    "D3_seeds": {
+      "family": "D3",
+      "expected_sha256": "394d542e27dcef57321bc69f0f93b03e5965531f616eb3d3c79416cc60a30765",
+      "source_revision": "1e21dd4edbe5c64694f156bf5318c97c7c80681c",
+      "status": "PASS_DESCRIPTIVE",
+      "file_bytes": 8218997,
+      "sha256": "394d542e27dcef57321bc69f0f93b03e5965531f616eb3d3c79416cc60a30765",
+      "access_mode": "OFFICIAL_VERIFIED_DOWNLOAD",
+      "rows": 3300,
+      "candidate_label_counts": {
+        "Phishing": 1126,
+        "Spam": 1074,
+        "Valid": 1100
+      },
+      "missing_subject_and_body_or_content": 0,
+      "rows_with_explicit_parent_identifier": 3300,
+      "unique_strict_text_keys": 3225,
+      "extra_exact_normalized_rows": 75,
+      "unique_body_only_keys": 3206,
+      "unique_coarse_template_keys": 3167
+    },
+    "D3_variants": {
+      "family": "D3",
+      "expected_sha256": "62f9c1231cf7e9d1b4a9740680aefcf8723e689ac60ae171ea4e0eef70f1275d",
+      "source_revision": "1e21dd4edbe5c64694f156bf5318c97c7c80681c",
+      "status": "PASS_DESCRIPTIVE",
+      "file_bytes": 48159145,
+      "sha256": "62f9c1231cf7e9d1b4a9740680aefcf8723e689ac60ae171ea4e0eef70f1275d",
+      "access_mode": "OFFICIAL_VERIFIED_DOWNLOAD",
+      "rows": 19800,
+      "candidate_label_counts": {
+        "Phishing": 6756,
+        "Spam": 6444,
+        "Valid": 6600
+      },
+      "missing_subject_and_body_or_content": 0,
+      "rows_with_explicit_parent_identifier": 19800,
+      "unique_strict_text_keys": 19800,
+      "extra_exact_normalized_rows": 0,
+      "unique_body_only_keys": 19800,
+      "unique_coarse_template_keys": 19800
+    },
+    "D4_chinese": {
+      "family": "D4",
+      "expected_sha256": "102e2c44239698c73e5e34abe277ca7aca25424cacb8af9425549a30fb0fc529",
+      "source_revision": "d717e54",
+      "status": "PASS_DESCRIPTIVE",
+      "file_bytes": 3933856,
+      "sha256": "102e2c44239698c73e5e34abe277ca7aca25424cacb8af9425549a30fb0fc529",
+      "access_mode": "OFFICIAL_VERIFIED_DOWNLOAD",
+      "rows": 3030,
+      "candidate_label_counts": {
+        "1": 2020,
+        "0": 1010
+      },
+      "missing_subject_and_body_or_content": 0,
+      "rows_with_explicit_parent_identifier": 0,
+      "unique_strict_text_keys": 3030,
+      "extra_exact_normalized_rows": 0,
+      "unique_body_only_keys": 3030,
+      "unique_coarse_template_keys": 3030
+    },
+    "D4_english": {
+      "family": "D4",
+      "expected_sha256": "e3a335c8acacec09afaa4b9a14c7010195063310e4dcfbae38c1fa50b8d48dc3",
+      "source_revision": "d717e54",
+      "status": "PASS_DESCRIPTIVE",
+      "file_bytes": 5690445,
+      "sha256": "e3a335c8acacec09afaa4b9a14c7010195063310e4dcfbae38c1fa50b8d48dc3",
+      "access_mode": "OFFICIAL_VERIFIED_DOWNLOAD",
+      "rows": 3746,
+      "candidate_label_counts": {
+        "1": 2477,
+        "0": 1269
+      },
+      "missing_subject_and_body_or_content": 0,
+      "rows_with_explicit_parent_identifier": 0,
+      "unique_strict_text_keys": 3746,
+      "extra_exact_normalized_rows": 0,
+      "unique_body_only_keys": 3746,
+      "unique_coarse_template_keys": 3746
+    }
+  },
+  "pairwise_overlap": [
+    {
+      "source_a": "D1_CEAS08",
+      "source_b": "D1_Enron",
+      "same_dataset_family": true,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 1,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_CEAS08",
+      "source_b": "D1_Nazario",
+      "same_dataset_family": true,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_CEAS08",
+      "source_b": "D1_Nazario5",
+      "same_dataset_family": true,
+      "shared_strict_unique_text_keys": 298,
+      "source_a_rows_in_shared_keys": 298,
+      "source_b_rows_in_shared_keys": 298,
+      "shared_body_only_candidate_keys": 298,
+      "shared_coarse_template_candidate_keys": 297
+    },
+    {
+      "source_a": "D1_CEAS08",
+      "source_b": "D1_SpamAssasin",
+      "same_dataset_family": true,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_CEAS08",
+      "source_b": "D2_deepseek",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 138,
+      "source_a_rows_in_shared_keys": 138,
+      "source_b_rows_in_shared_keys": 138,
+      "shared_body_only_candidate_keys": 147,
+      "shared_coarse_template_candidate_keys": 141
+    },
+    {
+      "source_a": "D1_CEAS08",
+      "source_b": "D2_gpt4o",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 31,
+      "source_a_rows_in_shared_keys": 31,
+      "source_b_rows_in_shared_keys": 31,
+      "shared_body_only_candidate_keys": 36,
+      "shared_coarse_template_candidate_keys": 34
+    },
+    {
+      "source_a": "D1_CEAS08",
+      "source_b": "D2_original",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 688,
+      "source_a_rows_in_shared_keys": 688,
+      "source_b_rows_in_shared_keys": 688,
+      "shared_body_only_candidate_keys": 688,
+      "shared_coarse_template_candidate_keys": 687
+    },
+    {
+      "source_a": "D1_CEAS08",
+      "source_b": "D2_randomapi",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 158,
+      "source_a_rows_in_shared_keys": 158,
+      "source_b_rows_in_shared_keys": 158,
+      "shared_body_only_candidate_keys": 171,
+      "shared_coarse_template_candidate_keys": 164
+    },
+    {
+      "source_a": "D1_CEAS08",
+      "source_b": "D3_seeds",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 688,
+      "source_a_rows_in_shared_keys": 688,
+      "source_b_rows_in_shared_keys": 688,
+      "shared_body_only_candidate_keys": 688,
+      "shared_coarse_template_candidate_keys": 687
+    },
+    {
+      "source_a": "D1_CEAS08",
+      "source_b": "D3_variants",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 1,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_CEAS08",
+      "source_b": "D4_chinese",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_CEAS08",
+      "source_b": "D4_english",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_Enron",
+      "source_b": "D1_Nazario",
+      "same_dataset_family": true,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 2,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_Enron",
+      "source_b": "D1_Nazario5",
+      "same_dataset_family": true,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 2,
+      "shared_coarse_template_candidate_keys": 21
+    },
+    {
+      "source_a": "D1_Enron",
+      "source_b": "D1_SpamAssasin",
+      "same_dataset_family": true,
+      "shared_strict_unique_text_keys": 2,
+      "source_a_rows_in_shared_keys": 2,
+      "source_b_rows_in_shared_keys": 2,
+      "shared_body_only_candidate_keys": 3,
+      "shared_coarse_template_candidate_keys": 43
+    },
+    {
+      "source_a": "D1_Enron",
+      "source_b": "D2_deepseek",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_Enron",
+      "source_b": "D2_gpt4o",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 2,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_Enron",
+      "source_b": "D2_original",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 2,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_Enron",
+      "source_b": "D2_randomapi",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 1,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_Enron",
+      "source_b": "D3_seeds",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 2,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_Enron",
+      "source_b": "D3_variants",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_Enron",
+      "source_b": "D4_chinese",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_Enron",
+      "source_b": "D4_english",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_Nazario",
+      "source_b": "D1_Nazario5",
+      "same_dataset_family": true,
+      "shared_strict_unique_text_keys": 1552,
+      "source_a_rows_in_shared_keys": 1565,
+      "source_b_rows_in_shared_keys": 1565,
+      "shared_body_only_candidate_keys": 1526,
+      "shared_coarse_template_candidate_keys": 1493
+    },
+    {
+      "source_a": "D1_Nazario",
+      "source_b": "D1_SpamAssasin",
+      "same_dataset_family": true,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_Nazario",
+      "source_b": "D2_deepseek",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 1,
+      "source_a_rows_in_shared_keys": 1,
+      "source_b_rows_in_shared_keys": 1,
+      "shared_body_only_candidate_keys": 6,
+      "shared_coarse_template_candidate_keys": 1
+    },
+    {
+      "source_a": "D1_Nazario",
+      "source_b": "D2_gpt4o",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 1,
+      "source_a_rows_in_shared_keys": 1,
+      "source_b_rows_in_shared_keys": 1,
+      "shared_body_only_candidate_keys": 7,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_Nazario",
+      "source_b": "D2_original",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 233,
+      "source_a_rows_in_shared_keys": 235,
+      "source_b_rows_in_shared_keys": 234,
+      "shared_body_only_candidate_keys": 226,
+      "shared_coarse_template_candidate_keys": 208
+    },
+    {
+      "source_a": "D1_Nazario",
+      "source_b": "D2_randomapi",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 18,
+      "source_a_rows_in_shared_keys": 19,
+      "source_b_rows_in_shared_keys": 18,
+      "shared_body_only_candidate_keys": 23,
+      "shared_coarse_template_candidate_keys": 15
+    },
+    {
+      "source_a": "D1_Nazario",
+      "source_b": "D3_seeds",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 233,
+      "source_a_rows_in_shared_keys": 235,
+      "source_b_rows_in_shared_keys": 234,
+      "shared_body_only_candidate_keys": 226,
+      "shared_coarse_template_candidate_keys": 208
+    },
+    {
+      "source_a": "D1_Nazario",
+      "source_b": "D3_variants",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_Nazario",
+      "source_b": "D4_chinese",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_Nazario",
+      "source_b": "D4_english",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_Nazario5",
+      "source_b": "D1_SpamAssasin",
+      "same_dataset_family": true,
+      "shared_strict_unique_text_keys": 239,
+      "source_a_rows_in_shared_keys": 239,
+      "source_b_rows_in_shared_keys": 239,
+      "shared_body_only_candidate_keys": 239,
+      "shared_coarse_template_candidate_keys": 240
+    },
+    {
+      "source_a": "D1_Nazario5",
+      "source_b": "D2_deepseek",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 49,
+      "source_a_rows_in_shared_keys": 49,
+      "source_b_rows_in_shared_keys": 49,
+      "shared_body_only_candidate_keys": 57,
+      "shared_coarse_template_candidate_keys": 50
+    },
+    {
+      "source_a": "D1_Nazario5",
+      "source_b": "D2_gpt4o",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 11,
+      "source_a_rows_in_shared_keys": 11,
+      "source_b_rows_in_shared_keys": 11,
+      "shared_body_only_candidate_keys": 18,
+      "shared_coarse_template_candidate_keys": 11
+    },
+    {
+      "source_a": "D1_Nazario5",
+      "source_b": "D2_original",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 474,
+      "source_a_rows_in_shared_keys": 476,
+      "source_b_rows_in_shared_keys": 475,
+      "shared_body_only_candidate_keys": 467,
+      "shared_coarse_template_candidate_keys": 448
+    },
+    {
+      "source_a": "D1_Nazario5",
+      "source_b": "D2_randomapi",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 77,
+      "source_a_rows_in_shared_keys": 78,
+      "source_b_rows_in_shared_keys": 77,
+      "shared_body_only_candidate_keys": 89,
+      "shared_coarse_template_candidate_keys": 75
+    },
+    {
+      "source_a": "D1_Nazario5",
+      "source_b": "D3_seeds",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 577,
+      "source_a_rows_in_shared_keys": 579,
+      "source_b_rows_in_shared_keys": 578,
+      "shared_body_only_candidate_keys": 570,
+      "shared_coarse_template_candidate_keys": 550
+    },
+    {
+      "source_a": "D1_Nazario5",
+      "source_b": "D3_variants",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_Nazario5",
+      "source_b": "D4_chinese",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_Nazario5",
+      "source_b": "D4_english",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_SpamAssasin",
+      "source_b": "D2_deepseek",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 2,
+      "source_a_rows_in_shared_keys": 2,
+      "source_b_rows_in_shared_keys": 2,
+      "shared_body_only_candidate_keys": 2,
+      "shared_coarse_template_candidate_keys": 2
+    },
+    {
+      "source_a": "D1_SpamAssasin",
+      "source_b": "D2_gpt4o",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 1,
+      "source_a_rows_in_shared_keys": 1,
+      "source_b_rows_in_shared_keys": 1,
+      "shared_body_only_candidate_keys": 1,
+      "shared_coarse_template_candidate_keys": 1
+    },
+    {
+      "source_a": "D1_SpamAssasin",
+      "source_b": "D2_original",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 39,
+      "source_a_rows_in_shared_keys": 39,
+      "source_b_rows_in_shared_keys": 39,
+      "shared_body_only_candidate_keys": 39,
+      "shared_coarse_template_candidate_keys": 39
+    },
+    {
+      "source_a": "D1_SpamAssasin",
+      "source_b": "D2_randomapi",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 1,
+      "source_a_rows_in_shared_keys": 1,
+      "source_b_rows_in_shared_keys": 1,
+      "shared_body_only_candidate_keys": 2,
+      "shared_coarse_template_candidate_keys": 2
+    },
+    {
+      "source_a": "D1_SpamAssasin",
+      "source_b": "D3_seeds",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 159,
+      "source_a_rows_in_shared_keys": 159,
+      "source_b_rows_in_shared_keys": 159,
+      "shared_body_only_candidate_keys": 159,
+      "shared_coarse_template_candidate_keys": 158
+    },
+    {
+      "source_a": "D1_SpamAssasin",
+      "source_b": "D3_variants",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_SpamAssasin",
+      "source_b": "D4_chinese",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D1_SpamAssasin",
+      "source_b": "D4_english",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D2_deepseek",
+      "source_b": "D2_gpt4o",
+      "same_dataset_family": true,
+      "shared_strict_unique_text_keys": 101,
+      "source_a_rows_in_shared_keys": 112,
+      "source_b_rows_in_shared_keys": 112,
+      "shared_body_only_candidate_keys": 118,
+      "shared_coarse_template_candidate_keys": 104
+    },
+    {
+      "source_a": "D2_deepseek",
+      "source_b": "D2_original",
+      "same_dataset_family": true,
+      "shared_strict_unique_text_keys": 486,
+      "source_a_rows_in_shared_keys": 500,
+      "source_b_rows_in_shared_keys": 501,
+      "shared_body_only_candidate_keys": 505,
+      "shared_coarse_template_candidate_keys": 489
+    },
+    {
+      "source_a": "D2_deepseek",
+      "source_b": "D2_randomapi",
+      "same_dataset_family": true,
+      "shared_strict_unique_text_keys": 343,
+      "source_a_rows_in_shared_keys": 349,
+      "source_b_rows_in_shared_keys": 345,
+      "shared_body_only_candidate_keys": 353,
+      "shared_coarse_template_candidate_keys": 345
+    },
+    {
+      "source_a": "D2_deepseek",
+      "source_b": "D3_seeds",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 480,
+      "source_a_rows_in_shared_keys": 494,
+      "source_b_rows_in_shared_keys": 495,
+      "shared_body_only_candidate_keys": 499,
+      "shared_coarse_template_candidate_keys": 483
+    },
+    {
+      "source_a": "D2_deepseek",
+      "source_b": "D3_variants",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D2_deepseek",
+      "source_b": "D4_chinese",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D2_deepseek",
+      "source_b": "D4_english",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D2_gpt4o",
+      "source_b": "D2_original",
+      "same_dataset_family": true,
+      "shared_strict_unique_text_keys": 230,
+      "source_a_rows_in_shared_keys": 244,
+      "source_b_rows_in_shared_keys": 245,
+      "shared_body_only_candidate_keys": 249,
+      "shared_coarse_template_candidate_keys": 232
+    },
+    {
+      "source_a": "D2_gpt4o",
+      "source_b": "D2_randomapi",
+      "same_dataset_family": true,
+      "shared_strict_unique_text_keys": 78,
+      "source_a_rows_in_shared_keys": 83,
+      "source_b_rows_in_shared_keys": 80,
+      "shared_body_only_candidate_keys": 94,
+      "shared_coarse_template_candidate_keys": 77
+    },
+    {
+      "source_a": "D2_gpt4o",
+      "source_b": "D3_seeds",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 230,
+      "source_a_rows_in_shared_keys": 244,
+      "source_b_rows_in_shared_keys": 245,
+      "shared_body_only_candidate_keys": 249,
+      "shared_coarse_template_candidate_keys": 232
+    },
+    {
+      "source_a": "D2_gpt4o",
+      "source_b": "D3_variants",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D2_gpt4o",
+      "source_b": "D4_chinese",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D2_gpt4o",
+      "source_b": "D4_english",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D2_original",
+      "source_b": "D2_randomapi",
+      "same_dataset_family": true,
+      "shared_strict_unique_text_keys": 519,
+      "source_a_rows_in_shared_keys": 532,
+      "source_b_rows_in_shared_keys": 521,
+      "shared_body_only_candidate_keys": 557,
+      "shared_coarse_template_candidate_keys": 524
+    },
+    {
+      "source_a": "D2_original",
+      "source_b": "D3_seeds",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 2896,
+      "source_a_rows_in_shared_keys": 2971,
+      "source_b_rows_in_shared_keys": 2971,
+      "shared_body_only_candidate_keys": 2881,
+      "shared_coarse_template_candidate_keys": 2846
+    },
+    {
+      "source_a": "D2_original",
+      "source_b": "D3_variants",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 1,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D2_original",
+      "source_b": "D4_chinese",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D2_original",
+      "source_b": "D4_english",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D2_randomapi",
+      "source_b": "D3_seeds",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 509,
+      "source_a_rows_in_shared_keys": 511,
+      "source_b_rows_in_shared_keys": 522,
+      "shared_body_only_candidate_keys": 544,
+      "shared_coarse_template_candidate_keys": 514
+    },
+    {
+      "source_a": "D2_randomapi",
+      "source_b": "D3_variants",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D2_randomapi",
+      "source_b": "D4_chinese",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D2_randomapi",
+      "source_b": "D4_english",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D3_seeds",
+      "source_b": "D3_variants",
+      "same_dataset_family": true,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 1,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D3_seeds",
+      "source_b": "D4_chinese",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D3_seeds",
+      "source_b": "D4_english",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D3_variants",
+      "source_b": "D4_chinese",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D3_variants",
+      "source_b": "D4_english",
+      "same_dataset_family": false,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    },
+    {
+      "source_a": "D4_chinese",
+      "source_b": "D4_english",
+      "same_dataset_family": true,
+      "shared_strict_unique_text_keys": 0,
+      "source_a_rows_in_shared_keys": 0,
+      "source_b_rows_in_shared_keys": 0,
+      "shared_body_only_candidate_keys": 0,
+      "shared_coarse_template_candidate_keys": 0
+    }
+  ],
+  "global_lineage_components": {
+    "total_exact_match_parent_components": 85721,
+    "components_with_multiple_source_files": 4838,
+    "components_spanning_D1_D2_D3_D4_families": 3018,
+    "rows_in_multi_file_components": 40111,
+    "largest_component_rows": 48,
+    "three_class_candidate_conflicting_strict_text_keys": 1,
+    "component_size_distribution": {
+      "2-9": 2373,
+      "10-99": 2898,
+      "1": 80450
+    }
+  },
+  "source_selection": {
+    "D1": "five independently named constituent CSVs",
+    "D2": "original plus three rephrase sets (categorized mirror intentionally excluded)",
+    "D3": "original seeds plus 6-per-parent variants",
+    "D4": "Chinese and English candidate content",
+    "D5": "excluded: phishing-only AI-vs-human feature archive, not primary email text"
+  },
+  "split_freeze_gate": "NO_GO_PENDING_RIGHTS_LABELS_PARENT_REVIEW_AND_HOLDOUT_APPROVAL",
+  "binary_model_training_gate": "NO_GO",
+  "warnings": [
+    "Exact cross-source text matching plus body-only and coarse candidate fingerprints are NOT exhaustive semantic/campaign deduplication.",
+    "Coarse template overlap replaces URLs, numbers and emails; this is only a review candidate, never an automatic merge or label change.",
+    "Three-class D2/D3 candidate labels must NOT be equated to 0/1 in D1/D4 until official semantics are verified.",
+    "Any three-class candidate label conflicts reported here are annotation discrepancies, NOT independently adjudicated gold labels.",
+    "No split manifests, raw emails, per-row hashes, join IDs or private annotations are exported.",
+    "D2 No. and D3 Original_ID indicate candidate families but human provenance and semantic invariance remain pending.",
+    "Same normalized text across sources suggests contamination risk; it does not automatically establish independent source lineage."
+  ]
+}
