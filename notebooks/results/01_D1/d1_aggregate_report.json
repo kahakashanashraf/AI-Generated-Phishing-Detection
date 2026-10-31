@@ -1,0 +1,259 @@
+{
+  "release": "D1-N01-v1.1-2026-10-31",
+  "generated_utc": "2026-10-31T04:57:19.888503+00:00",
+  "official_record": "https://zenodo.org/records/8339691",
+  "synthetic_self_test": "PASS",
+  "files": {
+    "Nazario.csv": {
+      "rows": 1565,
+      "columns": [
+        "sender",
+        "receiver",
+        "date",
+        "subject",
+        "body",
+        "urls",
+        "label"
+      ],
+      "candidate_label_counts": {
+        "1": 1565
+      },
+      "invalid_or_unusual_label_rows": 0,
+      "blank_counts": {
+        "receiver": 96,
+        "body": 2,
+        "subject": 4,
+        "date": 1
+      },
+      "exact_subject_body_duplicate_extra_rows": 0,
+      "normalized_subject_body_duplicate_extra_rows": 13,
+      "normalized_subject_body_conflicting_label_groups": 0,
+      "heuristic_admin_candidates": 2,
+      "normalized_unique_text_keys": 1552,
+      "source_mode": "official_zenodo_download",
+      "file_bytes": 7811841,
+      "source_md5": "4022d055bb7cf8602f30f768f652e91e",
+      "source_sha256": "b8fbc4158fbdfaff1ed98584c43d72e283c6352d7ade4d457d34c1d79488d184",
+      "audit_status": "PASS_DESCRIPTIVE"
+    },
+    "Nazario_5.csv": {
+      "rows": 3065,
+      "columns": [
+        "sender",
+        "receiver",
+        "date",
+        "subject",
+        "body",
+        "label",
+        "urls"
+      ],
+      "candidate_label_counts": {
+        "0": 1500,
+        "1": 1565
+      },
+      "invalid_or_unusual_label_rows": 0,
+      "blank_counts": {
+        "subject": 50,
+        "receiver": 113,
+        "sender": 2,
+        "date": 3,
+        "body": 2
+      },
+      "exact_subject_body_duplicate_extra_rows": 0,
+      "normalized_subject_body_duplicate_extra_rows": 15,
+      "normalized_subject_body_conflicting_label_groups": 0,
+      "heuristic_admin_candidates": 2,
+      "normalized_unique_text_keys": 3050,
+      "source_mode": "official_zenodo_download",
+      "file_bytes": 11755517,
+      "source_md5": "45db8330ea4aabbf72f5199949ae03e5",
+      "source_sha256": "afef69828165619ced6661ca14a95444a1db82c7b25ae9c2619bbbb108844a44",
+      "audit_status": "PASS_DESCRIPTIVE"
+    },
+    "SpamAssasin.csv": {
+      "rows": 5809,
+      "columns": [
+        "sender",
+        "receiver",
+        "date",
+        "subject",
+        "body",
+        "label",
+        "urls"
+      ],
+      "candidate_label_counts": {
+        "0": 4091,
+        "1": 1718
+      },
+      "invalid_or_unusual_label_rows": 0,
+      "blank_counts": {
+        "receiver": 210,
+        "subject": 16,
+        "body": 2
+      },
+      "exact_subject_body_duplicate_extra_rows": 0,
+      "normalized_subject_body_duplicate_extra_rows": 7,
+      "normalized_subject_body_conflicting_label_groups": 0,
+      "heuristic_admin_candidates": 0,
+      "normalized_unique_text_keys": 5802,
+      "source_mode": "official_zenodo_download",
+      "file_bytes": 14879195,
+      "source_md5": "d921e0b2333bfaa058bd38193e6b3fbd",
+      "source_sha256": "3bfe8f8abff89f69a98456be50413c2fcb20a476141116dd84ee1507b980c00e",
+      "audit_status": "PASS_DESCRIPTIVE"
+    },
+    "Enron.csv": {
+      "rows": 29767,
+      "columns": [
+        "subject",
+        "body",
+        "label"
+      ],
+      "candidate_label_counts": {
+        "0": 15791,
+        "1": 13976
+      },
+      "invalid_or_unusual_label_rows": 0,
+      "blank_counts": {
+        "subject": 198
+      },
+      "exact_subject_body_duplicate_extra_rows": 0,
+      "normalized_subject_body_duplicate_extra_rows": 343,
+      "normalized_subject_body_conflicting_label_groups": 0,
+      "heuristic_admin_candidates": 0,
+      "normalized_unique_text_keys": 29424,
+      "source_mode": "official_zenodo_download",
+      "file_bytes": 44837129,
+      "source_md5": "10489e0fdcc8af6fe62135c689367d40",
+      "source_sha256": "11f28a5bdd3603f1829681ab6b55071b5f9af781b4e6694e39216b2996a96883",
+      "audit_status": "PASS_DESCRIPTIVE"
+    },
+    "CEAS_08.csv": {
+      "rows": 39154,
+      "columns": [
+        "sender",
+        "receiver",
+        "date",
+        "subject",
+        "body",
+        "label",
+        "urls"
+      ],
+      "candidate_label_counts": {
+        "0": 17312,
+        "1": 21842
+      },
+      "invalid_or_unusual_label_rows": 0,
+      "blank_counts": {
+        "receiver": 462,
+        "subject": 28
+      },
+      "exact_subject_body_duplicate_extra_rows": 0,
+      "normalized_subject_body_duplicate_extra_rows": 190,
+      "normalized_subject_body_conflicting_label_groups": 0,
+      "heuristic_admin_candidates": 0,
+      "normalized_unique_text_keys": 38964,
+      "source_mode": "official_zenodo_download",
+      "file_bytes": 67902056,
+      "source_md5": "1f0d59191eec892a709995d48cd8decb",
+      "source_sha256": "22375e7d5f5a8229dbe987914ee9b3705656c590038662a7df6054629b376074",
+      "audit_status": "PASS_DESCRIPTIVE"
+    }
+  },
+  "pairwise_normalized_overlap": [
+    {
+      "left": "Nazario.csv",
+      "right": "Nazario_5.csv",
+      "shared_unique_text_keys": 1552,
+      "left_rows_in_shared_keys": 1565,
+      "right_rows_in_shared_keys": 1565,
+      "disjoint_candidate_label_groups": 0
+    },
+    {
+      "left": "Nazario.csv",
+      "right": "SpamAssasin.csv",
+      "shared_unique_text_keys": 0,
+      "left_rows_in_shared_keys": 0,
+      "right_rows_in_shared_keys": 0,
+      "disjoint_candidate_label_groups": 0
+    },
+    {
+      "left": "Nazario.csv",
+      "right": "Enron.csv",
+      "shared_unique_text_keys": 0,
+      "left_rows_in_shared_keys": 0,
+      "right_rows_in_shared_keys": 0,
+      "disjoint_candidate_label_groups": 0
+    },
+    {
+      "left": "Nazario.csv",
+      "right": "CEAS_08.csv",
+      "shared_unique_text_keys": 0,
+      "left_rows_in_shared_keys": 0,
+      "right_rows_in_shared_keys": 0,
+      "disjoint_candidate_label_groups": 0
+    },
+    {
+      "left": "Nazario_5.csv",
+      "right": "SpamAssasin.csv",
+      "shared_unique_text_keys": 239,
+      "left_rows_in_shared_keys": 239,
+      "right_rows_in_shared_keys": 239,
+      "disjoint_candidate_label_groups": 0
+    },
+    {
+      "left": "Nazario_5.csv",
+      "right": "Enron.csv",
+      "shared_unique_text_keys": 0,
+      "left_rows_in_shared_keys": 0,
+      "right_rows_in_shared_keys": 0,
+      "disjoint_candidate_label_groups": 0
+    },
+    {
+      "left": "Nazario_5.csv",
+      "right": "CEAS_08.csv",
+      "shared_unique_text_keys": 298,
+      "left_rows_in_shared_keys": 298,
+      "right_rows_in_shared_keys": 298,
+      "disjoint_candidate_label_groups": 0
+    },
+    {
+      "left": "SpamAssasin.csv",
+      "right": "Enron.csv",
+      "shared_unique_text_keys": 2,
+      "left_rows_in_shared_keys": 2,
+      "right_rows_in_shared_keys": 2,
+      "disjoint_candidate_label_groups": 0
+    },
+    {
+      "left": "SpamAssasin.csv",
+      "right": "CEAS_08.csv",
+      "shared_unique_text_keys": 0,
+      "left_rows_in_shared_keys": 0,
+      "right_rows_in_shared_keys": 0,
+      "disjoint_candidate_label_groups": 0
+    },
+    {
+      "left": "Enron.csv",
+      "right": "CEAS_08.csv",
+      "shared_unique_text_keys": 0,
+      "left_rows_in_shared_keys": 0,
+      "right_rows_in_shared_keys": 0,
+      "disjoint_candidate_label_groups": 0
+    }
+  ],
+  "status": "DESCRIPTIVE_AUDIT_COMPLETE_RESEARCH_GATES_PENDING",
+  "binary_training_gate": "NO_GO",
+  "rights_gate": "PENDING_SOURCE_AND_UPSTREAM_LICENSE_REVIEW",
+  "label_semantics_gate": "PENDING_SOURCE_GROUND_TRUTH_ADJUDICATION",
+  "notes": [
+    "MD5 identity is not evidence of source rights or correct labels.",
+    "Subject/body hashes are in-memory only; no raw text or hashes are exported.",
+    "Overlap is exact after casefold/whitespace normalization, not semantic/campaign deduplication.",
+    "Administrative keyword matches need manual review; no rows are deleted.",
+    "Spam and AI authorship must not be equated with phishing or legitimate labels."
+  ],
+  "private_manual_review_candidate_entries": 1031,
+  "files_passed": 5,
+  "files_expected": 5
+}
