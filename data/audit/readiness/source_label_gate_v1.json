@@ -1,0 +1,107 @@
+{
+  "version": "2026-10-31-v1",
+  "research_task": "strict_phishing_vs_legitimate",
+  "status": "NOT_TRAINING_APPROVED",
+  "source_of_truth": "data/audit/readiness/D1_D5_rights_labels_D2_D3_lineage_2026-10-31.md",
+  "categories": {
+    "Phishing": "candidate_positive_not_human_gold",
+    "Valid": "candidate_negative_not_human_gold",
+    "Spam": "separate_class_exclude_from_binary_until_justified",
+    "Phishing Simulation": "quarantine_fourth_class_review_required"
+  },
+  "datasets": {
+    "D1": {
+      "license": "record_claims_CC-BY-4.0",
+      "rights": "UNDERLYING_UPSTREAM_PRIVACY_AND_RIGHTS_UNVERIFIED",
+      "labels": "HETEROGENEOUS_ORIGINAL_TASKS",
+      "binary_training": "NO_GO",
+      "upstream_spam_corpi": [
+        "SpamAssasin",
+        "Enron",
+        "CEAS_08"
+      ],
+      "special": "Nazario/Nazario_5 identical phishing portion; verify source task and administrative records"
+    },
+    "D2": {
+      "license": "NO_LICENSE_FOUND_IN_PUBLIC_REPO",
+      "permission": "UNVERIFIED",
+      "binary_training": "NO_GO",
+      "source_revision": "d13e9bb73d03f458e6d5b6cb6c7b0a708ea47e3d",
+      "original_counts": {
+        "Phishing": 1090,
+        "Spam": 1000,
+        "Valid": 950,
+        "Phishing Simulation": 35
+      },
+      "original_rows": 3075,
+      "parent_field": "No.",
+      "quarantine_labels": [
+        "Phishing Simulation"
+      ],
+      "review_needed": true
+    },
+    "D3": {
+      "license": "NO_LICENSE_FOUND_IN_PUBLIC_REPO",
+      "permission": "UNVERIFIED",
+      "binary_training": "NO_GO",
+      "source_revision": "1e21dd4edbe5c64694f156bf5318c97c7c80681c",
+      "seed_counts": {
+        "Phishing": 1126,
+        "Spam": 1074,
+        "Valid": 1100
+      },
+      "seed_rows": 3300,
+      "parent_field": "Original_ID",
+      "inherited_D2_IDs": 3075,
+      "inherited_D2_same_text": 2971,
+      "inherited_D2_changed_text": 104,
+      "additional_D3_IDs": 225,
+      "relabels": {
+        "Phishing Simulation -> Phishing": 35,
+        "Valid -> Phishing": 1
+      },
+      "quarantine_relabels": true,
+      "independent_D2_holdout": false
+    },
+    "D4": {
+      "license": "apache-2.0_declared_on_HF_card",
+      "permission": "DOCUMENTED_CARD_LICENSE_ONLY",
+      "binary_training": "CONDITIONAL_SYNTHETIC_ONLY_AFTER_APPROVAL",
+      "label_map": {
+        "0": "legitimate",
+        "1": "phishing"
+      },
+      "generator_language_confound": true,
+      "author_claims": {
+        "Chinese": "DeepSeek",
+        "English": "OpenAI"
+      },
+      "no_unseen_generator_claims": true
+    },
+    "D5": {
+      "license": "Data_CC-BY-4.0_Code_MIT_on_Zenodo",
+      "permission": "DOCUMENTED_SOURCE_RECORD_ONLY",
+      "binary_training": "EXCLUDE_AUTHORSHiP_ONLY",
+      "label_task": "AI_vs_human_phishing_text"
+    }
+  },
+  "mandatory_checks_before_training": [
+    "source_level_rights_and_privacy_signoff",
+    "exact_scoped_binary_label_definitions_and_disputed_label_resolution",
+    "cross_family_parent_and_text_duplicate_group_protection",
+    "approved_frozen_train_validation_holdout_protocol",
+    "human_pair_pilot_with_two_independent_reviewers_and_disagreement_adjudication",
+    "paper_protocol_go_with_resource_and_environment_receipt"
+  ],
+  "model_training_enabled": false,
+  "split_manifest_enabled": false,
+  "raw_text_export_enabled": false,
+  "risks": [
+    "D2_D3_not_independent",
+    "D2_D3_reclassification_of_phishing_simulation",
+    "D2_Valid_to_D3_Phishing_conflict",
+    "D1_binary_not_uniform_strict_phishing",
+    "D2_D3_no_explicit_repository_license",
+    "D4_generator_language_confound"
+  ]
+}
