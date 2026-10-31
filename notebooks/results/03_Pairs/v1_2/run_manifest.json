@@ -1,0 +1,28 @@
+{
+  "release": "N03-PAIR-v1.2-2026-10-31",
+  "run_status": "STRUCTURAL_PAIR_AUDIT_COMPLETE_HUMAN_REVIEW_PENDING",
+  "input_sha256_by_source": {
+    "D2_original": "b48026c91e8db399ea321d20e7e709f538aff685b9073d1a312ec09bee2e6d9c",
+    "D2_deepseek": "352dbd0fb7e065e819fb126e704b60d3c574f0ab8ea46ddb48306963d3787e0a",
+    "D2_gpt4o": "caac542ff660e5003eab68b908133ea42d9947f67284435ded9ac34b6a77b794",
+    "D2_randomapi": "2568744267134c722ad247f937deb154aad44cc90e85a5ccadb652c3d1cd71d7",
+    "D3_seeds": "394d542e27dcef57321bc69f0f93b03e5965531f616eb3d3c79416cc60a30765",
+    "D3_variants": "62f9c1231cf7e9d1b4a9740680aefcf8723e689ac60ae171ea4e0eef70f1275d"
+  },
+  "source_revision": {
+    "D2": "d13e9bb73d03f458e6d5b6cb6c7b0a708ea47e3d",
+    "D3": "1e21dd4edbe5c64694f156bf5318c97c7c80681c"
+  },
+  "output_files": [
+    "pair_audit.json",
+    "environment.json",
+    "resource_usage.json",
+    "run_manifest.json",
+    "summary.txt"
+  ],
+  "notebook_code": "Versioned as Notebook 03 GitHub source; exact code hash recorded on review",
+  "private_files_not_shared": [
+    "N03_private_review_panel.csv",
+    "N03_private_decisions_template.csv"
+  ]
+}
