@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: journal-notebook-benchmark
@@ -69,6 +69,25 @@ jobs:
               data=json.loads(manifest.read_text())
               print('N',i,'outputs:',len(list(folder.iterdir())),'release:',data.get('release'))
           PY
+      - name: Correct execution provenance and commit aggregate-only outputs
+        if: success()
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          for i in range(5,11):
+              path=pathlib.Path(f'phishing_n{i:02d}_safe/run_manifest.json')
+              m=json.loads(path.read_text())
+              if m.get('status')=='KAGGLE_REAL_DATA_COMPLETED':
+                  m['status']='GITHUB_ACTIONS_REAL_DATA_COMPLETED'
+              m['runner']='GitHub Actions ubuntu-latest CPU'
+              m['workflow_run']='${{ github.run_id }}'
+              path.write_text(json.dumps(m,indent=2,ensure_ascii=False)+'\\n')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add phishing_n05_safe phishing_n06_safe phishing_n07_safe phishing_n08_safe phishing_n09_safe phishing_n10_safe
+          git diff --cached --quiet || git commit -m "results: verified GitHub Actions N05-N10 aggregate experiment outputs"
+          git push origin HEAD:main
       - name: Upload privacy-screened aggregate artifacts only
         if: success()
         uses: actions/upload-artifact@v4
