@@ -1,0 +1,27 @@
+{
+  "release": "N12-E08-TransformerComparator-v1.0-2026-11-02",
+  "execution_status": "GITHUB_ACTIONS_CPU_REAL_DATA_COMPLETED",
+  "device": "cpu",
+  "model": "distilbert/distilbert-base-uncased",
+  "model_revision": "12040accade4e8a0f71eabdb258fecc2e7e948be",
+  "training_seeds": [
+    2026,
+    2027
+  ],
+  "epochs_max": 2,
+  "train_examples_original_only": 1418,
+  "val_examples": 304,
+  "selection": "Maximum D2 validation average precision; threshold fixed by D2 validation FPR <= .05",
+  "external_evaluation": "E-PhishLLM English; zero fine-tuning or calibration on target",
+  "limitations": [
+    "Exploratory (external test examined before design). Not a fresh blind external test.",
+    "No independent annotation confirming phishing/legitimate source labels",
+    "No human-vs-AI matched original-message generator randomization",
+    "No security-meaning or near-duplicate/campaign robustness guarantee",
+    "Published transformer improvement or Q1 novelty not established by model alone"
+  ],
+  "files": {
+    "transformer_metrics.csv": "a7c73f2c28018c304eb1cc5c4d55b07fdc4d6f25f6f0a6ebf1ce8fd0d738d0eb",
+    "train_validation_history.csv": "3c93a83443fece2e847a9bbf772b7efa31fc6672577af5f1e1b724723946be64"
+  }
+}
