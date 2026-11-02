@@ -1,0 +1,24 @@
+{
+  "rows": 142,
+  "unique_review_ids": 142,
+  "source_counts": {
+    "D2_gpt4o": 42,
+    "D2_randomapi": 42,
+    "D2_deepseek": 40,
+    "D3_variants": 18
+  },
+  "triage_counts": {
+    "APPARENT_SAME_INTENT_CANDIDATE": 41,
+    "INCOMPLETE_CONTEXT": 40,
+    "SECURITY_CUE_DIFF_REVIEW": 24,
+    "UNRESOLVED_SOURCE_CLASS": 19,
+    "MATERIAL_ENTITY_OR_CONTEXT_REWRITE": 18
+  },
+  "security_cue_flagged": 70,
+  "truncated_any": 51,
+  "unrecognized_source_class": 19,
+  "verified_same_intent_gold": 0,
+  "verified_security_label_flip_gold": 0,
+  "ai_assessment_is_independent_human_review": false,
+  "sha256_private_input": "1322b54d1f645930a5902838c41df0f8996005255537d650ac4f4160abbdbe8d"
+}
