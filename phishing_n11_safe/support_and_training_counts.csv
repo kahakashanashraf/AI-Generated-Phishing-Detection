@@ -1,0 +1,5 @@
+strategy,original_train_parents,additional_train_rewrites,training_rows,validation_5pct_fpr_threshold
+orig_only,1418,0,1418,0.35420166667950437
+benign_rewrites,1418,1669,3087,0.561091237361932
+all_rewrites,1418,3835,5253,0.3348736682376293
+gpt4o_only,1418,1384,2802,0.3642002221787889

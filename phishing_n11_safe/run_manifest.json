@@ -1,0 +1,24 @@
+{
+  "release": "N11-E07-Augmentation-v1.0-2026-11-02",
+  "status": "GITHUB_ACTIONS_REAL_DATA_COMPLETED",
+  "runner": "GitHub Actions CPU",
+  "hypothesis": "Train-parent-only LLM rewrites may reduce out-of-source benign FPR at acceptable phishing recall.",
+  "method": "Equal parent weights; original/benign-only/all/GPT-4o-only training variants; TF-IDF LogisticRegression",
+  "augmentation_source_drops": {
+    "identical_or_duplicate_training": 419
+  },
+  "train_parent_count": 1418,
+  "validation_threshold_source": "D2 original validation only; no E-PhishLLM tuning",
+  "caution": [
+    "External E-PhishLLM was inspected before designing this experiment; this is exploratory, NOT a fresh blind test",
+    "Some LLM-rewritten samples may have changed security intent and are not independently adjudicated",
+    "Augmented examples are not extra independent observations; all are grouped by original parent",
+    "A new unseen external corpus and transformer comparator are still required for journal-grade claims",
+    "Unweighted counts do not establish causal improvement in AI-authored benign email handling"
+  ],
+  "files": {
+    "support_and_training_counts.csv": "061922c5bf82b93cb0cb552eea6330a4a932839223630d9ae5ee8e8e91e1f7e5",
+    "augmentation_metrics.csv": "a8c681dd9d18b3cd7753e95c253c81b471cdcfb64365f2c93713e5282ea624d7",
+    "paired_benign_rewrite_effects.csv": "b11596a7aa4e4796ad8706349f3dc9c9a9a5f94b4e152c10eb31dae66100ff30"
+  }
+}
