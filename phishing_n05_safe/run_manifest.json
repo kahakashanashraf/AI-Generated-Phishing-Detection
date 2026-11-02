@@ -1,0 +1,95 @@
+{
+  "release": "N05-E01-v1.0-2026-11-02",
+  "utc": "2026-11-02T15:18:43.524431+00:00",
+  "status": "EXECUTED_SOURCE_ASSIGNED_LABEL_BENCHMARK",
+  "runtime_seconds": 2.39,
+  "python": "3.11.17",
+  "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.43",
+  "self_test": "PASS",
+  "source_integrity": {
+    "original": {
+      "sha256": "b48026c91e8db399ea321d20e7e709f538aff685b9073d1a312ec09bee2e6d9c",
+      "bytes": 7370034,
+      "origin": "pinned_download"
+    },
+    "deepseek": {
+      "sha256": "352dbd0fb7e065e819fb126e704b60d3c574f0ab8ea46ddb48306963d3787e0a",
+      "bytes": 7528880,
+      "origin": "pinned_download"
+    },
+    "gpt4o": {
+      "sha256": "caac542ff660e5003eab68b908133ea42d9947f67284435ded9ac34b6a77b794",
+      "bytes": 7079916,
+      "origin": "pinned_download"
+    },
+    "randomapi": {
+      "sha256": "2568744267134c722ad247f937deb154aad44cc90e85a5ccadb652c3d1cd71d7",
+      "bytes": 7124691,
+      "origin": "pinned_download"
+    }
+  },
+  "source_class_counts": {
+    "Phishing": 1090,
+    "Phishing Simulation": 35,
+    "Spam": 1000,
+    "Valid": 950
+  },
+  "excluded_ambiguous_or_duplicate_parent_ids": 14,
+  "split_counts": {
+    "train": 1418,
+    "validation": 304,
+    "test": 304
+  },
+  "split_label_counts": {
+    "train": {
+      "1": 753,
+      "0": 665
+    },
+    "val": {
+      "1": 161,
+      "0": 143
+    },
+    "test": {
+      "0": 142,
+      "1": 162
+    }
+  },
+  "source_rewrite_coverage": {
+    "gpt4o": {
+      "usable_pairs": 304,
+      "type_conflicts_excluded": 0,
+      "identical_to_training_text": 0
+    },
+    "deepseek": {
+      "usable_pairs": 304,
+      "type_conflicts_excluded": 0,
+      "identical_to_training_text": 0
+    },
+    "randomapi": {
+      "usable_pairs": 304,
+      "type_conflicts_excluded": 0,
+      "identical_to_training_text": 0
+    }
+  },
+  "models": [
+    "tfidf_logistic",
+    "tfidf_linear_svm_calibrated"
+  ],
+  "limitations": [
+    "D2 labels are source-assigned, not independent gold",
+    "GPT-4o/DeepSeek outputs may be model-rewritten but intent not individually human verified",
+    "This is matched-parent robustness, not independent unseen-corpus evaluation",
+    "RandomAPI is not a verified single-generator identifier",
+    "No cross-language D4 comparisons here",
+    "Spam excluded from binary target",
+    "Source rights/privacy and publication reuse require separate assessment"
+  ],
+  "output_sha256": {
+    "README.txt": "73519d62e45eb944d81e31e8f01904bfac573ba2e42ace7639e782fbc19e6a4e",
+    "metrics.csv": "e49481863799cfbaf5f6356b6f87c49eabc81b8554f4570aabef987369c212f9",
+    "paired_effects.csv": "f186aa2e71ae34fedb9054fa9cec96ec12d30daa72197b2a45480ce02f6792fd",
+    "summary.json": "87ef9f4eb2254358c0393d1f0f63b3cae324368f3e7f68bd5fb65f32b501c42b"
+  },
+  "runner": "GitHub Actions ubuntu-latest CPU",
+  "workflow_run": "41470243897"
+}\n

@@ -1,0 +1,36 @@
+{
+  "release": "N07-E03-ClassicalCV-v1.0-2026-11-02",
+  "status": "GITHUB_ACTIONS_REAL_DATA_COMPLETED",
+  "selftest": "PASS",
+  "source": "same D2 pinned source as N05; no external source",
+  "inner_cv": "3-fold StratifiedKFold on N05 train originals; TF-IDF fitted per fold in sklearn Pipeline",
+  "model_selection": "highest mean inner-CV average precision per family, tie-break lexical name",
+  "selection": {
+    "word_lr": "word_lr_C3.0",
+    "word_nb": "word_nb_alpha0.1",
+    "char_lr": "char_lr_C3.0",
+    "word_trigram_lr": "word_trigram_lr_C1.0"
+  },
+  "lightgbm": "not-installed: SKIPPED (no implicit network install)",
+  "sklearn": "1.5.2",
+  "reported_variants": [
+    "original",
+    "gpt4o",
+    "deepseek",
+    "randomapi"
+  ],
+  "limitations": [
+    "Same already observed N05 held-out test; not a newly sealed external test",
+    "Not independent AI-authored legitimate mail; source-annotated original and rewrites",
+    "CV is train-only, but published test remains exploratory for research questions shaped by N05",
+    "Calibration not separately fitted for new model families",
+    "Multiple-comparison p-values are exploratory and not adjusted"
+  ],
+  "files": {
+    "inner_cv_scores.csv": "63238f799e61d7538552e0fe73aee8797178546ddc760d2c7c32f963761362d8",
+    "model_comparison.csv": "77c3cf3e215eb2ba8b897db4dcaf6af653bca7ed5f1ef197ec2c105c972aa40d",
+    "paired_effects.csv": "1ccd2bc2874361ef308df1df08aa0b49293dfe362b36dab42ba6d5da850ec9a8"
+  },
+  "runner": "GitHub Actions ubuntu-latest CPU",
+  "workflow_run": "41470243897"
+}\n

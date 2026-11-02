@@ -1,0 +1,13 @@
+model,provider,class,n,original_errors,rewrite_errors,n_original_correct_rewrite_wrong,n_original_wrong_rewrite_correct,absolute_error_delta,bootstrap_ci95_low,bootstrap_ci95_high,mcnemar_exact_p_two_sided,bootstrap_iterations
+tfidf_logistic,gpt4o,legitimate,142,16,17,1,0,0.007042253521126761,0.0,0.02112676056338028,1.0,10000
+tfidf_logistic,gpt4o,phishing,162,1,0,0,1,-0.006172839506172839,-0.018518518518518517,0.0,1.0,10000
+tfidf_logistic,deepseek,legitimate,142,16,16,1,1,0.0,-0.02112676056338028,0.02112676056338028,1.0,10000
+tfidf_logistic,deepseek,phishing,162,1,0,0,1,-0.006172839506172839,-0.018518518518518517,0.0,1.0,10000
+tfidf_logistic,randomapi,legitimate,142,16,17,1,0,0.007042253521126761,0.0,0.02112676056338028,1.0,10000
+tfidf_logistic,randomapi,phishing,162,1,0,0,1,-0.006172839506172839,-0.018518518518518517,0.0,1.0,10000
+tfidf_linear_svm_calibrated,gpt4o,legitimate,142,14,15,1,0,0.007042253521126761,0.0,0.02112676056338028,1.0,10000
+tfidf_linear_svm_calibrated,gpt4o,phishing,162,0,0,0,0,0.0,0.0,0.0,1.0,10000
+tfidf_linear_svm_calibrated,deepseek,legitimate,142,14,15,1,0,0.007042253521126761,0.0,0.02112676056338028,1.0,10000
+tfidf_linear_svm_calibrated,deepseek,phishing,162,0,0,0,0,0.0,0.0,0.0,1.0,10000
+tfidf_linear_svm_calibrated,randomapi,legitimate,142,14,15,1,0,0.007042253521126761,0.0,0.02112676056338028,1.0,10000
+tfidf_linear_svm_calibrated,randomapi,phishing,162,0,1,1,0,0.006172839506172839,0.0,0.018518518518518517,1.0,10000

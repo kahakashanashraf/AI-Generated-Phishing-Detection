@@ -1,0 +1,32 @@
+{
+  "release": "N10-E06-Figures-v1.0-2026-11-02",
+  "status": "GITHUB_ACTIONS_REAL_DATA_COMPLETED",
+  "source_datasets": [
+    "HarmJ0y D2",
+    "E-PhishLLM published synthetic corpus"
+  ],
+  "scope": "Aggregate-only descriptive tables and figures; draft manuscript material, not publication claim",
+  "scientific_warnings": [
+    "N05 and later D2 test already explored; not a fresh holdout",
+    "E-PhishLLM is a synthetic AI-authored corpus and differs in theme, language and generator",
+    "None of these figures by itself establishes a new contribution or causal AI-style discrimination",
+    "Figures generated before independent human pair-label review and source-rights gate"
+  ],
+  "outputs": {
+    "fig01_d2_legitimate_fpr.pdf": "0155b0af51265899f8bb9d23074afeba5c5925fa65820eb59683449b83582f85",
+    "fig01_d2_legitimate_fpr.png": "9903cb7d5d7070aca312add5dddc2d1654836522c08f14fe35bb670f8817d390",
+    "fig02_paired_legitimate_delta.pdf": "b6a14a9524b4c8a1cf052ad86466f132da675d453065e9e6a435be17626d4b54",
+    "fig02_paired_legitimate_delta.png": "40185561e7ccb8b6cb9a65b05d441119527fa190011ef21b5e9488a2cafe5c2d",
+    "fig03_external_fpr_recall.pdf": "f202c4e6bbafd0cf3e20111517b5ef1caaa34862fa887f25ba741fd91327eb65",
+    "fig03_external_fpr_recall.png": "319edfd9ad742e7db9da808c204668ffe52e2674d8192efbaf6c309a080cc18c",
+    "fig04_selective_risk_coverage.pdf": "913a18938a19370d2d94b750a32215ce207d9dbb6e584756a31df0f0dbefa75b",
+    "fig04_selective_risk_coverage.png": "8c63b0ede4a2755862c5e0bd360bcea23d65926ded13b0fa1424307681838f7b",
+    "table01_n05_original_and_rewrites.csv": "e49481863799cfbaf5f6356b6f87c49eabc81b8554f4570aabef987369c212f9",
+    "table02_paired_exact_tests.csv": "6c4ac18f594ebbb72143c2e661f3e679fef7eed4502ff96f52853f2613e9797b",
+    "table03_n07_cv_selected.csv": "77c3cf3e215eb2ba8b897db4dcaf6af653bca7ed5f1ef197ec2c105c972aa40d",
+    "table04_external_model_comparison.csv": "7d9c756e4a422085e803c2de09518e6585228dd24afed2d0269b0f20f7cea74b",
+    "table05_style_evidence_ablation.csv": "7e6682a380efe405c606e47f7f7e2e9ad6a1f5ec205eb0c522e208fd8faa785d"
+  },
+  "runner": "GitHub Actions ubuntu-latest CPU",
+  "workflow_run": "41470243897"
+}\n

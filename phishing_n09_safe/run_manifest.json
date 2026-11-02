@@ -1,0 +1,22 @@
+{
+  "release": "N09-E05-EvidenceStyleAblation-v1.0-2026-11-02",
+  "status": "GITHUB_ACTIONS_REAL_DATA_COMPLETED",
+  "selftest": "PASS",
+  "training": "D2 original train IDs from N05 only; feature selection uses inner train CV; threshold uses D2 validation",
+  "selected_configurations": {
+    "style_only": "style_only",
+    "evidence_proxy_only": "evidence_proxy_only",
+    "evidence_fusion": "fusion_0.5"
+  },
+  "feature_warning": "Hand-coded token patterns are lexical evidence PROXIES, not independently verified security facts.",
+  "novelty_warning": "Security-evidence fusion is a candidate method, NOT proven novel or superior until a controlled external outcome.",
+  "external_warning": "E-PhishLLM synthetic external source has topic/generator/language confounds; not causal AI-bias data.",
+  "files": {
+    "inner_cv_ablation.csv": "b532e66dd585ec37dac885b4dea030ddd09500745e3959534366a58547b4dcab",
+    "d2_ablation.csv": "1519cc0e33318486dc8045713f62d9046fdecf68800d14cdefaa67baa5db78db",
+    "external_ablation.csv": "7e6682a380efe405c606e47f7f7e2e9ad6a1f5ec205eb0c522e208fd8faa785d",
+    "paired_legitimate_ablation.csv": "5d6a4eb811d4f84df938dc11254a2f771ab7303d7df457fbb801f7522fdcc581"
+  },
+  "runner": "GitHub Actions ubuntu-latest CPU",
+  "workflow_run": "41470243897"
+}\n

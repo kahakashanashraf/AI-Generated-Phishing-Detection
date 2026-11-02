@@ -1,0 +1,18 @@
+{
+  "release": "N06-E02-PairedStats-v1.0-2026-11-02",
+  "status": "LOCAL_SYNTHETIC_TEST_PASSED; REAL_RESULTS_ONLY_AFTER_KAGGLE_EXECUTION",
+  "n06_synthetic_selftest": "PASS",
+  "parent_group_reused_from": "N05-E01-v1.0-2026-11-02",
+  "seed": 2026,
+  "bootstrap_iterations": 10000,
+  "analysis": "exact McNemar + paired bootstrap by original parent ID; exact binomial error-rate CIs; selective risk-coverage",
+  "data_label_caution": "source-assigned D2 labels; AI rewrite does not establish independent AI authorship or intent preservation",
+  "inference_caution": "multiple exploratory comparisons not multiplicity-adjusted; small n=142 legitimate; no independent cross-corpus experiment",
+  "files": {
+    "paired_exact_tests.csv": "6c4ac18f594ebbb72143c2e661f3e679fef7eed4502ff96f52853f2613e9797b",
+    "error_rate_intervals.csv": "0be2929d7821b14a4d754417c9e227e3b009d36fd9a1f54a6b69b0f0a242a882",
+    "selective_risk_coverage.csv": "ed35b6205496e6062bb4be5a5aa00ac22d3ef992616252391b4d2c970868fde8"
+  },
+  "runner": "GitHub Actions ubuntu-latest CPU",
+  "workflow_run": "41470243897"
+}\n
