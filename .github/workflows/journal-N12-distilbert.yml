@@ -79,18 +79,17 @@ jobs:
                   print('seed',row['seed'],row['variant'],'FPR',row['fpr'],'recall',row['recall'])
           print('N12 aggregate checksum and full model/seed test coverage PASS')
           PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: journal-N12-safe-transformer-aggregate
+          path: phishing_n12_safe/
+          retention-days: 30
+          if-no-files-found: warn
       - name: Commit only N12 safe aggregate outputs (rebase-safe)
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add phishing_n12_safe/
           git diff --cached --quiet || git commit -m 'results: GitHub N12 DistilBERT two-seed CPU fine-tuning'
-          git fetch origin main
-          git rebase origin/main
-          git push origin HEAD:main
-      - uses: actions/upload-artifact@v4
-        if: success()
-        with:
-          name: journal-N12-safe-transformer-aggregate
-          path: phishing_n12_safe/
-          retention-days: 30
+          # Notebook execution may modify tracked inputs or produce unrelated files.\n          # Preserve ONLY the explicitly staged, privacy-safe aggregate commit.\n          git status --short\n          git restore --worktree .\n          git fetch origin main\n          git rebase origin/main\n          git push origin HEAD:main
