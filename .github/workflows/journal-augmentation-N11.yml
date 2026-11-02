@@ -1,0 +1,72 @@
+name: journal-augmentation-N11
+on:
+  push:
+    paths:
+      - '.github/workflows/journal-augmentation-N11.yml'
+      - 'notebooks/11_Parent_Safe_LLM_Rewrite_Augmentation.ipynb'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: journal-augmentation-N11
+  cancel-in-progress: false
+
+jobs:
+  augmented-model:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install CPU dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install 'numpy==1.26.4' 'scipy==1.14.1' 'scikit-learn==1.5.2' 'matplotlib==3.9.2' 'nbformat==5.10.4' 'nbclient==0.10.2' 'ipykernel==6.29.5'
+      - name: Execute N05-N11 (pinned sources)
+        run: |
+          python - <<'PY'
+          import nbformat,nbclient
+          notebook='notebooks/11_Parent_Safe_LLM_Rewrite_Augmentation.ipynb'
+          nb=nbformat.read(notebook,as_version=4)
+          nbformat.validate(nb)
+          for i,c in enumerate(nb.cells):
+              if c.cell_type=='code':compile(c.source,f'cell_{i}.py','exec')
+          nbclient.NotebookClient(nb,timeout=2400,kernel_name='python3',allow_errors=False).execute()
+          print('N11 notebook successfully completed; code cells',len([c for c in nb.cells if c.cell_type=='code']))
+          PY
+      - name: Verify N11 result integrity
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json,hashlib,csv
+          out=Path('phishing_n11_safe')
+          m=json.loads((out/'run_manifest.json').read_text())
+          for fn,expected in m['files'].items():
+              actual=hashlib.sha256((out/fn).read_bytes()).hexdigest()
+              assert actual==expected,(fn,actual,expected)
+          rows=list(csv.DictReader((out/'augmentation_metrics.csv').open()))
+          assert len(rows)==20,len(rows)
+          assert {'orig_only','benign_rewrites','all_rewrites','gpt4o_only'}==set(r['strategy'] for r in rows)
+          assert all(int(r['n'])>100 for r in rows)
+          print('N11 aggregate checksums and 4-by-5 model comparisons PASS')
+          for row in rows:
+              if row['variant']=='ephishllm_english_external':
+                  print(row['strategy'],'external FPR',row['fpr'],'phishing recall',row['recall'])
+          PY
+      - name: Commit N11 safe aggregate evidence
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add phishing_n11_safe/
+          git diff --cached --quiet || git commit -m 'results: N11 parent-safe rewrite augmentation aggregate evidence'
+          git push origin HEAD:main
+      - uses: actions/upload-artifact@v4
+        with:
+          name: journal-N11-safe-aggregate
+          path: phishing_n11_safe/
+          retention-days: 30
