@@ -1,0 +1,11 @@
+{
+  "release": "N03-PAIR-v1.3-FULLTEXT-2026-11-02",
+  "review_rows": 142,
+  "unique_review_ids": 142,
+  "has_truncation_marker": false,
+  "reviewer_aid_file_created_private": true,
+  "privacy_status": "MANUAL_PII_CHECK_REQUIRED",
+  "full_text_status": "RECOVERED_FROM_SHA256_VERIFIED_PINNED_SOURCE",
+  "human_annotation_status": "PENDING",
+  "training_gate": "NO_GO"
+}
