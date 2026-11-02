@@ -1,0 +1,87 @@
+{
+  "release": "N05-E01-v1.0-2026-11-02",
+  "utc": "2026-11-02T14:36:15.659486+00:00",
+  "status": "EXECUTED_SOURCE_ASSIGNED_LABEL_BENCHMARK",
+  "runtime_seconds": 8.63,
+  "python": "3.13.15",
+  "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+  "self_test": "PASS",
+  "source_integrity": {
+    "original": {
+      "sha256": "b48026c91e8db399ea321d20e7e709f538aff685b9073d1a312ec09bee2e6d9c",
+      "bytes": 7370034,
+      "origin": "pinned_download"
+    },
+    "deepseek": {
+      "sha256": "352dbd0fb7e065e819fb126e704b60d3c574f0ab8ea46ddb48306963d3787e0a",
+      "bytes": 7528880,
+      "origin": "pinned_download"
+    },
+    "gpt4o": {
+      "sha256": "caac542ff660e5003eab68b908133ea42d9947f67284435ded9ac34b6a77b794",
+      "bytes": 7079916,
+      "origin": "pinned_download"
+    },
+    "randomapi": {
+      "sha256": "2568744267134c722ad247f937deb154aad44cc90e85a5ccadb652c3d1cd71d7",
+      "bytes": 7124691,
+      "origin": "pinned_download"
+    }
+  },
+  "source_class_counts": {
+    "Phishing": 1090,
+    "Phishing Simulation": 35,
+    "Spam": 1000,
+    "Valid": 950
+  },
+  "excluded_ambiguous_or_duplicate_parent_ids": 14,
+  "split_counts": {
+    "train": 1418,
+    "validation": 304,
+    "test": 304
+  },
+  "split_label_counts": {
+    "train": {
+      "0": 665,
+      "1": 753
+    },
+    "val": {
+      "0": 143,
+      "1": 161
+    },
+    "test": {
+      "0": 142,
+      "1": 162
+    }
+  },
+  "source_rewrite_coverage": {
+    "gpt4o": {
+      "usable_pairs": 304,
+      "type_conflicts_excluded": 0,
+      "identical_to_training_text": 0
+    },
+    "deepseek": {
+      "usable_pairs": 304,
+      "type_conflicts_excluded": 0,
+      "identical_to_training_text": 0
+    },
+    "randomapi": {
+      "usable_pairs": 304,
+      "type_conflicts_excluded": 0,
+      "identical_to_training_text": 0
+    }
+  },
+  "models": [
+    "tfidf_logistic",
+    "tfidf_linear_svm_calibrated"
+  ],
+  "limitations": [
+    "D2 labels are source-assigned, not independent gold",
+    "GPT-4o/DeepSeek outputs may be model-rewritten but intent not individually human verified",
+    "This is matched-parent robustness, not independent unseen-corpus evaluation",
+    "RandomAPI is not a verified single-generator identifier",
+    "No cross-language D4 comparisons here",
+    "Spam excluded from binary target",
+    "Source rights/privacy and publication reuse require separate assessment"
+  ]
+}
