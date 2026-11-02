@@ -1,0 +1,37 @@
+name: transformer-notebook-static-validation
+on:
+  push:
+    paths:
+      - '.github/workflows/transformer-notebook-static.yml'
+      - 'notebooks/12_DistilBERT_Fine_Tune_External_Reliability.ipynb'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate N12 notebook and hard data/model pins
+        run: |
+          python - <<'PY'
+          import ast,json,pathlib
+          p=pathlib.Path('notebooks/12_DistilBERT_Fine_Tune_External_Reliability.ipynb')
+          nb=json.loads(p.read_text())
+          assert nb['nbformat']==4
+          code=[str(c['source']) for c in nb['cells'] if c['cell_type']=='code']
+          assert len(code)==5,len(code)
+          for i,s in enumerate(code):ast.parse(s,filename=f'n12_code_{i}')
+          s=code[-1]
+          assert "MODEL_REVISION='12040accade4e8a0f71eabdb258fecc2e7e948be'" in s
+          assert 'revision=MODEL_REVISION' in s
+          assert 'get_probs(model,external_x)' not in s  # no ad hoc unused prediction pathways
+          assert 'threshold_at_fpr(y_val,val_score,.05)' in s
+          assert 'torch.cuda.is_available()' in s
+          assert 'SEEDS=(2026,2027)' in s
+          print('N12 notebook JSON, 5 code-cell ASTs, immutable model pin, validation selection, GPU gate PASS')
+          PY
