@@ -1,0 +1,31 @@
+{
+  "release": "N14-E10-ParentPairedLogitConsistency-v1.0",
+  "status": "GITHUB_ACTIONS_REAL_DATA_COMPLETED",
+  "hypothesis": "Same-parent LLM rewrites should share phishing logit independent of superficial style",
+  "training_objective": "weighted original+rewrite supervised BCE + lambda/2 mean((logit_rewrite-logit_orig)^2) + 0.0008/2 L2",
+  "source_partition": "N05 train only; no validation/test parent in training",
+  "hyperparameters": {
+    "lambdas": [
+      0,
+      0.2,
+      1.0
+    ],
+    "char_weight": 0.65,
+    "evidence_proxy_weight": 0.2,
+    "max_iter": 90,
+    "l2": 0.0008,
+    "decision_threshold": "D2 validation FPR <= .05"
+  },
+  "limitations": [
+    "External corpus already inspected repeatedly; cross-source model ranking exploratory and cannot establish SOTA or unseen generalization",
+    "LLM rewrites may change phishing meaning; no human semantic adjudication",
+    "Lexical evidence proxies are not verified security metadata",
+    "Prior contrastive consistency and evidence fusion work exists; novelty is unproven",
+    "Any failed D2 phishing recall or high external FPR must be reported as failed mitigation"
+  ],
+  "files": {
+    "paired_objective_model_metrics.csv": "4b5cf36af240dda5bc56f64430c8120a9ec28483905023db490d5fc5a6574014",
+    "training_objective_diagnostics.csv": "81070bd1d5258ffe825c56e0c9c2d2dd0bb5ea3be33ed98a4d00c6172503e828",
+    "heldout_paired_prediction_consistency.csv": "14d0b9c33511c3ba20e69983df5eb4a3485971ee4e00e067665a47ca7cb63dd2"
+  }
+}
