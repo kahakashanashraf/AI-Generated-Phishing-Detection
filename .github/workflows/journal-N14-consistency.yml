@@ -1,0 +1,83 @@
+name: journal-N14-paired-consistency-training
+on:
+  push:
+    paths:
+      - '.github/workflows/journal-N14-consistency.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: journal-N14-consistency
+  cancel-in-progress: false
+jobs:
+  train-and-evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 115
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Scientific CPU runtime
+        run: |
+          python -m pip install 'numpy==1.26.4' 'scipy==1.14.1' 'scikit-learn==1.5.2' 'matplotlib==3.9.2' 'nbformat==5.10.4' 'nbclient==0.10.2' 'ipykernel==6.29.5'
+      - name: Train four N14 objectives and compare D2/external
+        env:
+          OMP_NUM_THREADS: '4'
+          OPENBLAS_NUM_THREADS: '4'
+          MKL_NUM_THREADS: '4'
+        run: |
+          python - <<'PY'
+          import nbformat,nbclient,ast,time
+          p='notebooks/14_Parent_Paired_Consistency_Training.ipynb'
+          nb=nbformat.read(p,as_version=4)
+          nbformat.validate(nb)
+          for i,c in enumerate(nb.cells):
+              if c.cell_type=='code':ast.parse(c.source,filename=f'cell_{i}.py')
+          start=time.monotonic()
+          nbclient.NotebookClient(nb,kernel_name='python3',timeout=6500,allow_errors=False).execute()
+          print('N14 real source training DONE, seconds',round(time.monotonic()-start,1))
+          PY
+      - name: Validate source-safe outcome matrix
+        run: |
+          python - <<'PY'
+          import csv,json,hashlib,pathlib
+          p=pathlib.Path('phishing_n14_safe')
+          m=json.loads((p/'run_manifest.json').read_text())
+          for fn,h in m['files'].items():
+              assert hashlib.sha256((p/fn).read_bytes()).hexdigest()==h
+          rows=list(csv.DictReader((p/'paired_objective_model_metrics.csv').open()))
+          assert len(rows)==20,len(rows)
+          expected={'d2_original','d2_gpt4o','d2_deepseek','d2_randomapi','ephishllm_english_external'}
+          by={}
+          for r in rows:
+              by.setdefault(r['model'],set()).add(r['variant'])
+              assert 0<=float(r['fpr'])<=1
+              assert 0<=float(r['recall'])<=1
+          assert len(by)==4 and all(s==expected for s in by.values()),by
+          assert len(list(csv.DictReader((p/'training_objective_diagnostics.csv').open())))==4
+          assert len(list(csv.DictReader((p/'heldout_paired_prediction_consistency.csv').open())))==24
+          for r in rows:
+              if r['variant'] in ('d2_original','ephishllm_english_external'):
+                  print(r['model'],r['variant'],'FPR',r['fpr'],'recall',r['recall'])
+          print('N14 model matrix, checksums, source-safe outcomes PASS')
+          PY
+      - name: Commit only N14 safe aggregates
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add phishing_n14_safe/
+          git diff --cached --quiet || git commit -m 'results: N14 real paired-consistency optimization and source comparison'
+          # Cumulative notebooks also regenerate older aggregate outputs, not part of this commit.
+          git restore --worktree -- .
+          test -z "$(git status --porcelain --untracked-files=no)"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: journal-N14-safe-model-metrics
+          path: phishing_n14_safe/
+          retention-days: 30
