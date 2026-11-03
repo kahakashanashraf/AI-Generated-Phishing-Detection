@@ -1,0 +1,70 @@
+name: journal-N13-failure-diagnostics
+on:
+  push:
+    paths:
+      - '.github/workflows/journal-N13-diagnostic.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: journal-N13-diagnostic
+  cancel-in-progress: false
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 85
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install CPU scientific dependencies
+        run: |
+          python -m pip install 'numpy==1.26.4' 'scipy==1.14.1' 'scikit-learn==1.5.2' 'matplotlib==3.9.2' 'nbformat==5.10.4' 'nbclient==0.10.2' 'ipykernel==6.29.5'
+      - name: Execute pinned N05-N13 diagnostics
+        run: |
+          python - <<'PY'
+          import nbformat,nbclient,ast,time
+          p='notebooks/13_False_Alarm_Mechanism_and_Source_Shift.ipynb'
+          nb=nbformat.read(p,as_version=4)
+          nbformat.validate(nb)
+          for i,c in enumerate(nb.cells):
+              if c.cell_type=='code':ast.parse(c.source,filename=f'cell{i}')
+          start=time.monotonic()
+          nbclient.NotebookClient(nb,kernel_name='python3',timeout=2400,allow_errors=False).execute()
+          print('N13 full real source diagnostics PASS, elapsed:',round(time.monotonic()-start,1),'seconds')
+          PY
+      - name: Verify aggregate output manifest and privacy
+        run: |
+          python - <<'PY'
+          import pathlib,json,hashlib,csv
+          out=pathlib.Path('phishing_n13_safe')
+          m=json.loads((out/'run_manifest.json').read_text())
+          assert len(m['files'])==4
+          for fn,h in m['files'].items():
+              p=out/fn;assert p.is_file()
+              assert hashlib.sha256(p.read_bytes()).hexdigest()==h
+              headers=next(csv.reader(p.open()))
+              forbidden=['subject','body','raw_email','recipient','sender','nearest_id','message_text']
+              assert not any(x in headers for x in forbidden),headers
+          stats=list(csv.DictReader((out/'score_distribution_shift.csv').open()))
+          assert len(stats)==4
+          print('N13 verified manifest, four aggregate tables, 4 class-conditional source summaries PASS')
+          for r in stats:print(r['dataset'],r['class'],'median score',r['score_median'])
+          PY
+      - name: Commit N13 aggregate evidence
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add phishing_n13_safe/
+          git diff --cached --quiet || git commit -m 'results: N13 diagnostic source shift and false-alarm aggregates'
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: journal-N13-safe-diagnostics
+          path: phishing_n13_safe/
+          retention-days: 30
