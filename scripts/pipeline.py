@@ -47,6 +47,14 @@ STEPS = {
     "05-transformers": dict(builder=["build_05.py", "transformers"], nb="05_Detector_Training_and_Sealed_Scoring.ipynb",
                             slug=f"{OWNER}/05-training-transformers", deps=[f"03-{g}" for g in GEN], sources=[K01, *GEN.values()],
                             safe="safe_05/transformers", results="results/05_training/transformers"),
+    "04-kit": dict(builder=["build_04.py", "kit"], nb="04_Human_Validation.ipynb", slug=f"{OWNER}/04-human-validation-kit",
+                   deps=["03-qwen2.5-7b", "03-phi-3.5-mini"], sources=[K01, GEN["qwen2.5-7b"], GEN["phi-3.5-mini"]],
+                   safe="safe_04/kit", results="results/04_human_validation/kit"),
+    # 04-score waits until both raters' answers and the adjudication are committed (docs/HUMAN_VALIDATION_PROTOCOL.md)
+    "04-score": dict(builder=["build_04.py", "score"], nb="04_Human_Validation.ipynb", slug=f"{OWNER}/04-human-validation-score",
+                     deps=["04-kit"], sources=[f"{OWNER}/04-human-validation-kit"], safe="safe_04/score",
+                     results="results/04_human_validation/score",
+                     requires=[f"results/04_human_validation/ratings/{n}" for n in ("rater_A.csv", "rater_B.csv", "adjudication.csv")]),
     "06": dict(builder=["build_06.py"], nb="06_Zero_Shot_LLM_Judge.ipynb", slug=f"{OWNER}/06-zero-shot-llm-judge",
                deps=["03-qwen2.5-7b", "03-phi-3.5-mini"], sources=[K01, GEN["qwen2.5-7b"], GEN["phi-3.5-mini"]],
                safe="safe_06", results="results/06_judge"),
@@ -56,7 +64,8 @@ STEPS = {
                         f"{OWNER}/05-training-transformers", f"{OWNER}/06-zero-shot-llm-judge"],
                safe="safe_07", results="results/07_confirmatory"),
 }
-ORDER = ["02", "03-qwen2.5-7b", "03-phi-3.5-mini", "03-olmo-2-7b", "06", "05-classical", "05-transformers", "07"]
+ORDER = ["02", "03-qwen2.5-7b", "03-phi-3.5-mini", "03-olmo-2-7b", "04-kit", "06", "05-classical", "05-transformers", "07",
+         "04-score"]
 
 
 def sh(*args, cwd=REPO, check=True) -> str:
@@ -98,6 +107,14 @@ def git_sync_commit(paths: list[str], message: str) -> str:
     sh("git", "pull", "--rebase", "--autostash", "-q", "origin", "main")
     sh("git", "push", "-q", "origin", "main")
     return sh("git", "rev-parse", "HEAD")
+
+
+def available(name: str) -> bool:
+    """The step's builder exists and every committed input it requires is present (tracked by git, not just on disk)."""
+    s = STEPS[name]
+    if not (REPO / "scripts" / "notebook_builders" / s["builder"][0]).exists():
+        return False
+    return all(sh("git", "ls-files", r, check=False) for r in s.get("requires", []))
 
 
 def prepare(name: str) -> Path:
@@ -160,8 +177,8 @@ def main(only: list[str] | None) -> int:
                 st[n]["state"] = "blocked"; log(f"{n}: blocked by a failed dependency"); save_state(st); continue
             if not all(st.get(d, {}).get("state") == "done" for d in deps):
                 continue
-            if not (REPO / "scripts" / "notebook_builders" / STEPS[n]["builder"][0]).exists():
-                continue   # builder not written yet; the step waits
+            if not available(n):
+                continue   # builder or required committed inputs (for example ratings) not there yet; the step waits
             if kstatus(STEPS[n]["slug"]) in ("RUNNING", "QUEUED") and st[n].get("adopt", True):
                 st[n].update(state="running", adopted=True); log(f"{n}: adopted an already running kernel"); save_state(st)
                 running.append(n); continue
@@ -177,7 +194,7 @@ def main(only: list[str] | None) -> int:
             break
         if not any(st[n]["state"] == "running" for n in todo) and not any(
                 st[n]["state"] == "pending" and all(st.get(d, {}).get("state") == "done" for d in STEPS[n]["deps"])
-                and (REPO / "scripts" / "notebook_builders" / STEPS[n]["builder"][0]).exists() for n in todo):
+                and available(n) for n in todo):
             log("nothing runnable: waiting for builders or dependencies"); break
         time.sleep(POLL)
     log("pipeline stop: " + json.dumps({n: st[n]["state"] for n in todo}))

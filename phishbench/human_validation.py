@@ -266,6 +266,18 @@ def cohen_kappa(a, b, categories=None) -> float:
     return float("nan") if pe >= 1.0 else (po - pe) / (1 - pe)
 
 
+def gwet_ac1(a, b, categories) -> float:
+    """Gwet's AC1 (supplementary to kappa; robust to the high-prevalence 'kappa paradox')."""
+    a, b = list(a), list(b)
+    n, cats = len(a), list(categories)
+    if n == 0 or n != len(b) or len(cats) < 2:
+        raise ValueError("AC1 needs two equal-length, non-empty rating lists and at least two categories")
+    po = sum(x == y for x, y in zip(a, b)) / n
+    ca, cb = Counter(a), Counter(b)
+    pe = sum(((ca[c] + cb[c]) / (2 * n)) * (1 - (ca[c] + cb[c]) / (2 * n)) for c in cats) / (len(cats) - 1)
+    return (po - pe) / (1 - pe)
+
+
 def kappa_bootstrap_ci(a, b, categories=None, iterations: int = 2000, seed: int = 2026) -> tuple[float, float]:
     """Percentile 95% CI for kappa from an item bootstrap (NaN draws are dropped)."""
     a, b = np.asarray(a, dtype=object), np.asarray(b, dtype=object)
@@ -340,7 +352,8 @@ def summarize(key: list[dict], ratings_a: list[dict], ratings_b: list[dict], adj
                                   "raw_agreement": round(sum(x == y for x, y in zip(xa, xb)) / len(ids), 4),
                                   "kappa": None if np.isnan(k) else round(k, 4),
                                   "kappa_ci95_low": None if np.isnan(lo) else round(lo, 4),
-                                  "kappa_ci95_high": None if np.isnan(hi) else round(hi, 4)})
+                                  "kappa_ci95_high": None if np.isnan(hi) else round(hi, 4),
+                                  "gwet_ac1": round(gwet_ac1(xa, xb, cats), 4)})
 
     rates, decisions = [], {}
     gens = sorted({m["generator"] for m in meta.values()})

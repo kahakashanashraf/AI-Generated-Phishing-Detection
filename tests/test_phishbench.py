@@ -462,6 +462,11 @@ class TestHumanValidation(unittest.TestCase):
         pe = (ca["y"] * cb["y"] + ca["n"] * cb["n"]) / 10000
         self.assertAlmostEqual(hv.cohen_kappa(a, b), (po - pe) / (1 - pe))
         self.assertTrue(np.isnan(hv.cohen_kappa(["x"] * 5, ["x"] * 5)))
+        # AC1 stays high under extreme prevalence where kappa collapses to 0
+        p, q = ["x"] * 19 + ["x"], ["x"] * 19 + ["y"]
+        self.assertAlmostEqual(hv.cohen_kappa(p, q, ["x", "y"]), 0.0)
+        pi_y = 1 / 40; pe = 2 * pi_y * (1 - pi_y)
+        self.assertAlmostEqual(hv.gwet_ac1(p, q, ["x", "y"]), (0.95 - pe) / (1 - pe))
         lo, hi = hv.kappa_bootstrap_ci(a, b, iterations=300, seed=0)
         self.assertLess(lo, hv.cohen_kappa(a, b))
         self.assertGreater(hi, hv.cohen_kappa(a, b))

@@ -19,7 +19,7 @@ Run with `scripts/kaggle_run.py` (push, wait, collect). Only `safe_XX/` folders,
 | 01 | `01_Data_Sources_Audit_and_Locked_Cells` | Pinned downloads; label and lineage audit (D1 label semantics, D2 taxonomy, D2→D3 reuse); exact N05 split reproduction; R2 pool; MinHash and exact decontamination; seeded locked cells; locked manifest | internet, 2 Kaggle datasets | `results/01_data/` |
 | 02 | `02_Study1_Exploratory_Reproduction` | Re-executes the frozen Study 1 notebooks (`archive_v1/10–14`) unchanged in this image, with a cell-level comparison against the GitHub Actions originals | internet | `results/02_study1/` |
 | 03 | `03_Graded_AI_Assistance_Generation` (×3 kernels) | L1–L4 for Qwen2.5-7B and Phi-3.5-mini (test-only); L3/L4 training-side for OLMo-2-7B; filters; manipulation check | 01 | `results/03_generation/` |
-| 04 | `04_Human_Validation_Kit` | Private two-rater annotation sheets; κ and preservation rate | 03 | `results/04_validation/` |
+| 04 | `04_Human_Validation` (kit and score kernels) | **kit:** blinded §3.5 sample (400 RW and 100 DN), one private workbook per rater, key hash committed. **score:** κ (plus AC1), label-preservation per generator with Wilson CI, §3.5 rule (`docs/HUMAN_VALIDATION_PROTOCOL.md`) | 01, 03; score also needs committed ratings | `results/04_human_validation/` |
 | 05 | `05_Detector_Training_and_Mitigations` | D1–D5 under R1 and R2, plus M0–M5 variants; validation-only selection | 01, 03 | `results/05_training/` |
 | 06 | `06_Zero_Shot_LLM_Judge` | Granite-3.1-8B zero-shot scores | 01, 03 | `results/06_judge/` |
 | 07 | `07_Confirmatory_Evaluation` | **Single locked run**: PE0–PE3, H2, H4, H6; per-row predictions without text (D009) | 01, 03, 05, 06 | `results/07_confirmatory/` |

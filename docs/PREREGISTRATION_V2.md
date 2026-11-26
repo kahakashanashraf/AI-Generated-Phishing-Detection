@@ -320,3 +320,22 @@ Mitigations are claimed as useful **only** if they pass all of §5 (a), (b) and 
 - *Validation:* τ5 and τ1 come from R1 validation. The argmax decision rate is reported as secondary.
 - *Why:* §4 fixed the judge model and the score definition but not these mechanics. They are set here before any score exists.
 - *Results affected:* D6 only.
+
+**Deviation 9 (2026-11-26, before any generated text is drawn or rated): human-validation details the protocol left open.**
+- *Generators:* §3.5 covers the two test generators, Qwen2.5-7B and Phi-3.5-mini, whose RW and DN outputs enter the confirmatory endpoints. The §3.5 rule ("RW results reported only as sensitivity analysis") applies to them. OLMo-2-7B is train-only (M1 and M5) and is not rated. The D2-provided rewrites are not rated either, because the manipulation check covers them (deviation 5).
+- *Strata:* RW items are stratified generator × source × label, with 50 per stratum (2 × 2 × 50 = 200 per label). DN items are stratified generator × source, with 25 per stratum (100 in total).
+- *Parents:* within each source and label, the two generators get disjoint parents where possible. Any reuse is counted and reported.
+- *Draw:* seeded and independent of input order (`phishbench.human_validation`, seed 2026).
+- *Blinding:*
+  - Items carry opaque IDs, so generator, cell and level are hidden.
+  - Links are defanged (`hxxp`, `www[.]`) in every item alike.
+  - Each rater gets their own workbook in their own seeded order.
+  - The key stays private. Its SHA-256 is committed by the kit run before rating starts.
+- *Question (b)* is answered as `no / added / removed / added_and_removed`.
+- *Label preservation:* the final label is the shared answer of the two raters, or the adjudicated answer where they disagree. "Unsure" counts as **not preserved**, which is conservative. The rate is per generator, with a Wilson 95% CI, and the §3.5 rule uses its point estimate.
+- *Agreement:*
+  - Cohen's κ, from the independent ratings before adjudication, with a 2,000-draw item-bootstrap 95% CI. The target is κ ≥ 0.60 for (c).
+  - Gwet's AC1 and raw agreement are reported as supplementary measures, because κ is unstable when one category dominates.
+- *Release:* only item IDs and answers, with no text, are committed (`results/04_human_validation/`). Rater comments are never released.
+- *Why:* §3.5 fixed the sample sizes, questions and rule but not these mechanics. They are set before any item is drawn or rated.
+- *Results affected:* human validation only. No detector endpoint changes.

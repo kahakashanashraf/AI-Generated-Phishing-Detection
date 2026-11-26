@@ -18,3 +18,5 @@ models/
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+# rating workbooks contain email text: never commit them
+*.xlsx

@@ -98,3 +98,13 @@ None of these may be scored before N20.
 - New suite: 01 (data audit plus locked cells; merges v1 01–04 and N15), 02 (Study 1 re-execution), 03 (generation), 04 (validation), 05 (training), 06 (judge), 07 (confirmatory evaluation), 08 (paper package).
 - The pre-registration's N17–N23 map to 04–08. This is renumbering only, with no protocol change.
 - Study 1 results re-executed in the unified image become the canonical Study 1 numbers. Differences from the GitHub Actions originals are reported in `results/02_study1/reproduction_report.csv`.
+
+## D014 — 2026-11-26 — Notebook 04 (human validation) as two kernels; deviation 9
+- **`04-human-validation-kit`** runs as soon as the Qwen and Phi generations complete. It draws the §3.5 sample and writes one private workbook per rater, plus a private key whose SHA-256 is committed.
+- **`04-human-validation-score`** runs only after both raters' answers (`rater_A.csv`, `rater_B.csv`, without text) and the adjudication file are committed. It reports κ, Gwet's AC1, the preservation rates and the §3.5 decision per generator.
+- **What the pipeline does:** it starts 04-score automatically once those three files are tracked in git.
+- **What 08 does:** it reads `decisions.json` to mark any generator below 90% label preservation as sensitivity-only in the paper tables.
+- **Owner actions before rating:**
+  - Confirm the institution's policy on author annotation (§8).
+  - Name the second rater.
+  - Follow `docs/HUMAN_VALIDATION_PROTOCOL.md`.
