@@ -1,6 +1,6 @@
 # Study 2 pre-registration: false alarms on AI-written legitimate email (style versus source)
 
-**Status: FROZEN v2.1 on 2026-11-26.** The owner instructed us to proceed to the actual experiments. The freezing commit SHA is recorded in DECISION_LOG D010. Any later change must be appended in §9 as a deviation. D009 (public per-row predictions) is still pending, so per-row predictions stay private.
+**Status: FROZEN v2.1 on 2026-11-26.** The owner instructed us to proceed to the actual experiments. The freezing commit SHA is recorded in DECISION_LOG D010. Any later change must be appended in §9 as a deviation. D009 (public per-row predictions without text) was approved on 2026-11-26 (D012).
 Changes from v2.0:
 - graded AI-assistance levels L0–L4 and a primary trend endpoint PE0;
 - modern Nazario 2023–2025 phishing (CC BY 4.0) as a security-cost test;
@@ -259,7 +259,7 @@ Mitigations are claimed as useful **only** if they pass all of §5 (a), (b) and 
   - code with a Zenodo DOI;
   - prompts, model revisions and seeds;
   - locked ID manifests;
-  - per-row predictions keyed by pseudonymous sample IDs that are derivable from the public source datasets (no text). This requires approval as decision D009;
+  - per-row predictions keyed by pseudonymous sample IDs that are derivable from the public source datasets (no text). D009 was approved on 2026-11-26 (D012);
   - aggregate tables and figure source data.
 - **Third-party data.**
   - D2 has no licence, so it is cited with its commit and not redistributed.

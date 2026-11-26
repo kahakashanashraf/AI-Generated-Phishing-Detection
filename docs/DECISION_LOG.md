@@ -84,3 +84,8 @@ None of these may be scored before N20.
 
 **Also observed:** many D2-provided rewrites are near-copies of their parents (cross-cell near-duplicates: randomapi 74 and DeepSeek 60 of 139 legitimate, against GPT-4o 14). This is a plausible contributor to Study 1's paraphrase null. Deviation 5 adds a manipulation check.
 **Action:** fixed the loader and added a unit test, then re-ran N15 (version 2). Only run 2 outputs are committed.
+
+## D012 — 2026-11-26 — Owner decisions: Research Article route; D009 approved
+- **Submission route:** a PLOS ONE **Research Article** (Route B). Study 2 runs to completion before submission. The frozen pre-registration (commit `a17a720`) is cited, and an OSF registration of the frozen file is recommended before N20.
+- **D009 approved.** Per-row predictions will be released publicly. Each row carries the pseudonymous sample ID (derivable from the public sources), cell, generator, level, label, score and decision, with **no** subject, body, URL, sender or other text. Raw and generated text stays private. The legitimate-only generated benchmark text (C1) is released separately, after a PII check, because its parents are already-public Enron or D2 emails. Generated *phishing* text is never released.
+- **Kaggle visibility of Study 1.** N05–N14 ran on GitHub Actions, and N01–N04 ran in the owner's own Kaggle session. They will be re-executed on Kaggle during the N23 reproducibility audit, and their aggregates compared byte for byte with the committed CSVs.
