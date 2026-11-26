@@ -111,7 +111,8 @@ log("code", CODE_COMMIT[:12], "| phishbench", PB_VERSION, "| python", ENV["pytho
 def selftest_cell() -> dict:
     return code("""
 # ---- SELF-TEST: library unit tests run inside this exact Kaggle image ----
-_t = subprocess.run([sys.executable, "-m", "unittest", "tests.test_phishbench", "-q"], cwd=REPO,
+# discover mode imports the test file by path, so a site-packages "tests" package cannot shadow it
+_t = subprocess.run([sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", "test_phishbench.py", "-q"], cwd=REPO,
                     capture_output=True, text=True)
 print(_t.stderr.strip().splitlines()[-1] if _t.stderr.strip() else _t.stdout[-500:])
 assert _t.returncode == 0, "phishbench unit tests failed in this environment:\\n" + _t.stderr[-3000:]
