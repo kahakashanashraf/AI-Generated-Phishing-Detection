@@ -11,10 +11,14 @@ This is the owner's guide to notebook 04. The protocol is in `docs/PREREGISTRATI
 
 The items come from Qwen2.5-7B and Phi-3.5-mini, stratified by generator and source. They are shuffled and carry opaque IDs (`RW-001`, `DN-001`). Links are defanged.
 
-## Before rating starts
-1. **Ethics.** Confirm your institution's policy on author annotation (pre-registration §8). Record the answer in `docs/DECISION_LOG.md`.
-2. **Second rater.** Choose one, ideally a co-author with security or email experience, and record their role (not their personal details) in DECISION_LOG.
+## Before rating starts (deviation 10)
+1. **Roles.** The team has three authors and no institution.
+   - Two authors are the independent raters, **A** and **B**.
+   - The third author is the **coordinator**. The coordinator distributes the workbooks, runs the extraction, and acts as adjudicator of last resort.
+   - Record who takes which role in `docs/DECISION_LOG.md` (D015).
+2. **Ethics.** No approval is sought, because there are no human participants: the raters are authors rating text. The manuscript explains this in its Ethics Statement (draft: `paper/ETHICS_AND_DECLARATIONS.md`). Confirm this route with PLOS ONE staff before submission.
 3. **Check the kit run.** The kit kernel (`04-human-validation-kit`) has finished, and `results/04_human_validation/kit/run_manifest.json` is committed. That file holds `key_sha256`, which fixes the key before anyone rates.
+4. **Nobody opens `key.csv`.** Only the score kernel reads it. This includes the coordinator.
 
 ## Steps
 
@@ -40,8 +44,9 @@ The items come from Qwen2.5-7B and Phi-3.5-mini, stratified by generator and sou
    ```
    This writes `results/04_human_validation/ratings/adjudication.csv`.
 6. **Adjudicate.**
-   - The two raters discuss each row and fill `resolved` with one allowed value.
-   - `note` is optional. Keep it short and never paste email text into it.
+   - Raters A and B discuss each row together and fill `resolved` with one allowed value.
+   - If they still disagree, the coordinator decides. The coordinator does not look at the key.
+   - In `note`, write who decided (`raters` or `coordinator`) and, optionally, a few words of reason. Never put email text in it.
 7. **Commit and push** the three files in `results/04_human_validation/ratings/`. The pipeline then runs `04-human-validation-score` by itself. You can also start it with:
    ```
    python scripts/pipeline.py --only 04-score

@@ -108,3 +108,9 @@ None of these may be scored before N20.
   - Confirm the institution's policy on author annotation (§8).
   - Name the second rater.
   - Follow `docs/HUMAN_VALIDATION_PROTOCOL.md`.
+
+## D015 — 2026-11-26 — Team of three authors, no institution: ethics route and rater roles (deviation 10)
+- **Team.** The study is run by three authors as team research, with no institutional affiliation or IRB.
+- **Ethics.** There are no human participants: the raters are authors rating text. The manuscript's Ethics Statement explains why no approval was needed and gives the privacy assessment for the third-party email datasets. A draft is in `paper/ETHICS_AND_DECLARATIONS.md`.
+- **To do before submission:** email PLOS ONE staff to confirm (a) the ethics route and (b) the affiliation line for authors without an institution. Record the reply here.
+- **Human validation roles.** Two authors rate (A and B) and the third coordinates and adjudicates last. Names go only into the manuscript's CRediT statement. Owner to confirm who takes which role.

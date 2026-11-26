@@ -339,3 +339,18 @@ Mitigations are claimed as useful **only** if they pass all of §5 (a), (b) and 
 - *Release:* only item IDs and answers, with no text, are committed (`results/04_human_validation/`). Rater comments are never released.
 - *Why:* §3.5 fixed the sample sizes, questions and rule but not these mechanics. They are set before any item is drawn or rated.
 - *Results affected:* human validation only. No detector endpoint changes.
+
+**Deviation 10 (2026-11-26, before any rating): ethics route and rater roles in a team without an institution.**
+- *What changed:*
+  - §8 assumed an institution whose author-annotation policy would be confirmed before N17. The study is instead run by a team of three authors with no institutional affiliation and no IRB.
+  - **Ethics route:** no human participants are recruited. The two raters are authors, and they rate machine-generated and public text, not themselves. So no ethics approval is sought. The manuscript's Ethics Statement explains why approval was not needed (PLOS ONE: "the authors must provide a detailed statement explaining why it was not needed"). It also states the privacy assessment of the third-party email data that PLOS ONE asks for. The authors confirm this route with PLOS ONE staff (plosone@plos.org) before submission, and record the answer in DECISION_LOG.
+  - **Roles:**
+    - Two authors are the independent raters (A and B).
+    - The third author is the coordinator. The coordinator distributes the workbooks, runs the extraction, and acts as adjudicator of last resort.
+    - Nobody opens `key.csv`. Only the score kernel reads it.
+  - **Adjudication:**
+    - The two raters first discuss each disagreement.
+    - If they still disagree, the coordinator decides without seeing the key.
+    - Every resolution is logged, with who decided it (`raters` or `coordinator`) recorded in the `note` column.
+- *Why:* the protocol's institutional step cannot apply, and §3.5 did not say what happens when discussion does not resolve a disagreement.
+- *Results affected:* none. This changes procedure only.
