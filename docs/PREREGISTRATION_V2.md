@@ -298,3 +298,10 @@ Mitigations are claimed as useful **only** if they pass all of §5 (a), (b) and 
 - *What changed:* for every generated cell (L1–L4) and for the D2-provided rewrites, we report how far each output moved from its parent. The measures are the MinHash-estimated Jaccard similarity of 5-word shingles, the cosine similarity, and the word-count ratio. The expected order is L1 > L2 > L3 > L4 in similarity.
 - *Why:* N15 found that many D2-provided rewrites are near-copies of their parents (Jaccard ≥ 0.8 for 74 of 139 randomapi and 60 of 139 DeepSeek legitimate rewrites). The dose levels therefore need to be verified directly.
 - *Results affected:* this is descriptive and secondary. It does not change any primary test.
+
+**Deviation 6 (2026-11-26, before any generation): numeric precision per generator.**
+- *What changed:*
+  - Phi-3.5-mini runs in float32. It fits on 2×T4.
+  - Qwen2.5-7B and OLMo-2-7B run in float16, because float32 does not fit, with `remove_invalid_values=True` set during sampling.
+- *Why:* T4 GPUs have no fast bfloat16, and float16 activation overflow can produce NaN or inf logits in these model families. In float32 the problem does not arise for Phi. For the 7B models, any degraded output is rejected by the §3.4 filters, and a fail-fast check on the first batch stops a run whose pass rate is below 0.5.
+- *Results affected:* only the numerical stability of generation. The exclusion counts are reported.

@@ -12,9 +12,9 @@ PARAMS = {
     "SEED": 2026,
     "GENERATOR": GEN,
     "GENERATORS": {
-        "qwen2.5-7b": {"repo": "Qwen/Qwen2.5-7B-Instruct", "role": "test", "kv_budget_gb": 6.0},
-        "phi-3.5-mini": {"repo": "microsoft/Phi-3.5-mini-instruct", "role": "test", "kv_budget_gb": 9.0},
-        "olmo-2-7b": {"repo": "allenai/OLMo-2-1124-7B-Instruct", "role": "train", "kv_budget_gb": 6.0},
+        "qwen2.5-7b": {"repo": "Qwen/Qwen2.5-7B-Instruct", "role": "test", "kv_budget_gb": 6.0, "dtype": "float16"},
+        "phi-3.5-mini": {"repo": "microsoft/Phi-3.5-mini-instruct", "role": "test", "kv_budget_gb": 6.0, "dtype": "float32"},
+        "olmo-2-7b": {"repo": "allenai/OLMo-2-1124-7B-Instruct", "role": "train", "kv_budget_gb": 6.0, "dtype": "float16"},
     },
     "EMBED_REPO": "sentence-transformers/all-MiniLM-L6-v2",
     "COSINE_THRESHOLD": 0.70,
@@ -43,6 +43,7 @@ from huggingface_hub import HfApi, snapshot_download
 from phishbench import generation
 from phishbench.dedup import MinHasher, shingles, estimated_jaccard
 CFG = GENERATORS[GENERATOR]
+DTYPE = getattr(torch, CFG["dtype"])
 SAFE, PRIVATE = WORK / "safe_03" / GENERATOR, WORK / "private_03"
 for _p in (SAFE, PRIVATE):
     _p.mkdir(parents=True, exist_ok=True)"""),
@@ -85,14 +86,14 @@ tok.padding_side = "left"
 if tok.pad_token is None:
     tok.pad_token = tok.eos_token
 try:
-    model = AutoModelForCausalLM.from_pretrained(mpath, dtype=torch.float16, device_map="auto")
+    model = AutoModelForCausalLM.from_pretrained(mpath, dtype=DTYPE, device_map="auto")
 except TypeError:
-    model = AutoModelForCausalLM.from_pretrained(mpath, torch_dtype=torch.float16, device_map="auto")
+    model = AutoModelForCausalLM.from_pretrained(mpath, torch_dtype=DTYPE, device_map="auto")
 model.eval()
 cfg = model.config
 head_dim = getattr(cfg, "head_dim", None) or cfg.hidden_size // cfg.num_attention_heads
 kv_heads = getattr(cfg, "num_key_value_heads", None) or cfg.num_attention_heads
-KV_BYTES_PER_TOKEN = 2 * cfg.num_hidden_layers * kv_heads * head_dim * 2
+KV_BYTES_PER_TOKEN = 2 * cfg.num_hidden_layers * kv_heads * head_dim * torch.tensor([], dtype=DTYPE).element_size()
 log("model", CFG["repo"], "rev", REV, "| KV bytes/token", KV_BYTES_PER_TOKEN)
 
 requests = []
@@ -127,7 +128,8 @@ def run_batch(batch):
     try:
         with torch.no_grad():
             out = model.generate(**enc, do_sample=True, temperature=DEC["temperature"], top_p=DEC["top_p"],
-                                 max_new_tokens=DEC["max_new_tokens"], pad_token_id=tok.pad_token_id)
+                                 max_new_tokens=DEC["max_new_tokens"], pad_token_id=tok.pad_token_id,
+                                 remove_invalid_values=True)   # deviation 6
     except torch.cuda.OutOfMemoryError:
         del enc; torch.cuda.empty_cache()
         if len(batch) == 1:
@@ -234,7 +236,7 @@ gates = {"privacy_no_text_in_safe_outputs": leaks == 0,
 manifest.write_json(SAFE / "run_manifest.json", {
     "notebook": f"03_Graded_AI_Assistance_Generation[{GENERATOR}]", "status": "COMPLETED" if all(gates.values()) else "COMPLETED_WITH_GATE_FAILURES",
     "gates": gates, "generator": GENERATOR, "model_repo": CFG["repo"], "model_revision": REV, "role": CFG["role"],
-    "dtype": "float16", "decoding": generation.DECODING, "seeding": "per batch (deviation 2)",
+    "dtype": CFG["dtype"], "decoding": generation.DECODING, "seeding": "per batch (deviation 2)",
     "embedder": {"repo": EMBED_REPO, "revision": EMBED_REV, "cosine_threshold": COSINE_THRESHOLD},
     "records_01_sha256": RECORDS_01_SHA256, "phishbench_commit": CODE_COMMIT,
     "requests": len(requests), "kept": len(final), "batches": len(batches), "new_tokens": new_tokens,
