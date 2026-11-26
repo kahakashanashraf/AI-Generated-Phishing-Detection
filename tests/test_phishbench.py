@@ -347,3 +347,29 @@ class TestTransformerHelpers(unittest.TestCase):
         self.assertEqual(head_tail(list(range(5)), 10, 5), [0, 1, 2, 3, 4])
         self.assertEqual(head_tail(list(range(10)), 6, 3), [0, 1, 2, 7, 8, 9])
         self.assertEqual(len(head_tail(list(range(1000)), 254, 127)), 254)
+
+
+class TestNormalizeAndInterventions(unittest.TestCase):
+    def test_artifact_normalize(self):
+        t = ("Subject: Invoice 4471\n\nPay $1,200 by 12/05/2024 at https://pay.example.com or mail ap@corp.com.\n"
+             "To unsubscribe click here\n-----Original Message-----\nFrom: someone\nold text")
+        n = textnorm.artifact_normalize(t)
+        for token in ("<URL>", "<EMAIL>", "<DATE>", "<NUM>"):
+            self.assertIn(token, n)
+        self.assertNotIn("old text", n)
+        self.assertNotIn("unsubscribe", n.lower())
+        self.assertIn("Subject:", n)
+
+    def test_interventions(self):
+        from phishbench import interventions as iv
+        body = "Hi Sam,\nThe report is at https://intranet.example.org/r1 for review.\nThanks,\nAlex"
+        self.assertIn(iv.I1_LINE, iv.apply("I1", body))
+        self.assertNotIn("https://", iv.apply("I2", body))
+        self.assertTrue(iv.apply("I3", body).endswith("Northfield Partners Ltd."))
+        i4 = iv.apply("I4", body)
+        self.assertFalse(i4.lower().startswith("hi"))
+        self.assertNotIn("Thanks", i4)
+        self.assertIn("unsubscribe", iv.apply("I5", body))
+        self.assertLess(len(iv.apply("I6", body).split()), len(body.split()))
+        with self.assertRaises(ValueError):
+            iv.apply("I9", body)

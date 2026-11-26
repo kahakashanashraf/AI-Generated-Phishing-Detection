@@ -140,3 +140,29 @@ def detect_language(text: str) -> str | None:
         return detect(sample)
     except Exception:
         return None
+
+
+# ---- M4: artifact normalisation (pre-registration §5), applied identically at training and test time ----
+DATE_RE = re.compile(r"\b(?:\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\d{4}-\d{2}-\d{2}|"
+                     r"(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*,?\s+\d{1,2}\s+[A-Z][a-z]{2,8}\s+\d{4}(?:\s+\d{1,2}:\d{2}(?::\d{2})?)?)\b")
+NUM_RE = re.compile(r"\b\d[\d,.:]*\b")
+QUOTE_START_RE = re.compile(r"^\s*(-{2,}\s*Original Message\s*-{2,}|-{2,}\s*Forwarded by|On .{3,80} wrote:\s*$|From:\s.+$)",
+                            re.IGNORECASE | re.MULTILINE)
+FOOTER_LINE_RE = re.compile(r"^.*(unsubscribe|opt[- ]out|privacy policy|confidentiality notice|this e-?mail (and any|is) "
+                            r"(confidential|intended)|all rights reserved).*$", re.IGNORECASE | re.MULTILINE)
+
+
+def artifact_normalize(text: str) -> str:
+    """Mask URL, email, date and number tokens; strip quoted replies and boilerplate footer lines."""
+    t = text or ""
+    m = QUOTE_START_RE.search(t, pos=min(len(t), 20))   # keep a leading header line such as "Subject:"
+    if m:
+        t = t[:m.start()]
+    t = "\n".join(l for l in t.splitlines() if not l.lstrip().startswith(">"))
+    t = FOOTER_LINE_RE.sub("", t)
+    t = URL_RE.sub(" <URL> ", t)
+    t = EMAIL_RE.sub(" <EMAIL> ", t)
+    t = DATE_RE.sub(" <DATE> ", t)
+    t = NUM_RE.sub(" <NUM> ", t)
+    t = re.sub(r"[ \t]+", " ", t)
+    return re.sub(r"\n{3,}", "\n\n", t).strip()
