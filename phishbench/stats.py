@@ -53,7 +53,7 @@ def paired_discordance(a, b) -> tuple[int, int]:
 
 
 def cluster_bootstrap_delta(clusters, ref, cmp, iterations: int = 10_000, seed: int = 2026,
-                            levels=(0.90, 0.95)) -> dict:
+                            levels=(0.90, 0.95), return_draws: bool = False) -> dict:
     """Cluster (parent) bootstrap of mean(cmp) - mean(ref).
 
     clusters: cluster id per paired row. ref/cmp: 0/1 outcomes per row (for example
@@ -76,6 +76,10 @@ def cluster_bootstrap_delta(clusters, ref, cmp, iterations: int = 10_000, seed: 
     for lv in levels:
         lo, hi = np.quantile(deltas, [(1 - lv) / 2, 1 - (1 - lv) / 2])
         out[f"ci{int(lv * 100)}"] = (float(lo), float(hi))
+    out["one_sided_95_lower"] = float(np.quantile(deltas, 0.05))
+    out["one_sided_95_upper"] = float(np.quantile(deltas, 0.95))
+    if return_draws:
+        out["draws"] = deltas
     return out
 
 
@@ -94,3 +98,37 @@ def holm(pvalues: dict) -> dict:
         running = max(running, min(1.0, (m - i) * p))
         adj[k] = running
     return adj
+
+
+def bootstrap_tost_p(draws, margin: float) -> float:
+    """Bootstrap TOST p-value: the larger of P(delta >= +margin) and P(delta <= -margin), floored at 1/(B+1)."""
+    d = np.asarray(draws)
+    p = max(float(np.mean(d >= margin)), float(np.mean(d <= -margin)))
+    return max(p, 1.0 / (len(d) + 1))
+
+
+def alert_budget_threshold(pool_scores, budget: float) -> float:
+    """M6 (label-free): the threshold that flags the top `budget` fraction of an unlabeled pool."""
+    return float(np.quantile(np.asarray(pool_scores, dtype=float), 1.0 - budget, method="higher"))
+
+
+def gee_trend(decisions, level_score, generator, groups) -> dict:
+    """PE0: GEE logistic decision ~ level + generator, exchangeable correlation clustered by parent.
+
+    Returns the trend coefficient, its robust SE and a two-sided Wald p-value. 'status' explains any non-estimable fit.
+    """
+    import pandas as pd
+    import statsmodels.api as sm
+    import statsmodels.formula.api as smf
+    df = pd.DataFrame({"y": np.asarray(decisions, dtype=float), "level": np.asarray(level_score, dtype=float),
+                       "gen": np.asarray(generator).astype(str), "g": np.asarray(groups).astype(str)})
+    out = {"n_rows": int(len(df)), "n_clusters": int(df["g"].nunique()), "events": int(df["y"].sum())}
+    if df["y"].nunique() < 2:
+        return {**out, "status": "not_estimable_constant_outcome", "coef": None, "se": None, "p": None}
+    formula = "y ~ level + C(gen)" if df["gen"].nunique() > 1 else "y ~ level"
+    try:
+        res = smf.gee(formula, "g", df, family=sm.families.Binomial(), cov_struct=sm.cov_struct.Exchangeable()).fit()
+        return {**out, "status": "ok", "coef": float(res.params["level"]), "se": float(res.bse["level"]),
+                "p": float(res.pvalues["level"]), "odds_ratio_per_level": float(np.exp(res.params["level"]))}
+    except Exception as e:  # report, never hide
+        return {**out, "status": f"fit_failed: {type(e).__name__}: {e}"[:200], "coef": None, "se": None, "p": None}

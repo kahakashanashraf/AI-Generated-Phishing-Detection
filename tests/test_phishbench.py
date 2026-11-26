@@ -373,3 +373,36 @@ class TestNormalizeAndInterventions(unittest.TestCase):
         self.assertLess(len(iv.apply("I6", body).split()), len(body.split()))
         with self.assertRaises(ValueError):
             iv.apply("I9", body)
+
+
+class TestStatsExtensions(unittest.TestCase):
+    def test_tost_p_and_draws(self):
+        clusters = np.repeat(np.arange(400), 2)
+        ref = np.random.default_rng(1).integers(0, 2, 800)
+        b = stats.cluster_bootstrap_delta(clusters, ref, ref, iterations=1000, seed=3, return_draws=True)
+        self.assertEqual(len(b["draws"]), 1000)
+        self.assertLess(stats.bootstrap_tost_p(b["draws"], 0.03), 0.05)
+        far = b["draws"] + 0.10
+        self.assertGreater(stats.bootstrap_tost_p(far, 0.03), 0.5)
+
+    def test_alert_budget(self):
+        s = np.arange(100) / 100.0
+        t = stats.alert_budget_threshold(s, 0.10)
+        self.assertAlmostEqual(np.mean(s >= t), 0.10, places=2)
+
+    def test_gee_trend(self):
+        try:
+            import statsmodels  # noqa: F401
+        except ImportError:
+            self.skipTest("statsmodels not installed")
+        rng = np.random.default_rng(0)
+        parents = np.repeat(np.arange(300), 5)
+        level = np.tile(np.arange(5), 300)
+        p = 1 / (1 + np.exp(-(-2 + 0.6 * level)))
+        y = (rng.random(len(p)) < p).astype(int)
+        r = stats.gee_trend(y, level, np.where(parents % 2, "a", "b"), parents)
+        self.assertEqual(r["status"], "ok")
+        self.assertGreater(r["coef"], 0.3)
+        self.assertLess(r["p"], 1e-6)
+        self.assertEqual(stats.gee_trend(np.zeros(10), np.arange(10), ["a"] * 10, np.arange(10))["status"],
+                         "not_estimable_constant_outcome")
