@@ -85,10 +85,11 @@ for nb_name, out_dirs in STUDY1_NOTEBOOKS:
             rec.update(rows_ref=len(a), rows_new=len(b))
             if list(a.columns) != list(b.columns) or len(a) != len(b):
                 rows.append({**rec, "status": "SHAPE_OR_COLUMNS_DIFFER"}); continue
-            num = [c for c in a.columns if pd.api.types.is_numeric_dtype(a[c]) and pd.api.types.is_numeric_dtype(b[c])]
+            isnum = lambda x: pd.api.types.is_numeric_dtype(x) and not pd.api.types.is_bool_dtype(x)
+            num = [c for c in a.columns if isnum(a[c]) and isnum(b[c])]
             txt = [c for c in a.columns if c not in num]
             text_equal = all((a[c].astype(str) == b[c].astype(str)).all() for c in txt)
-            diffs = (a[num] - b[num]).abs() if num else pd.DataFrame()
+            diffs = (a[num].astype(float) - b[num].astype(float)).abs() if num else pd.DataFrame()
             max_abs = float(np.nanmax(diffs.values)) if num and diffs.size else 0.0
             exact = int((diffs.fillna(0).values == 0).sum()) if num else 0
             status = ("IDENTICAL" if text_equal and max_abs == 0 else
