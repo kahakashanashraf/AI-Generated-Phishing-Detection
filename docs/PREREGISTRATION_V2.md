@@ -1,6 +1,11 @@
 # Study 2 pre-registration: false alarms on AI-written legitimate email (style versus source)
 
-**Status: DRAFT v2.0, written 2026-11-26. Not yet frozen.**
+**Status: FROZEN v2.1 on 2026-11-26.** The owner instructed us to proceed to the actual experiments. The freezing commit SHA is recorded in DECISION_LOG D010. Any later change must be appended in §9 as a deviation. D009 (public per-row predictions) is still pending, so per-row predictions stay private.
+Changes from v2.0:
+- graded AI-assistance levels L0–L4 and a primary trend endpoint PE0;
+- modern Nazario 2023–2025 phishing (CC BY 4.0) as a security-cost test;
+- Greco et al. 2024 LLM-legitimate emails as a second locked AI-authored set;
+- Hillary Clinton FOIA emails as a secondary external human source.
 The protocol is frozen when the owner approves it. At that point the commit SHA of this file is written into [DECISION_LOG.md](DECISION_LOG.md), and the file is optionally deposited as an OSF registration. After freezing, any change must be added as a dated, numbered deviation at the bottom. Earlier text is never silently edited.
 **Rationale and literature:** [GAP_ANALYSIS_AND_PLAN_2026-11-26.md](GAP_ANALYSIS_AND_PLAN_2026-11-26.md) and [../paper/LITERATURE_2024_2026.md](../paper/LITERATURE_2024_2026.md).
 
@@ -16,11 +21,11 @@ E-PhishLLM labels and outcomes have been inspected many times. From now on, E-Ph
 ## 1. Primary question
 
 When a phishing-versus-legitimate email detector raises false alarms on AI-written legitimate email, which factor is responsible?
-- **(a) AI writing style.** This is held constant in a paired rewrite of the same message.
+- **(a) How much AI assistance was used.** This is a graded, paired dose: proofreading, then polishing, then a full rewrite of the same message.
 - **(b) AI-authored content and genre.** This is isolated by from-scratch emails matched to the original subject.
-- **(c) Source shift.** This compares in-distribution mail with an external corpus.
+- **(c) Source shift.** This compares in-distribution mail with external corpora.
 
-And can any pre-specified mitigation reduce those false alarms without lowering phishing recall?
+And can any pre-specified mitigation reduce those false alarms without lowering recall on modern and AI-rewritten phishing?
 
 ## 2. Design
 
@@ -28,20 +33,30 @@ And can any pre-specified mitigation reduce those false alarms without lowering 
 
 | Factor | Levels |
 |---|---|
-| **Source S** | `IN`: D2 HarmJ0y parent-held-out test (frozen N05 split: 142 legitimate, 162 phishing). `EXT`: legitimate mail is D1 Enron ham (label 0) and phishing is D1 Nazario, late half by date |
-| **Authorship A** (legitimate) | `H`: human original. `RW`: AI rewrite of the same message, paired. `DN`: AI written from scratch with the same subject line, matched |
-| **Authorship A** (phishing) | `H`, `RW` only. We generate no new from-scratch phishing (ethics, §8) |
-| **Generator G** (for RW and DN) | Test-only: `Qwen2.5-7B-Instruct` (Apache-2.0) and `Phi-3.5-mini-instruct` (MIT). In-source RW also uses the GPT-4o, DeepSeek and randomapi rewrites shipped with D2 |
+| **Source S** | `IN`: D2 HarmJ0y parent-held-out test (frozen N05 split: 142 legitimate, 162 phishing). `EXT` (primary): D1 Enron ham (label 0), from a corporate setting around 2000–2002. `EXT2` (secondary): Hillary Clinton FOIA emails (Kaggle `kaggle/hillary-clinton-emails`), from a government setting in 2009–2013, US-government public record |
+| **AI-assistance level L** (legitimate, paired within parent) | `L0` human original. `L1` proofread: fix spelling and grammar only. `L2` polish: improve clarity and professional tone without changing content. `L3` rewrite: full rewrite (the RW cell). `L4` compose: written from scratch with the same subject (the DN cell) |
+| **Authorship** (phishing) | `H` and `L3` only. We write no new phishing from scratch (ethics, §8) |
+| **Generator G** (for L1–L4) | Test-only: `Qwen2.5-7B-Instruct` (Apache-2.0) and `Phi-3.5-mini-instruct` (MIT). In-source L3 also uses the GPT-4o, DeepSeek and randomapi rewrites shipped with D2 |
+
+Phishing test sets:
+- `EXT-phish-H`: Nazario `phishing-2022` (monkey.org, CC BY 4.0). These were collected before ChatGPT, so they are treated as human-written.
+- `MODERN-phish`: Nazario `phishing-2023`, `-2024` and `-2025` (CC BY 4.0). These are real phishing whose authorship is **unknown**, and they serve as the realism test of security cost.
+- Nazario 2015–2021 is used only for training (R2).
 
 Off-the-shelf AI-authored corpora:
 - `LLMGen-EN` (HF `Dizzzy0x00/LLMGen-Phishing-Email-Dataset`, revision `d717e5457b71cb44dd038dafe6a81cea5e0badab`, English rows, Apache-2.0) is **LOCKED**.
+- `Greco24-LLM` (Kaggle `francescogreco97/human-llm-generated-phishing-legitimate-emails`, `llm-generated/legit.csv` and `phishing.csv`; Greco et al., ITASEC 2024) is **LOCKED**. No licence is stated, so it is used for evaluation only and never redistributed.
 - `E-PhishLLM-EN` (Git blob `7a0e74ec…`) is **DEV**.
+
+Excluded:
+- PhishFuzzer and DataPhish, which are derived from D2.
+- Kaggle `maarij/anti-pluto-email-corpus`, whose provenance is undocumented. It may be added only after a provenance audit, which must be recorded as a deviation.
 
 ### 2.2 Training regimes
 
 - **R1 (primary):** the frozen N05 D2 split, train 1,418 and validation 304. This keeps results comparable with Study 1.
 - **R2 (secondary, pooled multi-source):**
-  - R1 train, plus SpamAssassin ham and CEAS_08 ham (legitimate, capped at 6,000 combined by stratified random sampling with seed 2026), plus Nazario early half (phishing).
+  - R1 train, plus SpamAssassin ham and CEAS_08 ham (legitimate, capped at 6,000 combined by stratified random sampling with seed 2026), plus Nazario `phishing-2015` to `phishing-2021` from monkey.org (phishing).
   - Validation is R1 validation plus a 10% group-stratified holdout of the added sources.
   - **Enron is excluded from R2 entirely**, because it is the external legitimate test source.
   - Sensitivity analysis: add D1 Nigerian_Fraud as phishing.
@@ -67,10 +82,10 @@ All four are ungated. The Hugging Face commit SHA of each model is recorded at i
   - 20–1,500 words;
   - English (langdetect);
   - decontamination (§3.3).
-- **EXT-phishing-H:**
-  - Take D1 Nazario after decontamination against D2 and R2.
-  - Sort by parsed date. The latest 50% goes to test (capped at 1,000 by random sampling) and the earliest 50% to R2 train.
-  - Rows with a missing or unparsable date go to train.
+- **EXT2-legitimate-H:** 500 Clinton FOIA emails chosen at random from those that pass the same filters. FOIA header and release-stamp lines are removed by a fixed regex list.
+- **EXT-phish-H:** every message in Nazario `phishing-2022` that survives parsing, the filters and decontamination against D2 and R2.
+- **MODERN-phish:** all of Nazario 2023–2025 after the same processing, capped at 2,000 by random sampling stratified by year.
+- **Nazario parsing:** messages are parsed from mbox with Python `mailbox`, keeping the text/plain body or else the html-to-text body. Attachments are ignored. Mail-system notices are removed by a fixed regex list, and the count removed is reported.
 - **IN:** the frozen N05 test parents, with no resampling.
 - **LLMGen-EN:** every English row that survives decontamination.
 
@@ -83,7 +98,12 @@ All four are ungated. The Hugging Face commit SHA of each model is recorded at i
   > Subject: {subject}
   >
   > {body}
-- **DN prompt (legitimate only).** This exact text is used:
+- **L1 proofread prompt.** This exact text is used:
+  > Correct only the spelling, grammar and punctuation of the following email. Do not change wording otherwise, and keep every placeholder token in square brackets exactly as written. Return only the corrected email: the first line must be "Subject: ..." followed by the body.
+- **L2 polish prompt.** This exact text is used:
+  > Polish the following email so that it is clear, fluent and professional. Keep the same content, intent, requests, facts, names, numbers, structure, and every placeholder token in square brackets exactly as written. Return only the polished email: the first line must be "Subject: ..." followed by the body.
+- **L3 rewrite prompt:** the RW prompt above.
+- **L4 compose prompt (DN, legitimate only).** This exact text is used:
   > Write a realistic, legitimate email with the subject line below, as an ordinary sender would write it. Use 80–250 words. If the email would naturally include a link, write the placeholder [URL_1] instead of a real address. Return only the email: the first line must be "Subject: ..." followed by the body.
   >
   > Subject: {subject}
@@ -97,6 +117,16 @@ All four are ungated. The Hugging Face commit SHA of each model is recorded at i
 - **Near-duplicates.** MinHash with 128 permutations on 5-word shingles, using LSH. Pairs with Jaccard ≥ 0.80 are linked.
 - **Groups.** Each group is the connected component of exact and near-duplicate links, together with D2 `No.` lineage and the rewrite family (a parent plus all its RW and DN outputs).
 - **Rule.** Any test group with a member linked to any training or validation member, in any regime, is removed from test. Counts are reported per cell.
+- **IN cells.** Each D2 test group is a parent plus its rewrites. A group is removed if any member is linked to R1 or R2 training or validation data. (N13 found 12 near-copies, cosine ≥ 0.98, among the frozen test parents.) The full, undecontaminated 304-parent N05 test is reported as a Study-1-comparable sensitivity analysis.
+- **Protecting the frozen IN cells.** R2 pool candidates linked to any D2 validation or test parent, or to their rewrites, are removed from the pool *before* sampling.
+- **Within-cell de-duplication.** Inside each cell, only one member per near-duplicate group is kept: the first one in seeded random order. This stops campaign copies from inflating n.
+- **Filters for the R2 pool.** The pool uses the same filters as §3.1: non-empty body, 20–1,500 words, English.
+- **Off-the-shelf locked and DEV cells** (LLMGen, Greco24, E-PhishLLM) use only the non-empty and English filters, with no word bounds. This keeps them comparable with N08.
+- **Generation scope (N16).**
+  - L1–L4 apply to EXT-legitimate (1,000) and IN-legitimate (142).
+  - L3 applies to EXT-phish-H and IN-phishing.
+  - EXT2 is L0 only, because it serves H2.
+  - The train-only generator (OLMo-2) processes R1 training parents only.
 - **Augmentation.** Augmentation text (M1, M5) is generated only from training-group parents.
 
 ### 3.4 Automatic quality filters (fixed; exclusions counted per cell and generator)
@@ -132,7 +162,7 @@ All four are ungated. The Hugging Face commit SHA of each model is recorded at i
 
 | ID | Detector | Notes |
 |---|---|---|
-| D1 | TF-IDF (word 1–2 + char 3–5) logistic regression | N05 features. C ∈ {0.1, 1, 10} chosen by train-only grouped 5-fold CV (average precision) |
+| D1 | TF-IDF (word 1–2) logistic regression | Same vectorizer as N05 (min_df 2, max_df 0.98, sublinear tf, 120k features). C ∈ {0.1, 1, 10} chosen by train-only grouped 5-fold CV (average precision) |
 | **D2** | TF-IDF + LinearSVC, Platt-calibrated | N05 configuration. **Primary** |
 | D3 | TF-IDF Complement Naive Bayes | α ∈ {0.1, 0.5, 1} chosen by inner CV |
 | D4 | DistilBERT-base-uncased (N12 configuration) | 5 seeds |
@@ -159,7 +189,7 @@ The seeds are 2026, 2027, 2028, 2029 and 2030. The input is always `Subject: …
 
 **Success criterion.** All three must hold on locked cells, at τ5, for D2 and D5:
 - **(a)** Pooled locked AI-legitimate FPR (EXT-RW, EXT-DN and LLMGen-legitimate) falls by ≥ 10 percentage points against M0, and the 95% CI excludes 0.
-- **(b)** Pooled locked phishing recall (EXT-H, EXT-RW and LLMGen-phishing) is non-inferior with a −2 pp margin. The one-sided 95% lower bound of Δrecall must be above −2 pp.
+- **(b)** Pooled locked phishing recall (EXT-phish-H, EXT-phish-L3 and LLMGen-phishing) **and** MODERN-phish recall, each judged separately, are non-inferior with a −2 pp margin. The one-sided 95% lower bound of Δrecall must be above −2 pp. The "attacker benefit", meaning the change in miss rate on L3 phishing from the held-out generators, is reported for every mitigation.
 - **(c)** FPR on IN-legitimate-H rises by no more than 2 pp (one-sided 95% upper bound).
 
 ## 6. Hypotheses, endpoints and tests
@@ -168,6 +198,7 @@ The unit of analysis is the parent message. Rewrites are always clustered with t
 
 | ID | Hypothesis | Endpoint | Test | Family |
 |---|---|---|---|---|
+| **PE0 / H0** | False alarms on legitimate mail change monotonically with the level of AI assistance (dose–response) | FPR at L0, L1, L2, L3 and L4 on EXT-legitimate, paired within parent | GEE logistic regression with an exchangeable working correlation clustered by parent: decision ~ level (ordinal score 0–4) + generator. Two-sided Wald test of the trend coefficient, plus an exact McNemar test of each level against L0 | Primary, Holm over D2 and D5. The level-versus-L0 contrasts are Holm-adjusted within each detector |
 | **PE1 / H1** | Paraphrase-level AI style does not change false alarms on external legitimate mail | ΔFPR_RW = FPR(EXT-legitimate-RW) − FPR(EXT-legitimate-H), paired and pooled over test-only generators | **TOST equivalence**, margin ±3 pp, α = 0.05 (90% cluster-bootstrap CI inside ±3 pp). Exact McNemar is also reported | Primary, Holm over D2 and D5 |
 | **PE2 / H3** | AI-authored content adds false alarms beyond source | ΔFPR_DN = FPR(EXT-legitimate-DN) − FPR(EXT-legitimate-H), matched on the parent subject | Exact McNemar (two-sided) plus a 95% cluster-bootstrap CI | Primary, Holm over D2 and D5 |
 | **PE3 / H5** | Some mitigation meets the §5 criterion | Criteria (a), (b) and (c) | Cluster bootstrap with one-sided bounds as specified | Primary, Holm over the 6 mitigations × 2 detectors |
@@ -212,6 +243,11 @@ The unit of analysis is the parent message. Rewrites are always clustered with t
 | Not equivalent, Δ > 0 significant | Any | AI rewriting style itself raises false alarms in external mail. This is an interaction with source, because the in-source result was null |
 | Inconclusive (CI crosses a margin) | Any | Report as inconclusive with CIs. No directional claim |
 | Any | Significantly < 0 | AI-authored legitimate mail is flagged *less* often. Report and discuss the security implication |
+
+PE0 (dose–response) is reported alongside every row:
+- A significant positive trend means false alarms rise with the level of AI assistance. Whether the rise starts already at L1 or L2 is read from the level-versus-L0 contrasts, and that point is the practical threshold for AI-assisted legitimate senders.
+- A flat trend with a jump only at L4 means content or genre, not assistance.
+- A flat trend throughout means source shift.
 
 Mitigations are claimed as useful **only** if they pass all of §5 (a), (b) and (c).
 
