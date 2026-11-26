@@ -292,3 +292,58 @@ class TestGrecoParser(unittest.TestCase):
             self.assertEqual(greco_rows(base / "legit.csv"), ['Dear team, the meeting moved to 3pm, see "agenda".'])
             recs = load_greco_llm(Path(d))
             self.assertEqual([r["label"] for r in recs], [0, 1])  # label from the file name, not the authorship column
+
+
+class TestModels(unittest.TestCase):
+    def setUp(self):
+        from phishbench import models
+        self.m = models
+        rng = np.random.default_rng(0)
+        legit = ["meeting agenda for the quarterly budget review with the finance team",
+                 "lunch plans and the project timeline for next week, see attached notes",
+                 "please review the draft report and send comments before friday"]
+        phish = ["verify your account password now or it will be suspended click the link",
+                 "urgent your bank account is locked confirm your login details immediately",
+                 "you won a prize claim your reward by entering your card number today"]
+        self.texts = [legit[i % 3] + f" ref {i}" for i in range(60)] + [phish[i % 3] + f" id {i}" for i in range(60)]
+        self.y = np.array([0] * 60 + [1] * 60)
+        self.groups = np.arange(120) // 2
+
+    def test_balanced_weights_match_sklearn(self):
+        from sklearn.utils.class_weight import compute_sample_weight
+        y = np.array([0, 0, 0, 1])
+        np.testing.assert_allclose(self.m.balanced_weights(y), compute_sample_weight("balanced", y))
+        np.testing.assert_allclose(self.m.balanced_weights(y, [2, 1, 1, 1]),
+                                   compute_sample_weight("balanced", y) * np.array([2, 1, 1, 1]))
+
+    def test_classical_detectors_learn(self):
+        vec = self.m.make_vectorizer().fit(self.texts)
+        X = vec.transform(self.texts)
+        for clf in (self.m.fit_d1_lr(X, self.y, None, 1.0, 0), self.m.fit_d2_svm(X, self.y, None, 0),
+                    self.m.fit_d3_cnb(X, self.y, None, 0.5)):
+            self.assertGreater((clf.predict_proba(X)[:, 1] > 0.5).astype(int).tolist().count(1), 50)
+        best, scores = self.m.grouped_cv_select(lambda X_, y_, w_, C: self.m.fit_d1_lr(X_, y_, w_, C, 0), [0.1, 1.0, 10.0],
+                                                X, self.y, None, self.groups, 0)
+        self.assertIn(best, [0.1, 1.0, 10.0])
+        self.assertEqual(len(scores), 3)
+
+    def test_consistency_penalty_shrinks_pair_gap(self):
+        vec = self.m.make_vectorizer().fit(self.texts)
+        X = vec.transform(self.texts)
+        P, R = X[:30], X[30:60]   # pairs of legitimate rows with different wording
+        free = self.m.ConsistencyLinear(lam=0.0).fit(X, self.y, None, P, R)
+        tied = self.m.ConsistencyLinear(lam=50.0).fit(X, self.y, None, P, R)
+        gap = lambda mdl: float(np.mean((mdl.decision_function(P) - mdl.decision_function(R)) ** 2))
+        self.assertLess(gap(tied), gap(free))
+        tied.calibrate(X, self.y)
+        p = tied.predict_proba(X)[:, 1]
+        self.assertTrue(np.all((p >= 0) & (p <= 1)))
+        self.assertGreater(np.mean((p > 0.5) == (self.y == 1)), 0.9)
+
+
+class TestTransformerHelpers(unittest.TestCase):
+    def test_head_tail(self):
+        from phishbench.transformer_train import head_tail
+        self.assertEqual(head_tail(list(range(5)), 10, 5), [0, 1, 2, 3, 4])
+        self.assertEqual(head_tail(list(range(10)), 6, 3), [0, 1, 2, 7, 8, 9])
+        self.assertEqual(len(head_tail(list(range(1000)), 254, 127)), 254)

@@ -305,3 +305,10 @@ Mitigations are claimed as useful **only** if they pass all of §5 (a), (b) and 
   - Qwen2.5-7B and OLMo-2-7B run in float16, because float32 does not fit, with `remove_invalid_values=True` set during sampling.
 - *Why:* T4 GPUs have no fast bfloat16, and float16 activation overflow can produce NaN or inf logits in these model families. In float32 the problem does not arise for Phi. For the 7B models, any degraded output is rejected by the §3.4 filters, and a fail-fast check on the first batch stops a run whose pass rate is below 0.5.
 - *Results affected:* only the numerical stability of generation. The exclusion counts are reported.
+
+**Deviation 7 (2026-11-26, before any detector is trained): sealed scoring.**
+- *What changed:* §3.6 said "no model is scored on locked cells until N20". Instead, notebook 05 trains each detector and immediately scores every cell, locked cells included. It writes the scores only to a private **sealed** file whose SHA-256 is recorded in the 05 run manifest.
+- *What 05 is allowed to do:* compute and inspect validation metrics. It must not compute or display any metric on a locked cell.
+- *What 07 does:* the confirmatory notebook (N20) verifies the seal hash, then computes every locked-cell statistic once.
+- *Why:* re-loading about 35 fine-tuned transformer checkpoints (about 17 GB) in a separate session is impractical on Kaggle. Sealing keeps the intent of §3.6: nobody sees a locked-cell outcome before the single confirmatory run.
+- *Same treatment for:* the judge notebook 06 and the H4 intervention cells.
