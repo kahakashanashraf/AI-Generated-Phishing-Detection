@@ -8,6 +8,10 @@
       Once both raters are extracted, writes results/04_human_validation/ratings/adjudication.csv. That file has one
       row per item and question where the raters differ. Fill its 'resolved' column after discussion. Keep the
       'note' column short, and never put email text in it.
+
+  python scripts/human_validation.py practice path/to/practice_A.xlsx path/to/practice_B.xlsx
+      Practice round (docs/RATING_GUIDE.md section 6). Prints agreement per question and every disagreement, for the
+      team discussion. Writes results/04_human_validation/practice/practice_ratings.csv (answers only, no text).
 """
 
 from __future__ import annotations
@@ -54,6 +58,29 @@ def main(argv: list[str]) -> int:
         rows = hv.disagreements(a, b)
         _write(out, rows, ["item_id", "question", "rater_A", "rater_B", "resolved", "note"])
         print(f"{len(rows)} disagreements -> {out} (fill the 'resolved' column after discussion)")
+        return 0
+    if argv[:1] == ["practice"] and len(argv) == 3:
+        a = {r["item_id"]: r for r in hv.read_workbook(Path(argv[1]))}
+        b = {r["item_id"]: r for r in hv.read_workbook(Path(argv[2]))}
+        if set(a) != set(b):
+            raise SystemExit("the two practice workbooks hold different items")
+        rows = []
+        for task, qs in hv.QUESTIONS.items():
+            ids = sorted(i for i in a if a[i]["task"] == task)
+            for q, cats in qs.items():
+                xa, xb = [a[i][q] for i in ids], [b[i][q] for i in ids]
+                agree = sum(x == y for x, y in zip(xa, xb))
+                print(f"{task} {q}: agreement {agree}/{len(ids)}, kappa {hv.cohen_kappa(xa, xb, cats):.2f}")
+        print("\nDisagreements to discuss:")
+        for d in hv.disagreements(list(a.values()), list(b.values())):
+            print(f"  {d['item_id']}  {d['question']}: A={d['rater_A']}  B={d['rater_B']}")
+        for i in sorted(a):
+            rows.append({"item_id": i, "task": a[i]["task"], **{f"A_{q}": a[i][q] for q in hv.QUESTIONS[a[i]["task"]]},
+                         **{f"B_{q}": b[i][q] for q in hv.QUESTIONS[b[i]["task"]]}})
+        fields = ["item_id", "task"] + [f"{r}_{q}" for r in "AB" for q in hv.ANSWER_COLUMNS]
+        out = RATINGS.parent / "practice" / "practice_ratings.csv"
+        _write(out, rows, fields)
+        print(f"\n-> {out}")
         return 0
     print(__doc__)
     return 2

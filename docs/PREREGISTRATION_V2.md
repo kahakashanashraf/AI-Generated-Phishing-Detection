@@ -354,3 +354,20 @@ Mitigations are claimed as useful **only** if they pass all of §5 (a), (b) and 
     - Every resolution is logged, with who decided it (`raters` or `coordinator`) recorded in the `note` column.
 - *Why:* the protocol's institutional step cannot apply, and §3.5 did not say what happens when discussion does not resolve a disagreement.
 - *Results affected:* none. This changes procedure only.
+
+**Deviation 11 (2026-11-26, before any rating): operational rating guide and practice round.**
+- *What changed:*
+  - §3.5 named the questions but did not define them. `docs/RATING_GUIDE.md` now gives operational definitions, decision rules and made-up examples for (a), (b), (c) and DN plausibility. It covers:
+    - what counts as a request, link, attachment or deadline;
+    - what does and does not change intent;
+    - phishing as deception;
+    - "unsure" as a last resort;
+    - style and signs of AI writing are never a reason by themselves.
+  - The kit run records the guide's SHA-256.
+  - Before the real rating, both raters complete a **practice round** of 20 items that never appear in the real sample:
+    - 6 legitimate and 6 phishing D2-provided GPT-4o rewrites, with parents kept outside the real sample;
+    - 4 LLMGen and 4 Greco24 AI-written legitimate emails.
+  - The disagreements are discussed by all three authors. Confusing wording may be clarified once, before the real rating; the definitions and answer options do not change. Each clarification is a dated commit to the guide and is logged in DECISION_LOG.
+  - Practice answers are committed without text and reported descriptively. They never enter any statistic.
+- *Why:* operational definitions and calibration are standard for reliable annotation, and they protect κ from avoidable disagreement. Practice items come from outside the sample, so the real ratings stay independent.
+- *Results affected:* none. This changes procedure only.

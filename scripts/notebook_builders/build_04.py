@@ -23,6 +23,8 @@ PARAMS = {
     "RW_PER_STRATUM": 50,      # 2 generators x 2 sources x 50 = 200 per label (§3.5)
     "DN_PER_STRATUM": 25,      # 2 generators x 2 sources x 25 = 100 DN (§3.5)
     "RATERS": ["A", "B"],
+    "PRACTICE_RW_PER_LABEL": 6,   # D2-provided GPT-4o rewrites, parents outside the real sample (deviation 11)
+    "PRACTICE_DN_PER_CELL": 4,    # LLMGen-legit and Greco24-legit
     "PRESERVATION_MIN": 0.90,
     "KAPPA_TARGET": 0.60,
     "KAPPA_BOOTSTRAP_B": 2000,
@@ -38,12 +40,12 @@ if PART == "kit":
         "generator and source with disjoint parents across generators, and 100 L4 compositions (DN). Items get opaque IDs, "
         "links are defanged, and each rater receives their own workbook in their own seeded order. The key that links items to "
         "generators stays private; only its SHA-256 is committed, so it cannot change after rating starts.",
-        "§3.5, deviation 9",
+        "§3.5, deviations 9–11 (rating guide: `docs/RATING_GUIDE.md`)",
         ["Kernel output of `01-data-sources-audit-and-locked-cells` (parents)",
          "Kernel outputs of `03-generation-qwen2-5-7b` and `03-generation-phi-3-5-mini` (generated text and run manifests)"],
         [COMMON_OUT + ": sample summary, rater instructions, run manifest with the key and item hashes",
-         "`private_04/rater_A.xlsx`, `private_04/rater_B.xlsx`, `private_04/key.csv` (private; never committed)"],
-        ["both 03 run manifests say COMPLETED", "every stratum reaches its target size", "no email text in safe outputs"],
+         "`private_04/rater_A.xlsx`, `rater_B.xlsx`, `practice_A.xlsx`, `practice_B.xlsx`, `key.csv`, `practice_key.csv` (private; never committed)"],
+        ["both 03 run manifests say COMPLETED", "every stratum and the practice set reach their target sizes", "no email text in safe outputs"],
         "Kaggle GPU T4×2 image (CPU work), about 2 minutes")
 else:
     head = header(
@@ -115,6 +117,20 @@ for rater in RATERS:
     WORKBOOKS[p.name] = manifest.sha256_file(p)
     assert sorted(hv.workbook_item_ids(p)) == sorted(x["item_id"] for x in items), f"workbook {p.name} is incomplete"
 
+# practice round (docs/RATING_GUIDE.md section 6): items outside the real sample, same file for both raters
+practice, practice_key, practice_report = hv.draw_practice(list(parents.values()), rw, dn, PRACTICE_RW_PER_LABEL,
+                                                           PRACTICE_DN_PER_CELL, SEED)
+with (PRIVATE / "practice_key.csv").open("w", newline="", encoding="utf-8") as f:
+    w = csv.DictWriter(f, fieldnames=list(practice_key[0]), lineterminator="\\n"); w.writeheader(); w.writerows(practice_key)
+for rater in RATERS:
+    p = PRIVATE / f"practice_{rater}.xlsx"
+    hv.write_workbook(p, practice, f"{rater} (PRACTICE)")
+    WORKBOOKS[p.name] = manifest.sha256_file(p)
+with (SAFE / "practice_summary.csv").open("w", newline="", encoding="utf-8") as f:
+    w = csv.DictWriter(f, fieldnames=list(practice_report[0]), lineterminator="\\n"); w.writeheader(); w.writerows(practice_report)
+RATING_GUIDE_SHA256 = manifest.sha256_file(REPO / "docs" / "RATING_GUIDE.md")
+log("practice items", Counter(x["task"] for x in practice), "| rating guide", RATING_GUIDE_SHA256[:12])
+
 with (SAFE / "sample_summary.csv").open("w", newline="", encoding="utf-8") as f:
     w = csv.DictWriter(f, fieldnames=list(report[0]), lineterminator="\\n"); w.writeheader(); w.writerows(report)
 (SAFE / "rater_instructions.txt").write_bytes(("\\n".join(hv.INSTRUCTIONS) + "\\n").encode("utf-8"))
@@ -124,17 +140,19 @@ for row in report:
         md("## 3. Gates, privacy check and run manifest"),
         code("""
 safe_blob = textnorm.normalize("\\n".join(p.read_text(encoding="utf-8") for p in SAFE.glob("*") if p.is_file()))
-probe = [x for x in items if len(textnorm.normalize(x["body"])) >= 40]
+probe = [x for x in items + practice if len(textnorm.normalize(x["body"])) >= 40]
 leaks = sum(1 for x in probe if textnorm.normalize(x["body"])[:40] in safe_blob)
 gates = {"03_manifests_completed": all(m["status"] == "COMPLETED" for m in GEN_MANIFESTS.values()),
          "every_stratum_at_target": all(r["drawn"] == r["target"] for r in report),
+         "practice_at_target": all(r["drawn"] == r["target"] for r in practice_report),
          "privacy_no_text_in_safe_outputs": leaks == 0}
 manifest.write_json(SAFE / "run_manifest.json", {
     "notebook": "04_Human_Validation[kit]", "status": "COMPLETED" if all(gates.values()) else "COMPLETED_WITH_GATE_FAILURES",
     "gates": gates, "n_items": dict(Counter(x["task"] for x in items)),
     "key_sha256": manifest.sha256_file(PRIVATE / "key.csv"), "items_sha256": hv.items_digest(items),
     "sample_ids_sha256": {t: manifest.sha256_of_ids([k["sample_id"] for k in key if k["task"] == t]) for t in ("RW", "DN")},
-    "workbooks_sha256": WORKBOOKS, "inputs_sha256": INPUT_HASHES, "generation_manifests": GEN_MANIFESTS,
+    "workbooks_sha256": WORKBOOKS, "rating_guide_sha256": RATING_GUIDE_SHA256,
+    "practice_key_sha256": manifest.sha256_file(PRIVATE / "practice_key.csv"), "n_practice": dict(Counter(x["task"] for x in practice)), "inputs_sha256": INPUT_HASHES, "generation_manifests": GEN_MANIFESTS,
     "parent_reuse_total": sum(r["parent_reuse"] for r in report), "phishbench_commit": CODE_COMMIT,
     "runtime_seconds": round(time.time() - T0, 1), "params": PARAMS, "environment": ENV, "selftest": SELFTEST,
     "files": manifest.file_hashes(SAFE),

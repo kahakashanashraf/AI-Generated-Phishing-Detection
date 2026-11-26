@@ -44,23 +44,23 @@ QUESTION_TEXT = {
 }
 
 INSTRUCTIONS = [
-    "Human validation of AI-assisted emails (protocol: docs/PREREGISTRATION_V2.md §3.5 and deviation 9)",
+    "Human validation of AI-assisted emails. READ docs/RATING_GUIDE.md FIRST: it defines every answer, with examples.",
     "",
-    "Work ALONE. Do not discuss items with the other rater until both workbooks are complete.",
-    "Do not open the private key file (key.csv). It reveals which model wrote each item.",
-    "Links are defanged ('hxxp'). Do not visit any link, and do not copy any text out of this workbook.",
+    "Work ALONE. Do not discuss items until both workbooks are complete. No ChatGPT or other AI tools, no web search.",
+    "Stay blind: do not open key.csv or the 04 kernel outputs on Kaggle.",
+    "Links are defanged ('hxxp'). Never visit a link, never copy text out, never upload or forward this workbook.",
     "",
-    "Sheet RW: each row shows an ORIGINAL email and an AI REWRITE of it. Answer three questions:",
+    "Sheet RW: an ORIGINAL email and an AI REWRITE of it. Answer three questions:",
     "  " + QUESTION_TEXT["intent_preserved"] + "  Answers: yes / no",
     "  " + QUESTION_TEXT["security_element_changed"] + "  Answers: no / added / removed / added_and_removed",
     "  " + QUESTION_TEXT["rewrite_label"] + "  Answers: phishing / legitimate / unsure",
-    "Sheet DN: each row shows ONE email that an AI composed from a subject line. Answer one question:",
+    "Sheet DN: ONE email that an AI composed from a subject line. Answer one question:",
     "  " + QUESTION_TEXT["plausible_legitimate"] + "  Answers: yes / no",
     "",
-    "Use the drop-down lists. Every answer cell must be filled. The 'comment' column is optional and is never published;",
-    "do not paste email text into it.",
-    "Placeholders, unusual names and formatting are NOT reasons by themselves to call an email phishing.",
-    "Phishing means: the email tries to deceive the reader into revealing information, paying, or taking a harmful action.",
+    "Use the drop-down lists and fill every answer cell. The 'comment' column is optional and never published; no email text in it.",
+    "Writing quality, AI-sounding style, unusual names and [placeholders] are NOT reasons by themselves to call an email phishing.",
+    "Phishing = the email tries to DECEIVE the reader into revealing information, paying, or taking a harmful action.",
+    "Sessions of at most 60 minutes; rate in the given order; do not go back to change earlier answers systematically.",
 ]
 
 
@@ -118,6 +118,52 @@ def draw_sample(generated: list[dict], generators: list[str], sources=("EXT", "I
             report.append({"task": "DN", "generator": g, "source": src, "label": 0, "available": len(pool),
                            "target": dn_per_stratum, "drawn": len(pick), "parent_reuse": 0})
     return rw, dn, report
+
+
+PRACTICE_RW_CELLS = {0: "IN-legit-L3-gpt4o", 1: "IN-phish-L3-gpt4o"}
+PRACTICE_DN_CELLS = ("LLMGen-legit", "Greco24-legit")
+
+
+def draw_practice(records: list[dict], rw: list[dict], dn: list[dict], rw_per_label: int = 6, dn_per_cell: int = 4,
+                  seed: int = 2026) -> tuple[list[dict], list[dict], list[dict]]:
+    """Practice items that never appear in the real sample.
+
+    RW practice uses the D2-provided GPT-4o rewrites, whose provider is not a rated generator. Their parents are kept
+    outside the real sample: parents used in neither RW nor DN are preferred, and DN-only parents are the fallback.
+    DN practice uses AI-written legitimate emails from LLMGen and Greco24.
+    Returns (items with text, practice key, report).
+    """
+    by_id = {r["sample_id"]: r for r in records}
+    rw_par = {r["native_id"] for r in rw}
+    dn_par = {r["native_id"] for r in dn}
+    items, key, report = [], [], []
+    for label, cell in PRACTICE_RW_CELLS.items():
+        pool = seeded_order([r for r in records if r["cell"] == cell and r["parent_id"] in by_id and r["parent_id"] not in rw_par],
+                            _seed(seed, "practice", cell))
+        pool.sort(key=lambda r: r["parent_id"] in dn_par)          # stable: unused parents first, seeded order kept
+        pick = pool[:rw_per_label]
+        report.append({"task": "RW", "cell": cell, "available": len(pool), "target": rw_per_label, "drawn": len(pick),
+                       "dn_parent_overlap": sum(r["parent_id"] in dn_par for r in pick)})
+        for r in pick:
+            p = by_id[r["parent_id"]]
+            items.append({"task": "RW", "subject": defang(r["subject"]), "body": defang(r["body"]),
+                          "original_subject": defang(p["subject"]), "original_body": defang(p["body"]), "_r": r})
+    for cell in PRACTICE_DN_CELLS:
+        pick = seeded_order([r for r in records if r["cell"] == cell], _seed(seed, "practice", cell))[:dn_per_cell]
+        report.append({"task": "DN", "cell": cell, "available": sum(r["cell"] == cell for r in records), "target": dn_per_cell,
+                       "drawn": len(pick), "dn_parent_overlap": 0})
+        items += [{"task": "DN", "subject": defang(r["subject"]), "body": defang(r["body"]), "_r": r} for r in pick]
+    out = []
+    for task in ("RW", "DN"):
+        rows = [x for x in items if x["task"] == task]
+        perm = np.random.default_rng(_seed(seed, "practice-order", task)).permutation(len(rows))
+        for j, i in enumerate(perm, 1):
+            x = dict(rows[i]); r = x.pop("_r")
+            x["item_id"] = f"P-{task}-{j:02d}"
+            out.append(x)
+            key.append({"item_id": x["item_id"], "task": task, "sample_id": r["sample_id"], "cell": r["cell"],
+                        "original_label": LABEL_NAME[int(r["label"])]})
+    return out, key, report
 
 
 def make_items(rw: list[dict], dn: list[dict], parents: dict[str, dict], seed: int = 2026) -> tuple[list[dict], list[dict]]:

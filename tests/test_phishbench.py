@@ -500,6 +500,25 @@ class TestHumanValidation(unittest.TestCase):
         self.assertEqual(s["n_disagreements"], 1)
         self.assertTrue(all("body" not in x and "subject" not in x for x in s["items"]))
 
+    def test_practice_outside_sample(self):
+        from phishbench import human_validation as hv
+        gens, recs, parents = _hv_records()
+        rw, dn, _ = hv.draw_sample(recs, gens, rw_per_stratum=4, dn_per_stratum=2, seed=1)
+        base = [{"sample_id": pid, "parent_id": pid, "cell": pid.split(":")[0], "label": 0 if "legit" in pid else 1,
+                 "subject": "s", "body": "b"} for pid in parents]
+        d2 = [{"sample_id": f"d2:{pid}", "parent_id": pid, "cell": "IN-legit-L3-gpt4o" if "legit" in pid else "IN-phish-L3-gpt4o",
+               "label": 0 if "legit" in pid else 1, "subject": "s", "body": "http://z.org"} for pid in parents if pid.startswith("IN-")]
+        ai = [{"sample_id": f"{c}:{i}", "parent_id": f"{c}:{i}", "cell": c, "label": 0, "subject": "s", "body": "b"}
+              for c in hv.PRACTICE_DN_CELLS for i in range(6)]
+        items, key, rep = hv.draw_practice(base + d2 + ai, rw, dn, rw_per_label=3, dn_per_cell=2, seed=1)
+        self.assertEqual(len(items), 3 * 2 + 2 * 2)
+        self.assertTrue(all(r["drawn"] == r["target"] for r in rep))
+        used = {r["native_id"] for r in rw}
+        self.assertFalse({k["sample_id"].split("d2:")[-1] for k in key if k["task"] == "RW"} & used)
+        self.assertTrue(all(x["item_id"].startswith("P-") for x in items))
+        self.assertTrue(all("hxxp://" in x["body"] for x in items if x["task"] == "RW"))
+        self.assertEqual(hv.draw_practice(list(reversed(base + d2 + ai)), rw, dn, 3, 2, 1)[1], key)
+
     @unittest.skipUnless(__import__("importlib").util.find_spec("openpyxl"), "openpyxl not installed")
     def test_workbook_roundtrip(self):
         from openpyxl import load_workbook
