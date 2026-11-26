@@ -89,3 +89,12 @@ None of these may be scored before N20.
 - **Submission route:** a PLOS ONE **Research Article** (Route B). Study 2 runs to completion before submission. The frozen pre-registration (commit `a17a720`) is cited, and an OSF registration of the frozen file is recommended before N20.
 - **D009 approved.** Per-row predictions will be released publicly. Each row carries the pseudonymous sample ID (derivable from the public sources), cell, generator, level, label, score and decision, with **no** subject, body, URL, sender or other text. Raw and generated text stays private. The legitimate-only generated benchmark text (C1) is released separately, after a PII check, because its parents are already-public Enron or D2 emails. Generated *phishing* text is never released.
 - **Kaggle visibility of Study 1.** N05–N14 ran on GitHub Actions, and N01–N04 ran in the owner's own Kaggle session. They will be re-executed on Kaggle during the N23 reproducibility audit, and their aggregates compared byte for byte with the committed CSVs.
+
+## D013 — 2026-11-26 — One organised Kaggle suite in one pinned environment
+**Owner request:** run everything, Study 1 included, on Kaggle in the same environment, merging notebooks where possible.
+**Decision:**
+- All experiments run as Kaggle kernels on one pinned GPU image (`kaggle-private-byod/python@sha256:fc720c15…`, T4×2, pinning "original"). That includes the CPU-only steps, so the environment is identical everywhere.
+- The v1 notebooks are archived in `notebooks/archive_v1/`, and the GitHub Actions experiment workflows are disabled. Only unit tests and the LaTeX CI remain.
+- New suite: 01 (data audit plus locked cells; merges v1 01–04 and N15), 02 (Study 1 re-execution), 03 (generation), 04 (validation), 05 (training), 06 (judge), 07 (confirmatory evaluation), 08 (paper package).
+- The pre-registration's N17–N23 map to 04–08. This is renumbering only, with no protocol change.
+- Study 1 results re-executed in the unified image become the canonical Study 1 numbers. Differences from the GitHub Actions originals are reported in `results/02_study1/reproduction_report.csv`.
