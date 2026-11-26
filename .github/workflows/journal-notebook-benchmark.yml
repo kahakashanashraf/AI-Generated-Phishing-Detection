@@ -81,7 +81,7 @@ jobs:
                   m['status']='GITHUB_ACTIONS_REAL_DATA_COMPLETED'
               m['runner']='GitHub Actions ubuntu-latest CPU'
               m['workflow_run']='${{ github.run_id }}'
-              path.write_text(json.dumps(m,indent=2,ensure_ascii=False)+'\\n')
+              path.write_text(json.dumps(m,indent=2,ensure_ascii=False)+'\n')
           PY
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

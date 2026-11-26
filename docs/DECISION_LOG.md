@@ -42,3 +42,25 @@ Consequence and next item:
 **Policy sources:** https://journals.plos.org/plosone/s/criteria-for-publication ; https://journals.plos.org/plosone/s/submission-guidelines ; https://journals.plos.org/plosone/s/data-availability ; https://journals.plos.org/plosone/s/latex .
 **New blocking requirement:** Share/recreate the minimal necessary data under third-party license/privacy rules and accessible code; use the current PLOS Vancouver bibliographic template instead of IEEEtran. See [PLOS ONE plan](PLOS_ONE_TARGET.md).
 **Status:** TARGET SELECTED; feasibility contingent on data reuse rights and ethical compliance. No claim of submission or acceptance.
+
+## D007 — 2026-11-26 — Reframe the paper: benign-side false alarms, AI style vs source shift
+**Evidence:** Study 1 aggregates. D2 paraphrase changed at most 1 of 142 legitimate decisions (`phishing_n10_safe/table02_paired_exact_tests.csv`). Legitimate FPR on E-PhishLLM-EN is 77–97% at τ5 (`phishing_n08_safe`, `phishing_n12_safe`). The 2024–2026 literature was re-searched and verified ([paper/LITERATURE_2024_2026.md](../paper/LITERATURE_2024_2026.md)).
+**Options:**
+- (a) Keep "security-sensitive invariance learning". Blocked by G2 (no adjudicated security-changing pairs) and by heavy prior art.
+- (b) Reframe as a pre-registered factorial study of false alarms on AI-written legitimate email, separating paraphrase style, AI-authored content and source shift, with two-sided mitigation accounting.
+**Decision:** (b). Plan: [GAP_ANALYSIS_AND_PLAN_2026-11-26.md](GAP_ANALYSIS_AND_PLAN_2026-11-26.md). Protocol: [PREREGISTRATION_V2.md](PREREGISTRATION_V2.md).
+**Status:** ACTIVE once the owner approves the pre-registration.
+
+## D008 — 2026-11-26 — E-PhishLLM demoted to development; new locked tests
+**Reason:** E-PhishLLM outcomes were inspected before N11–N14 were designed, so they cannot provide confirmatory evidence.
+**Decision:** E-PhishLLM-EN becomes DEV only. Confirmatory cells are:
+- LLMGen-EN (rev `d717e54`, schema audited, never scored);
+- newly generated paired rewrites and subject-matched from-scratch emails of decontaminated Enron ham and late Nazario;
+- the frozen N05 D2 test.
+None of these may be scored before N20.
+**Status:** ACTIVE.
+
+## D009 — 2026-11-26 — PROPOSED: release per-row predictions without text
+**Reason:** PLOS ONE expects the minimal data behind every reported number. Paired model comparisons need per-row decisions. Study 1 could not run them because only aggregates were kept.
+**Proposal:** Publicly release per-row predictions keyed by pseudonymous sample IDs that are derivable from the public source datasets. Fields: cell, generator, label, score, decision. No subject, body, URL, sender or other text. Raw and generated text stays private.
+**Status:** PENDING owner approval. Until approved, keep per-row predictions private.
