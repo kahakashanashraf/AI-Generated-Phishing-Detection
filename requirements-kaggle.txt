@@ -1,0 +1,3 @@
+# Extra packages installed on top of the pinned Kaggle docker image (see kaggle_kernels/*/kernel-metadata.json).
+# Everything else comes from the image. Versions are recorded and checked in each notebook's ENVIRONMENT cell.
+langdetect==1.0.9

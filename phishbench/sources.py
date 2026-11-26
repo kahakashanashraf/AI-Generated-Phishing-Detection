@@ -57,6 +57,12 @@ def registry() -> dict[str, Source]:
         f"https://huggingface.co/datasets/Dizzzy0x00/LLMGen-Phishing-Email-Dataset/resolve/{LLMGEN_REV}/GPT_Phishing_Email_dataset.csv",
         "Apache-2.0", "LOCKED AI-authored", size=5690445,
         sha256="e3a335c8acacec09afaa4b9a14c7010195063310e4dcfbae38c1fa50b8d48dc3")
+    reg["d3/PhishFuzzer_emails_original_seed_v1.json"] = Source(
+        "d3/PhishFuzzer_emails_original_seed_v1.json",
+        "https://raw.githubusercontent.com/DataPhish/PhishFuzzer/1e21dd4edbe5c64694f156bf5318c97c7c80681c/"
+        "PhishFuzzer_emails_original_seed_v1.json",
+        "no licence declared (lineage audit only; excluded from Study 2)", "D2->D3 lineage audit",
+        size=8218997, git_blob="294e84ed06957ab64b3a6fe4dfc05a6afda7f7de")
     reg["ephish/ephishLLM.json"] = Source(
         "ephish/ephishLLM.json", "https://raw.githubusercontent.com/pajola/e-phishGen/main/ephishLLM.json",
         "MIT", "DEV AI-authored", git_blob=EPHISH_BLOB)
