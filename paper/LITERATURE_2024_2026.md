@@ -88,6 +88,17 @@
 | Litvak 2026; CyberCane 2026 | FPR budgets break when the benign distribution moves | Calibration-transfer framing |
 | Liang et al. 2023, 10.1016/j.patter.2023.100779 | Text detectors flag non-native writers as AI | **Fairness analogy**: penalising AI-assisted legitimate writers can fall unevenly on people who use LLMs to polish their English |
 
+### T5b. Graded AI involvement and four-cell email corpora (added for v2.1)
+
+| Ref | What it shows | Use in our paper | Overlap | Depth |
+|---|---|---|---|---|
+| Saha & Feizi 2025 (APT-Eval), arXiv 2502.15666, ACL Findings 2025 | 15K samples at graded AI-polish levels. AI-text detectors flag lightly polished human text as AI: GLTR flags 40.9% of "extremely minor" polish against 6.8% FPR on pure human text, and GPTZero flags 64.7% | **Methodological precedent for our L0–L4 dose design**. It covers AI-text detectors, *not* phishing detectors | **HIGH** (design) | A+S |
+| Guo et al. 2025, arXiv 2506.03501 | Human involvement varies continuously, and detectors fail to measure it | Supports treating AI assistance as a graded variable | MED | A |
+| PAN/ELOQUENT 2025 "Voight-Kampff" subtask 2 | Six degrees of human–AI collaboration | Context for graded authorship | LOW | S |
+| Greco, Desolda, Esposito & Carelli 2024, ITASEC (CEUR Vol-3731, paper 41); data on Kaggle `francescogreco97/human-llm-generated-phishing-legitimate-emails` (CC-BY-NC-SA-4.0) | Human/LLM × phishing/legitimate cells, used for **authorship** detection (WormGPT-generated phishing) | Prior art for four-cell corpora. Its LLM-legitimate file becomes our **locked** AI-authored test (evaluation only) | **HIGH** | S |
+| Kaggle `maarij/anti-pluto-email-corpus` (2026) | Masked human/LLM × benign/phishing JSONL | Provenance undocumented, so **excluded** (pre-registration §2.1) | — | metadata |
+| Nazario phishing corpus, monkey.org yearly mboxes 2015–2025 (CC BY 4.0, README) | Hand-classified real phishing up to 2025 | Training (2015–2021), EXT-phish-H (2022), MODERN-phish (2023–2025) | — | README |
+
 **What we did not find (as of 2026-11-26):** a study that measures false alarms on legitimate email by authorship (human, AI rewrite of the same message, AI written from scratch) across sources (in-distribution versus external), using paired tests at thresholds frozen on source validation. This absence holds only within the search described above and must be re-checked right before submission.
 
 ## T6. Methodological foundations we will follow

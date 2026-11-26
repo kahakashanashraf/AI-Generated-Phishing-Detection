@@ -1,3 +1,47 @@
+# Gap analysis, positioning and execution plan for PLOS ONE (v2.1, 2026-11-26)
+
+> **v2.1 summary (read this first).** The rest of the document is v2 and still holds, except where this box overrides it.
+>
+> **Core novelty.** We are the first, to our knowledge, to measure a **dose–response of AI assistance** on phishing-detector false alarms. Each real legitimate email appears at five levels:
+> - L0: human original
+> - L1: proofread
+> - L2: polish
+> - L3: rewrite
+> - L4: composed from the subject line
+>
+> URLs, emails and phone numbers are placeholder-locked, so they stay byte-identical across levels. The design separates this from AI-authored content (L4) and from source shift (IN, EXT and EXT2), and judges mitigations against **modern real phishing (Nazario 2023–2025)** and against AI-rewritten phishing. The design precedent is APT-Eval (AI-text detectors); nobody has done this for phishing detectors.
+>
+> **Contributions:**
+> - C1: graded AI-assistance benchmark, released for legitimate email only.
+> - C2: factorial separation of assistance, content and source.
+> - C3: ranking-versus-threshold decomposition plus cue interventions.
+> - C4: two-sided mitigation frontier with an "attacker benefit" measure.
+> - C5: pre-registered, leakage-audited open protocol.
+>
+> **Datasets added in v2.1:**
+> - Nazario monkey.org mboxes 2015–2025 (CC BY 4.0).
+> - Greco et al. 2024 LLM-legitimate emails (CC-BY-NC-SA, evaluation only).
+> - Hillary Clinton FOIA emails as a second external human source.
+>
+> Excluded: PhishFuzzer and DataPhish (derived from D2), and Anti-PLUTO (undocumented provenance).
+>
+> **Status:** pre-registration frozen (v2.1, commit `a17a720`). N15 implemented (`notebooks/15_…`) and running on Kaggle.
+>
+> **Two PLOS ONE submission routes (owner decides before N20):**
+>
+> | Route | How it works | Pros | Cons |
+> |---|---|---|---|
+> | **A. Registered Report** | Submit the Stage 1 protocol (intro, methods, Study 1 as pilot) **before** the locked evaluation (N20). Once accepted, it gets in-principle acceptance, and the final report is published whatever the results, provided the protocol is followed | Highest acceptance certainty. A null result is safe | Stage 1 review takes months. The protocol may be a separately charged article, so verify the fee. N20 must wait |
+> | **B. Research Article** | Run everything and submit once, citing the frozen pre-registration (commit hash, plus optional OSF) | Faster, one fee | No in-principle acceptance |
+>
+> Recommendation: if the APC is waived (Research4Life Group A), choose A. Otherwise choose B, with an OSF registration of the frozen protocol.
+>
+> **Extra PLOS ONE items:**
+> - **AI-use disclosure.** State in Methods that LLMs were the study instruments (generators and judge), and that an AI assistant helped with code and drafting, which the authors verified.
+> - **Code archive.** Deposit the code in an open archive (Zenodo DOI). PLOS can require code that is central to the paper.
+> - **CC-BY-NC-SA data.** The Greco24 data must not be redistributed; cite it and give access instructions.
+> - **Data Availability Statement** with exact access routes for D2 (no licence, so only commit and URL are given).
+
 # Gap analysis, positioning and execution plan for PLOS ONE (v2, 2026-11-26)
 
 **This document supersedes** the framing in RESEARCH_BLUEPRINT.md, the "Security-Sensitive Invariance Learning" working title. The reasons are in [DECISION_LOG.md](DECISION_LOG.md) D007. The older documents are kept for history.

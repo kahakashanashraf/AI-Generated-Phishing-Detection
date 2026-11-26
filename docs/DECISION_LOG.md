@@ -64,3 +64,15 @@ None of these may be scored before N20.
 **Reason:** PLOS ONE expects the minimal data behind every reported number. Paired model comparisons need per-row decisions. Study 1 could not run them because only aggregates were kept.
 **Proposal:** Publicly release per-row predictions keyed by pseudonymous sample IDs that are derivable from the public source datasets. Fields: cell, generator, label, score, decision. No subject, body, URL, sender or other text. Raw and generated text stays private.
 **Status:** PENDING owner approval. Until approved, keep per-row predictions private.
+
+## D010 — 2026-11-26 — Pre-registration v2.1 frozen; Study 2 execution started
+**Trigger:** the owner instructed us to run the actual experiments for the journal.
+**Frozen:** `docs/PREREGISTRATION_V2.md` v2.1 at commit `a17a7206fc86883023607438265ae897dd600bba`. v2.1 adds:
+- graded AI-assistance L0–L4 with a primary trend endpoint PE0;
+- Nazario 2022 (EXT-phish-H) and 2023–2025 (MODERN-phish), CC BY 4.0;
+- Greco24 LLM-legitimate as a locked set;
+- Clinton FOIA as EXT2;
+- IN-cell decontamination (N13 found 12 near-copies) and within-cell de-duplication.
+
+**Started:** N15 (`notebooks/15_Data_Freeze_v2_Sources_Decontamination_Locked_Cells.ipynb`, commit `03c7439`), using the phishbench library (21 unit tests). From now on, every change to the protocol is a dated deviation in §9 of the pre-registration.
+**Still pending:** D009 (public per-row predictions without text) and the choice of submission route (Registered Report or Research Article).
