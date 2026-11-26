@@ -25,14 +25,27 @@ def head_tail(ids: list[int], max_tokens: int, head: int) -> list[int]:
     return list(ids[:head]) + (list(ids[-tail:]) if tail > 0 else [])
 
 
+def special_affixes(tokenizer) -> tuple[list[int], list[int]]:
+    """Find the special-token prefix and suffix empirically, e.g. ([CLS], [SEP]) or (<s>, </s>).
+
+    This works across transformers versions: v5 removed build_inputs_with_special_tokens.
+    """
+    probe = tokenizer("hello world", add_special_tokens=False)["input_ids"]
+    full = tokenizer("hello world", add_special_tokens=True)["input_ids"]
+    for i in range(len(full) - len(probe) + 1):
+        if full[i:i + len(probe)] == probe:
+            return list(full[:i]), list(full[i + len(probe):])
+    raise ValueError("Could not locate content tokens inside the special-token template")
+
+
 def encode(tokenizer, texts: list[str], max_len: int = 256) -> list[list[int]]:
-    """Tokenise without truncation, apply head+tail to the content tokens, then add special tokens."""
-    n_special = tokenizer.num_special_tokens_to_add(pair=False)
-    body = max_len - n_special
+    """Tokenise without truncation, apply head+tail to the content tokens, then add the special tokens."""
+    pre, suf = special_affixes(tokenizer)
+    body = max_len - len(pre) - len(suf)
     out = []
     for t in texts:
         ids = tokenizer(t, add_special_tokens=False, truncation=False)["input_ids"]
-        out.append(tokenizer.build_inputs_with_special_tokens(head_tail(ids, body, body // 2)))
+        out.append(pre + head_tail(ids, body, body // 2) + suf)
     return out
 
 
@@ -118,7 +131,7 @@ def train_classifier(model_dir: str, tokenizer, train_enc, y, w, val_enc, yv, se
             scaler.step(opt)
             scaler.update()
             sched.step()
-            tot += float(loss)
+            tot += float(loss.detach())
         pv = predict_proba(model, tokenizer, val_enc, device=device)
         ap = float(average_precision_score(yv, pv))
         history.append({"epoch": epoch + 1, "train_loss": tot / steps_per_epoch, "val_ap": ap,
