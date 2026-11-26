@@ -5,6 +5,7 @@
 **Status (2026-11-26):** Study 1 (N05–N14) has been executed and is **exploratory**. Study 2, the confirmatory study, is **pre-registered as a draft** and awaiting owner approval.
 
 ## START HERE (v2 plan, 2026-11-26)
+- **[Research overview: what, why, gap, contributions, novelty](docs/RESEARCH_OVERVIEW.md)**: read this first.
 - **[Gap analysis and execution plan](docs/GAP_ANALYSIS_AND_PLAN_2026-11-26.md)**: the reframed paper, Study 1 evidence, gaps G1–G5, roadmap N15–N23, reviewer-risk register and the Kaggle workflow.
 - **[Study 2 pre-registration (DRAFT)](docs/PREREGISTRATION_V2.md)**: fixed design, hypotheses, endpoints, statistics and the claim made for each outcome.
 - **[Verified 2024–2026 literature matrix](paper/LITERATURE_2024_2026.md)**: every DOI checked against Crossref and every arXiv ID against the arXiv API.

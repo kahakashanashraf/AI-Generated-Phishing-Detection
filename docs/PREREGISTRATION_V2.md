@@ -271,3 +271,19 @@ Mitigations are claimed as useful **only** if they pass all of §5 (a), (b) and 
 ## 9. Deviations
 
 *(Append after freezing: number, date, what changed, why, and which results are affected.)*
+
+**Deviation 1 (2026-11-26, before any generation).**
+- *What changed:* the "not identical to the input" filter (§3.4) is applied to L2 and L3 but not to L1. The other RW filters, including cosine ≥ 0.70, apply to L1–L3.
+- *Why:* proofreading an already-correct email can legitimately return it unchanged, and that is a valid L1 outcome. The number of unchanged L1 outputs is reported.
+- *Results affected:* L1 cells only.
+
+**Deviation 2 (2026-11-26, before any generation).**
+- *What changed:* the sampling seed is set per batch, as the first 8 hex digits of sha256 over the sorted sample IDs in the batch. It was planned per row.
+- *Why:* batched sampling in Hugging Face `transformers` cannot seed rows individually.
+- *How batches are formed:* deterministically, by sorting on (input token length, sample ID).
+- *Results affected:* none in expectation. Only exact reproducibility of the sampled text depends on batch composition and hardware.
+
+**Deviation 3 (2026-11-26, before any generation).**
+- *What changed:* `max_new_tokens` goes from 700 to 2048.
+- *Why:* inputs can reach 1,500 words. A 700-token cap would truncate rewrites of emails longer than about 450 words, and the length-ratio filter would then reject them. That would cause length-dependent attrition across the L1–L3 levels.
+- *Results affected:* fewer exclusions of long emails, and therefore less biased paired cells.

@@ -223,3 +223,58 @@ class TestLoaders(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestGeneration(unittest.TestCase):
+    def setUp(self):
+        from phishbench import generation
+        self.g = generation
+        self.parent = record("x:1", "x", 1, "Invoice for March",
+                             "Hi Ann, the invoice is at https://corp.example.com/inv/3 and questions go to bob@corp.com. "
+                             "Please pay by Friday. Thanks, Bob", 0, "human")
+
+    def test_prompts_frozen_phrases(self):
+        self.assertIn("Correct only the spelling, grammar and punctuation", self.g.PROMPTS["L1"])
+        self.assertIn("Polish the following email so that it is clear, fluent and professional", self.g.PROMPTS["L2"])
+        self.assertIn("Do not add or remove links, attachments, requests, or deadlines", self.g.PROMPTS["L3"])
+        self.assertIn("Write a realistic, legitimate email with the subject line below", self.g.PROMPTS["L4"])
+        self.assertEqual(self.g.DECODING["temperature"], 0.7)
+
+    def test_request_locks_security_evidence(self):
+        req = self.g.build_request(self.parent, "L3")
+        self.assertNotIn("corp.example.com", req["prompt"])
+        self.assertIn("[URL_1]", req["prompt"])
+        self.assertIn("[EMAIL_1]", req["prompt"])
+
+    def test_quality_check_accepts_and_restores(self):
+        req = self.g.build_request(self.parent, "L3")
+        out = ("Subject: March invoice\nHello Ann, you can find the invoice at [URL_1]; send any questions to "
+               "[EMAIL_1]. Kindly settle it by Friday. Best, Bob")
+        res, why = self.g.quality_check(self.parent, "L3", req, out, check_language=False)
+        self.assertIsNone(why)
+        self.assertIn("https://corp.example.com/inv/3", res["body"])
+        self.assertIn("bob@corp.com", res["body"])
+
+    def test_quality_check_rejections(self):
+        req = self.g.build_request(self.parent, "L3")
+        self.assertEqual(self.g.quality_check(self.parent, "L3", req, "I'm sorry, I can't help.", False)[1], "refusal")
+        self.assertEqual(self.g.quality_check(self.parent, "L3", req, "no subject line here", False)[1], "unparseable")
+        dropped = "Subject: x\nHello Ann, the invoice is ready, pay by Friday, mail [EMAIL_1] with questions please. Bob"
+        self.assertEqual(self.g.quality_check(self.parent, "L3", req, dropped, False)[1], "placeholders_changed")
+
+    def test_l1_identical_output_allowed(self):
+        req = self.g.build_request(self.parent, "L1")
+        same = "Subject: Invoice for March\n" + textnorm.lock_placeholders(
+            self.parent["subject"] + "\n⁣\n" + self.parent["body"])[0].split("\n⁣\n", 1)[1]
+        res, why = self.g.quality_check(self.parent, "L1", req, same, check_language=False)
+        self.assertIsNone(why)
+        self.assertEqual(self.g.quality_check(self.parent, "L3", self.g.build_request(self.parent, "L3"), same, False)[1],
+                         "identical_to_input")
+
+    def test_dn_url_placeholder_and_seed(self):
+        req = self.g.build_request(self.parent, "L4")
+        out = "Subject: Invoice for March\n" + " ".join(["word"] * 60) + " see [URL_1]"
+        res, why = self.g.quality_check(self.parent, "L4", req, out, check_language=False)
+        self.assertIsNone(why)
+        self.assertIn(self.g.DN_URL, res["body"])
+        self.assertEqual(self.g.batch_seed(["b", "a"]), self.g.batch_seed(["a", "b"]))
