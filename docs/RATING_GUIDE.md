@@ -120,8 +120,8 @@ DN examples:
 
 ## 6. Practice round (before the real workbook)
 
-1. Each rater fills the practice workbook (`practice.xlsx`) alone. It holds about 20 items, none of which appear in the real sample.
-2. The coordinator runs `python scripts/human_validation.py practice A.xlsx B.xlsx`. This lists agreement and the disagreements.
+1. Each rater fills their own practice workbook alone: rater A `practice_A.xlsx`, rater B `practice_B.xlsx`. It holds 20 items, none of which appear in the real sample.
+2. The coordinator runs `python scripts/human_validation.py practice practice_A.xlsx practice_B.xlsx`. This lists agreement and the disagreements.
 3. The three authors meet and walk through every disagreement using this guide.
 4. Wording that caused confusion may be **clarified once**, before the real rating starts. The definitions and answer options themselves do not change. Each clarification is committed as a dated change to this file and logged in DECISION_LOG.
 5. Then the real workbooks are rated, and the guide stays frozen.
