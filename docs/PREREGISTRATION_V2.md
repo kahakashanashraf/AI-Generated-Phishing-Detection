@@ -312,3 +312,11 @@ Mitigations are claimed as useful **only** if they pass all of §5 (a), (b) and 
 - *What 07 does:* the confirmatory notebook (N20) verifies the seal hash, then computes every locked-cell statistic once.
 - *Why:* re-loading about 35 fine-tuned transformer checkpoints (about 17 GB) in a separate session is impractical on Kaggle. Sealing keeps the intent of §3.6: nobody sees a locked-cell outcome before the single confirmatory run.
 - *Same treatment for:* the judge notebook 06 and the H4 intervention cells.
+
+**Deviation 8 (2026-11-26, before any judge scoring): judge details the protocol left open.**
+- *Truncation:* each email is cut to at most 1,536 tokens, keeping the first 1,024 and the last 512.
+- *Prompt:* fixed. It defines phishing in one sentence and asks for exactly one word.
+- *Score:* the sigmoid of the difference between the log-sum-exp first-token logits of "phishing" and of "legitimate". All casing and leading-space variants of each word are included, and the two token sets must not overlap.
+- *Validation:* τ5 and τ1 come from R1 validation. The argmax decision rate is reported as secondary.
+- *Why:* §4 fixed the judge model and the score definition but not these mechanics. They are set here before any score exists.
+- *Results affected:* D6 only.
