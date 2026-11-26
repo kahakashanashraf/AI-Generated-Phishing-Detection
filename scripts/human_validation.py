@@ -70,7 +70,8 @@ def main(argv: list[str]) -> int:
             for q, cats in qs.items():
                 xa, xb = [a[i][q] for i in ids], [b[i][q] for i in ids]
                 agree = sum(x == y for x, y in zip(xa, xb))
-                print(f"{task} {q}: agreement {agree}/{len(ids)}, kappa {hv.cohen_kappa(xa, xb, cats):.2f}")
+                print(f"{task} {q}: agreement {agree}/{len(ids)}, kappa {hv.cohen_kappa(xa, xb, cats):.2f}, "
+                      f"AC1 {hv.gwet_ac1(xa, xb, cats):.2f}")
         print("\nDisagreements to discuss:")
         for d in hv.disagreements(list(a.values()), list(b.values())):
             print(f"  {d['item_id']}  {d['question']}: A={d['rater_A']}  B={d['rater_B']}")
