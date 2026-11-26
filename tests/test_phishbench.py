@@ -406,3 +406,116 @@ class TestStatsExtensions(unittest.TestCase):
         self.assertLess(r["p"], 1e-6)
         self.assertEqual(stats.gee_trend(np.zeros(10), np.arange(10), ["a"] * 10, np.arange(10))["status"],
                          "not_estimable_constant_outcome")
+
+
+def _hv_records():
+    gens, recs, parents = ("g1", "g2"), [], {}
+    for src in ("EXT", "IN"):
+        for lab, kind in ((0, "legit"), (1, "phish")):
+            pcell = f"{src}-{kind}-L0" if lab == 0 else f"{src}-{kind}-H"
+            for i in range(12):
+                pid = f"{pcell}:{i}"
+                parents[pid] = {"sample_id": pid, "subject": f"s{i}", "body": f"see http://x.org/{i} and www.y.org"}
+                for g in gens:
+                    for lv in (("L3", "L4") if lab == 0 else ("L3",)):
+                        recs.append({"sample_id": f"{pid}|{lv}|{g}", "native_id": pid, "generator": g, "label": lab,
+                                     "level": lv, "cell": f"{src}-{kind}-{lv}-{g}", "subject": "S", "body": f"http://x.org/{i}"})
+    return list(gens), recs, parents
+
+
+class TestHumanValidation(unittest.TestCase):
+    def test_sample_items_and_blinding(self):
+        from phishbench import human_validation as hv
+        gens, recs, parents = _hv_records()
+        rw, dn, rep = hv.draw_sample(recs, gens, rw_per_stratum=5, dn_per_stratum=3, seed=1)
+        self.assertEqual(len(rw), 2 * 2 * 2 * 5)
+        self.assertEqual(len(dn), 2 * 2 * 3)
+        self.assertTrue(all(r["parent_reuse"] == 0 for r in rep))
+        for src in ("EXT", "IN"):            # disjoint parents across generators within a stratum pair
+            for lab in (0, 1):
+                ps = [{r["native_id"] for r in rw if r["generator"] == g and hv.source_of(r) == src and r["label"] == lab} for g in gens]
+                self.assertFalse(ps[0] & ps[1])
+        rw2, dn2, _ = hv.draw_sample(list(reversed(recs)), gens, rw_per_stratum=5, dn_per_stratum=3, seed=1)
+        self.assertEqual([r["sample_id"] for r in rw], [r["sample_id"] for r in rw2])     # input-order independent
+        items, key = hv.make_items(rw, dn, parents, seed=1)
+        self.assertEqual(len(items), len(key))
+        self.assertTrue(all("http://" not in x["body"] and "hxxp://" in x["body"] for x in items))
+        self.assertTrue(all("www[.]" in x["original_body"] for x in items if x["task"] == "RW"))
+        self.assertTrue(all("generator" not in x and "label" not in x for x in items))
+        oa, ob = hv.rater_order(items, "A", 1), hv.rater_order(items, "B", 1)
+        self.assertEqual(sorted(x["item_id"] for x in oa), sorted(x["item_id"] for x in ob))
+        self.assertNotEqual([x["item_id"] for x in oa], [x["item_id"] for x in ob])
+        self.assertEqual(hv.items_digest(oa), hv.items_digest(ob))
+        # sampling shortfall is filled from the other generator's parents and reported
+        _, _, rep3 = hv.draw_sample(recs, gens, rw_per_stratum=8, dn_per_stratum=3, seed=1)
+        self.assertTrue(any(r["parent_reuse"] > 0 for r in rep3))
+        self.assertTrue(all(r["drawn"] == r["target"] for r in rep3))
+
+    def test_kappa(self):
+        from phishbench import human_validation as hv
+        self.assertAlmostEqual(hv.cohen_kappa(list("aabb"), list("aabb")), 1.0)
+        # kappa equals (po - pe) / (1 - pe) computed by hand
+        a = ["y"] * 50 + ["n"] * 50
+        b = ["y"] * 20 + ["n"] * 5 + ["y"] * 10 + ["n"] * 15 + ["y"] * 15 + ["n"] * 10 + ["y"] * 5 + ["n"] * 20
+        po = sum(x == y for x, y in zip(a, b)) / 100
+        ca = {"y": 50, "n": 50}; cb = {"y": b.count("y"), "n": b.count("n")}
+        pe = (ca["y"] * cb["y"] + ca["n"] * cb["n"]) / 10000
+        self.assertAlmostEqual(hv.cohen_kappa(a, b), (po - pe) / (1 - pe))
+        self.assertTrue(np.isnan(hv.cohen_kappa(["x"] * 5, ["x"] * 5)))
+        lo, hi = hv.kappa_bootstrap_ci(a, b, iterations=300, seed=0)
+        self.assertLess(lo, hv.cohen_kappa(a, b))
+        self.assertGreater(hi, hv.cohen_kappa(a, b))
+
+    def test_summary_and_adjudication(self):
+        from phishbench import human_validation as hv
+        key = [{"item_id": f"RW-{i:03d}", "task": "RW", "sample_id": f"s{i}", "parent_id": f"p{i}", "generator": "g1" if i < 10 else "g2",
+                "source": "EXT", "label": i % 2, "level": "L3", "cell": "c"} for i in range(20)] + \
+              [{"item_id": "DN-001", "task": "DN", "sample_id": "d", "parent_id": "p", "generator": "g1", "source": "EXT",
+                "label": 0, "level": "L4", "cell": "c"}]
+        def rating(k, flip=False):
+            if k["task"] == "DN":
+                return {"item_id": k["item_id"], "task": "DN", "plausible_legitimate": "yes"}
+            lab = hv.LABEL_NAME[k["label"]]
+            if k["generator"] == "g2" and k["item_id"] in ("RW-010", "RW-011"):
+                lab = "unsure"                       # g2 loses 2 of 10 -> 80% -> sensitivity only
+            if flip and k["item_id"] == "RW-000":
+                lab = "phishing"
+            return {"item_id": k["item_id"], "task": "RW", "intent_preserved": "yes", "security_element_changed": "no", "rewrite_label": lab}
+        ra, rb = [rating(k) for k in key], [rating(k, flip=True) for k in key]
+        dis = hv.disagreements(ra, rb)
+        self.assertEqual([(d["item_id"], d["question"]) for d in dis], [("RW-000", "rewrite_label")])
+        with self.assertRaises(ValueError):
+            hv.summarize(key, ra, rb, [])
+        adj = [{**dis[0], "resolved": "legitimate"}]
+        s = hv.summarize(key, ra, rb, adj, iterations=200)
+        self.assertEqual(s["decisions"]["g1"]["rw_results_role"], "primary")
+        self.assertEqual(s["decisions"]["g1"]["label_preservation"], 1.0)
+        self.assertEqual(s["decisions"]["g2"]["rw_results_role"], "sensitivity_only")
+        self.assertEqual(s["decisions"]["g2"]["label_preservation"], 0.8)
+        self.assertEqual(s["n_disagreements"], 1)
+        self.assertTrue(all("body" not in x and "subject" not in x for x in s["items"]))
+
+    @unittest.skipUnless(__import__("importlib").util.find_spec("openpyxl"), "openpyxl not installed")
+    def test_workbook_roundtrip(self):
+        from openpyxl import load_workbook
+        from phishbench import human_validation as hv
+        gens, recs, parents = _hv_records()
+        rw, dn, _ = hv.draw_sample(recs, gens, rw_per_stratum=2, dn_per_stratum=1, seed=1)
+        items, key = hv.make_items(rw, dn, parents, seed=1)
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "A.xlsx"
+            hv.write_workbook(p, hv.rater_order(items, "A", 1), "A")
+            with self.assertRaises(ValueError):          # empty answers are rejected
+                hv.read_workbook(p)
+            wb = load_workbook(p)
+            for task, qs in hv.QUESTIONS.items():
+                ws = wb[task]
+                hdr = [c.value for c in ws[1]]
+                for row in ws.iter_rows(min_row=2):
+                    for q, allowed in qs.items():
+                        row[hdr.index(q)].value = allowed[0].upper()     # case is normalised
+            wb.save(p)
+            back = hv.read_workbook(p)
+            self.assertEqual(sorted(r["item_id"] for r in back), sorted(x["item_id"] for x in items))
+            self.assertTrue(all("body" not in r for r in back))
+            self.assertEqual(back[0]["intent_preserved" if back[0]["task"] == "RW" else "plausible_legitimate"], "yes")
