@@ -76,3 +76,11 @@ None of these may be scored before N20.
 
 **Started:** N15 (`notebooks/15_Data_Freeze_v2_Sources_Decontamination_Locked_Cells.ipynb`, commit `03c7439`), using the phishbench library (21 unit tests). From now on, every change to the protocol is a dated deviation in §9 of the pre-registration.
 **Still pending:** D009 (public per-row predictions without text) and the choice of submission route (Registered Report or Research Article).
+
+## D011 — 2026-11-26 — N15 run 1 superseded (Greco24 parsing bug); N15 re-run
+**Run 1:** Kaggle kernel `ddipra/15-data-freeze-v2` version 1, phishbench@a17a720, runtime 436 s. All 7 gates PASSED.
+- Cells: IN 139 legitimate and 147 phishing (18 test groups removed as linked to training); EXT 1,000; EXT2 500; EXT-phish-H 142; MODERN 970; LLMGen 1,269 / 2,477; DEV 5,506 / 5,996; R2 extra 6,529 train and 726 validation.
+- **Defect:** Greco24-phish had only 102 usable records with a median of 3 words, because the source CSV is unquoted (deviation 4).
+
+**Also observed:** many D2-provided rewrites are near-copies of their parents (cross-cell near-duplicates: randomapi 74 and DeepSeek 60 of 139 legitimate, against GPT-4o 14). This is a plausible contributor to Study 1's paraphrase null. Deviation 5 adds a manipulation check.
+**Action:** fixed the loader and added a unit test, then re-ran N15 (version 2). Only run 2 outputs are committed.

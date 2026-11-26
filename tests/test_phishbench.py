@@ -278,3 +278,17 @@ class TestGeneration(unittest.TestCase):
         self.assertIsNone(why)
         self.assertIn(self.g.DN_URL, res["body"])
         self.assertEqual(self.g.batch_seed(["b", "a"]), self.g.batch_seed(["a", "b"]))
+
+
+class TestGrecoParser(unittest.TestCase):
+    def test_quoted_and_unquoted_files(self):
+        from phishbench.loaders import greco_rows, load_greco_llm
+        with tempfile.TemporaryDirectory() as d:
+            base = Path(d) / "llm-generated"
+            base.mkdir()
+            (base / "legit.csv").write_bytes(b'text,label\r\n"Dear team, the meeting moved to 3pm, see ""agenda"".",1\r\n')
+            (base / "phishing.csv").write_bytes(b"text,label\r\nDear User, verify your account, now, or lose access,1\r\n")
+            self.assertEqual(greco_rows(base / "phishing.csv"), ["Dear User, verify your account, now, or lose access"])
+            self.assertEqual(greco_rows(base / "legit.csv"), ['Dear team, the meeting moved to 3pm, see "agenda".'])
+            recs = load_greco_llm(Path(d))
+            self.assertEqual([r["label"] for r in recs], [0, 1])  # label from the file name, not the authorship column

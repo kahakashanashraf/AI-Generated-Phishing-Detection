@@ -126,6 +126,32 @@ def load_llmgen(path: Path) -> list[dict]:
     return out
 
 
+def greco_rows(path: Path) -> list[str]:
+    """Rows of a Greco24 file: one physical line per email, with the last comma-separated field as the label.
+
+    legit.csv is quoted CSV, but phishing.csv is *unquoted* even though its text contains commas,
+    so a standard CSV reader splits that text into many fields (deviation 4). Each file has
+    exactly one email per line, so we take everything before the last comma as the text. Its
+    'label' column is the authorship label (1 = LLM), not the phishing label; the phishing label
+    comes from the file name.
+    """
+    lines = Path(path).read_bytes().decode("utf-8", errors="replace").splitlines()
+    if not lines or not lines[0].strip().lower().startswith("text"):
+        raise ValueError(f"Unexpected Greco24 header in {path}")
+    texts = []
+    for line in lines[1:]:
+        if not line.strip():
+            continue
+        text, _, lab = line.rpartition(",")
+        if lab.strip() not in ("0", "1"):
+            raise ValueError(f"Unexpected Greco24 label field in {path}: {lab[:20]!r}")
+        text = text.strip()
+        if len(text) >= 2 and text[0] == text[-1] == '"':
+            text = text[1:-1].replace('""', '"')
+        texts.append(text)
+    return texts
+
+
 def load_greco_llm(folder: Path) -> list[dict]:
     """Greco et al. 2024 (Kaggle, CC-BY-NC-SA-4.0): only the llm-generated legit and phishing files."""
     out = []
@@ -133,11 +159,10 @@ def load_greco_llm(folder: Path) -> list[dict]:
         matches = sorted(Path(folder).rglob(f"llm-generated/{fname}"))
         if not matches:
             raise FileNotFoundError(f"Greco llm-generated/{fname} not found under {folder}")
-        with matches[0].open(encoding="utf-8", errors="replace", newline="") as f:
-            for i, row in enumerate(csv.DictReader(f)):
-                s, b = split_subject(row.get("text") or "")
-                out.append(record(f"greco24_{'legit' if lab == 0 else 'phish'}:{i}", "greco24", i, s, b, lab,
-                                  "ai", generator="greco24(paper)"))
+        for i, text in enumerate(greco_rows(matches[0])):
+            s, b = split_subject(text)
+            out.append(record(f"greco24_{'legit' if lab == 0 else 'phish'}:{i}", "greco24", i, s, b, lab,
+                              "ai", generator="greco24(paper)"))
     return out
 
 

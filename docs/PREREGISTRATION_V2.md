@@ -287,3 +287,14 @@ Mitigations are claimed as useful **only** if they pass all of §5 (a), (b) and 
 - *What changed:* `max_new_tokens` goes from 700 to 2048.
 - *Why:* inputs can reach 1,500 words. A 700-token cap would truncate rewrites of emails longer than about 450 words, and the length-ratio filter would then reject them. That would cause length-dependent attrition across the L1–L3 levels.
 - *Results affected:* fewer exclusions of long emails, and therefore less biased paired cells.
+
+**Deviation 4 (2026-11-26, after N15 run 1, before any scoring).**
+- *What changed:* the Greco24 loader now reads one physical line per email, taking the text before the last comma.
+- *Why:* N15 run 1 showed that Greco24 `llm-generated/phishing.csv` is unquoted CSV whose text contains commas. The standard CSV reader split each email into fragments: the cell's median length was 3 words, and 854 records were dropped as "not English". The `label` column in that dataset is the authorship label (all 1), so the phishing label continues to come from the file name.
+- *How it was handled:* N15 was re-run with the fixed loader. The run 1 outputs are superseded and recorded in DECISION_LOG D011.
+- *Results affected:* only the Greco24 cells. No model had been scored.
+
+**Deviation 5 (2026-11-26, before any generation): added manipulation check.**
+- *What changed:* for every generated cell (L1–L4) and for the D2-provided rewrites, we report how far each output moved from its parent. The measures are the MinHash-estimated Jaccard similarity of 5-word shingles, the cosine similarity, and the word-count ratio. The expected order is L1 > L2 > L3 > L4 in similarity.
+- *Why:* N15 found that many D2-provided rewrites are near-copies of their parents (Jaccard ≥ 0.8 for 74 of 139 randomapi and 60 of 139 DeepSeek legitimate rewrites). The dose levels therefore need to be verified directly.
+- *Results affected:* this is descriptive and secondary. It does not change any primary test.
