@@ -1,0 +1,15 @@
+cell_a,cell_b,linked_records
+EXT-phish-H,IN-phish-H,4
+EXT-phish-H,MODERN-phish,8
+IN-legit-L0,IN-legit-L3-deepseek,60
+IN-legit-L0,IN-legit-L3-gpt4o,14
+IN-legit-L0,IN-legit-L3-randomapi,74
+IN-legit-L3-deepseek,IN-legit-L3-gpt4o,10
+IN-legit-L3-deepseek,IN-legit-L3-randomapi,50
+IN-legit-L3-gpt4o,IN-legit-L3-randomapi,10
+IN-phish-H,IN-phish-L3-deepseek,14
+IN-phish-H,IN-phish-L3-gpt4o,4
+IN-phish-H,IN-phish-L3-randomapi,18
+IN-phish-L3-deepseek,IN-phish-L3-gpt4o,4
+IN-phish-L3-deepseek,IN-phish-L3-randomapi,2
+IN-phish-L3-gpt4o,IN-phish-L3-randomapi,2

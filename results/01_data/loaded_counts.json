@@ -1,0 +1,30 @@
+{
+  "enron_ham": 15791,
+  "spamassassin_ham": 4091,
+  "ceas08_ham": 17312,
+  "nigerian": 3332,
+  "llmgen": 3746,
+  "greco24_llm": 2000,
+  "clinton": 7945,
+  "ephish_en": 11502,
+  "nazario2015": 306,
+  "nazario2016": 493,
+  "nazario2017": 324,
+  "nazario2018": 287,
+  "nazario2019": 239,
+  "nazario2020": 152,
+  "nazario2021": 99,
+  "nazario2022": 241,
+  "nazario2023": 415,
+  "nazario2024": 399,
+  "nazario2025": 476,
+  "r2_ham_allocation": {
+    "ceas08": 4815,
+    "spamassassin": 1185
+  },
+  "modern_year_allocation": {
+    "2023": 304,
+    "2024": 291,
+    "2025": 375
+  }
+}

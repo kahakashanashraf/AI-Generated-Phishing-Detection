@@ -1,0 +1,41 @@
+{
+  "d2_type_counts": {
+    "Phishing": 1090,
+    "Phishing Simulation": 35,
+    "Spam": 1000,
+    "Valid": 950
+  },
+  "d3_seed_rows": 3300,
+  "d2_ids_reused_in_d3": 3075,
+  "d2_ids_total": 3075,
+  "reused_ids_with_identical_normalised_text": 2971,
+  "d2_to_d3_type_transitions": {
+    "Phishing -> Phishing": 1090,
+    "Phishing Simulation -> Phishing": 35,
+    "Spam -> Spam": 1000,
+    "Valid -> Valid": 949,
+    "Valid -> Phishing": 1
+  },
+  "d1_label_counts (1 = spam in spam/ham corpora; spam never mapped to phishing, D001)": {
+    "Enron.csv": {
+      "0": 15791,
+      "1": 13976
+    },
+    "SpamAssasin.csv": {
+      "0": 4091,
+      "1": 1718
+    },
+    "CEAS_08.csv": {
+      "1": 21842,
+      "0": 17312
+    },
+    "Nigerian_Fraud.csv": {
+      "1": 3332
+    }
+  },
+  "decisions": {
+    "D3": "excluded: derived from D2 (every D2 ID reappears)",
+    "D5": "excluded: phishing-only authorship data (no legitimate class)",
+    "LLMGen": "English (OpenAI) file only; the Chinese/DeepSeek file is not used (language and generator are confounded)"
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "notebook": "01_Data_Sources_Audit_and_Locked_Cells",
+  "status": "COMPLETED",
+  "gates": {
+    "all_source_pins_verified": true,
+    "n05_split_reproduced": true,
+    "train_test_ids_disjoint": true,
+    "no_test_record_linked_to_train_or_val": true,
+    "EXT-legit-L0_is_1000": true,
+    "EXT2-legit-L0_is_500": true,
+    "both_classes_in_LLMGen_Greco24_DEV": true,
+    "no_email_text_in_safe_outputs": true
+  },
+  "params": {
+    "REPO_URL": "https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection.git",
+    "CODE_COMMIT": "68e833235d58bc788e7dd14333b36242cc44fc88",
+    "SEED": 2026,
+    "EXPECTED_VERSIONS": {
+      "sklearn": "1.6.1"
+    },
+    "MINHASH": {
+      "num_perm": 128,
+      "bands": 16,
+      "threshold": 0.8,
+      "shingle_words": 5
+    },
+    "HUMAN_FILTERS": {
+      "min_words": 20,
+      "max_words": 1500,
+      "require_english": true
+    },
+    "OFFSHELF_FILTERS": {
+      "require_english": true
+    },
+    "R2_HAM_CAP": 6000,
+    "R2_VAL_FRACTION": 0.1,
+    "EXT_LEGIT_N": 1000,
+    "EXT2_LEGIT_N": 500,
+    "MODERN_CAP": 2000,
+    "NAZARIO_TRAIN_YEARS": [
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021
+    ],
+    "NAZARIO_EXT_YEAR": 2022,
+    "NAZARIO_MODERN_YEARS": [
+      2023,
+      2024,
+      2025
+    ],
+    "KAGGLE_INPUTS": {
+      "clinton": "kaggle/hillary-clinton-emails",
+      "greco24": "francescogreco97/human-llm-generated-phishing-legitimate-emails"
+    }
+  },
+  "environment": {
+    "utc": "2026-11-26T11:37:43.725991+00:00",
+    "python": "3.13.16",
+    "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "pkg_numpy": "2.1.3",
+    "pkg_pandas": "2.3.3",
+    "pkg_sklearn": "1.6.1",
+    "pkg_torch": "2.11.0+cu130",
+    "pkg_transformers": "5.20.2",
+    "pkg_vllm": null,
+    "pkg_langdetect": "present",
+    "git_commit": "68e833235d58bc788e7dd14333b36242cc44fc88",
+    "kaggle_docker_image": "gcr.io/kaggle-gpu-images/python@sha256:fc720c15545eb096a510e1f085b17fc118387a007599424d953a4f327b71cacf",
+    "phishbench": "2.1.0",
+    "cuda_devices": [
+      "Tesla T4",
+      "Tesla T4"
+    ]
+  },
+  "selftest": "Ran 28 tests in 0.210s",
+  "runtime_seconds": 447.3,
+  "files": {
+    "cell_counts.csv": "dcaa86c9fb9be8621665f335863d937a1374aa516fadf8f19f58cb4a31eedbed",
+    "cross_cell_near_duplicates.csv": "737be5d50844c18d925d22762edd269894011cb153ca6228823cf3dfdb4d3b12",
+    "dataset_audit.json": "3e0ce56c227a3794b3680592434a68ea2a2b744b094dcf830901a5130dd82c76",
+    "exclusions.csv": "57d283dae197b6cff6975be17fa7ba86829ee293ed2b61050260f8cabddf84f3",
+    "loaded_counts.json": "7b9ae5c98737a68492e7844b686c7ce5d65ae7b3b1083447e783f8695594b6d0",
+    "locked_test_v2_manifest.json": "4cd0d9b8cb0d6cd38c32a242169aa59d1c253acdeb8678ab2bcdc842259bcf0f",
+    "source_receipts.json": "81713607606e7521fd0b6540fe90896e86dddb554efab772c1a007797136f214",
+    "tofu_first_use_sha256.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+  }
+}

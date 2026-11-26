@@ -1,0 +1,34 @@
+cell,kind,n,n_legit,n_phish,sources,authorship,median_words,p10_words,p90_words
+train_r1,train/val,1418,665,753,d2,human,159,51,608
+val_r1,train/val,304,143,161,d2,human,162,46,528
+train_r1_rw,train/val,4254,1995,2259,d2_deepseek;d2_gpt4o;d2_randomapi,ai,136,47,503
+val_r1_rw,train/val,912,429,483,d2_deepseek;d2_gpt4o;d2_randomapi,ai,139,38,500
+train_r2_extra,train/val,6529,5400,1129,ceas08;nazario2015;nazario2016;nazario2017;nazario2018;nazario2019;nazario2020;nazario2021;spamassassin,human,158,52,547
+val_r2_extra,train/val,726,600,126,ceas08;nazario2015;nazario2016;nazario2017;nazario2018;nazario2019;nazario2020;nazario2021;spamassassin,human,151,48,539
+train_r2_sens_nigerian,train/val,2720,0,2720,nigerian,human,435,205,641
+IN-legit-L0,LOCKED test,139,139,0,d2,human,180,54,819
+IN-phish-H,LOCKED test,147,0,147,d2,human,161,38,481
+IN-legit-L3-gpt4o,LOCKED test,139,139,0,d2_gpt4o,ai,162,53,643
+IN-phish-L3-gpt4o,LOCKED test,147,0,147,d2_gpt4o,ai,116,35,324
+IN-legit-L3-deepseek,LOCKED test,139,139,0,d2_deepseek,ai,177,54,819
+IN-phish-L3-deepseek,LOCKED test,147,0,147,d2_deepseek,ai,136,37,361
+IN-legit-L3-randomapi,LOCKED test,139,139,0,d2_randomapi,ai,177,56,749
+IN-phish-L3-randomapi,LOCKED test,147,0,147,d2_randomapi,ai,127,40,303
+INFULL-legit-L0,sensitivity,142,142,0,d2,human,185,55,822
+INFULL-phish-H,sensitivity,162,0,162,d2,human,170,39,509
+INFULL-legit-L3-gpt4o,sensitivity,142,142,0,d2_gpt4o,ai,167,54,658
+INFULL-phish-L3-gpt4o,sensitivity,162,0,162,d2_gpt4o,ai,119,37,391
+INFULL-legit-L3-deepseek,sensitivity,142,142,0,d2_deepseek,ai,181,54,822
+INFULL-phish-L3-deepseek,sensitivity,162,0,162,d2_deepseek,ai,140,39,423
+INFULL-legit-L3-randomapi,sensitivity,142,142,0,d2_randomapi,ai,184,57,808
+INFULL-phish-L3-randomapi,sensitivity,162,0,162,d2_randomapi,ai,132,47,332
+EXT-legit-L0,LOCKED test,1000,1000,0,enron,human,146,37,492
+EXT2-legit-L0,LOCKED test,500,500,0,clinton,human,43,22,260
+EXT-phish-H,LOCKED test,142,0,142,nazario2022,human,67,35,322
+MODERN-phish,LOCKED test,970,0,970,nazario2023;nazario2024;nazario2025,unknown,81,37,205
+LLMGen-legit,LOCKED test,1269,1269,0,llmgen,ai,236,207,251
+LLMGen-phish,LOCKED test,2477,0,2477,llmgen,ai,244,223,256
+Greco24-legit,LOCKED test,974,974,0,greco24,ai,96,75,140
+Greco24-phish,LOCKED test,994,0,994,greco24,ai,97,52,175
+DEV-ephish-legit,DEV,5506,5506,0,ephish,ai,100,70,146
+DEV-ephish-phish,DEV,5996,0,5996,ephish,ai,71,51,101

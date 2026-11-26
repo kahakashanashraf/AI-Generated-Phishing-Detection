@@ -1,0 +1,141 @@
+{
+  "preregistration": "docs/PREREGISTRATION_V2.md (frozen v2.1)",
+  "code_commit": "68e833235d58bc788e7dd14333b36242cc44fc88",
+  "rule": "sha256 over sorted, newline-joined sample_ids; IDs and text are kept private",
+  "test_cells": {
+    "IN-legit-L0": {
+      "n": 139,
+      "sha256_ids": "697c627b9bfcc9401f97e32e16b3318c9e916f4aff54536aab4d5d314f2226d5"
+    },
+    "IN-phish-H": {
+      "n": 147,
+      "sha256_ids": "7952206eeeea60a270a9df840acb5470c0d94e3d97729fbdca6cfc99ac2ca682"
+    },
+    "IN-legit-L3-gpt4o": {
+      "n": 139,
+      "sha256_ids": "bae7f57c94cab62cc09f70f36b4736fe23ce095b6afd7eac81de9f0c6f62777a"
+    },
+    "IN-phish-L3-gpt4o": {
+      "n": 147,
+      "sha256_ids": "1879ef47b5b522e80c31b3ff67981213266b98ac5e6d5a82fd1035ee1c31fb7a"
+    },
+    "IN-legit-L3-deepseek": {
+      "n": 139,
+      "sha256_ids": "5084c4ee2086562748cc4762b12015c29ff7b64ff2e40db17704643dcdaac19a"
+    },
+    "IN-phish-L3-deepseek": {
+      "n": 147,
+      "sha256_ids": "4e95b3a920e578a3f0e4b2938e0160a24af7021ce8a1130944ad8a9bc4e1031d"
+    },
+    "IN-legit-L3-randomapi": {
+      "n": 139,
+      "sha256_ids": "e44e2e72c9ee547ca123da81260fde2a0dc3adfb713bb112f7885bf305ccf595"
+    },
+    "IN-phish-L3-randomapi": {
+      "n": 147,
+      "sha256_ids": "92a63f91a0d4c61320a09c09b2d9f5db0a5b5dd8513d723cc5ea8f56920f092c"
+    },
+    "INFULL-legit-L0": {
+      "n": 142,
+      "sha256_ids": "407a82c0513cd8aee273af628c41ae7be855ee1333c6957c9b5e9ac879271971"
+    },
+    "INFULL-phish-H": {
+      "n": 162,
+      "sha256_ids": "f13bf9cc0eaa87de81573e8b991e57fa501d0ec37c348e451ebbe4a9cfd64f28"
+    },
+    "INFULL-legit-L3-gpt4o": {
+      "n": 142,
+      "sha256_ids": "c0d8aed88967c424688e6a6c88b5d9a0d5bf8f9900c641c9a0d574a23c6bf8dd"
+    },
+    "INFULL-phish-L3-gpt4o": {
+      "n": 162,
+      "sha256_ids": "16f21f3ed7b3500de42471d28e1616109a143d9fb826af981306e0c054d82443"
+    },
+    "INFULL-legit-L3-deepseek": {
+      "n": 142,
+      "sha256_ids": "75843e48b337ca018c5372a36cd3ae0b58567993ba9c6f0f3ee29c71c5a9c516"
+    },
+    "INFULL-phish-L3-deepseek": {
+      "n": 162,
+      "sha256_ids": "a0cb93e511c61a02f9aa036b557aa970af7984e18d2b489f7b7f1ac4b90bb493"
+    },
+    "INFULL-legit-L3-randomapi": {
+      "n": 142,
+      "sha256_ids": "d309d2c82504ae8c63d71dedcba773c778f49fd0622d6ac3d62957ded1a78a4c"
+    },
+    "INFULL-phish-L3-randomapi": {
+      "n": 162,
+      "sha256_ids": "b611cfe555fc934082e3b30c08b0a6fdf4118b71bed7470d53645392fe155322"
+    },
+    "EXT-legit-L0": {
+      "n": 1000,
+      "sha256_ids": "3b8593a8466a476cbd922fec9ecf1049f26ec303c406bbd0693d272c28c61ede"
+    },
+    "EXT2-legit-L0": {
+      "n": 500,
+      "sha256_ids": "a3024efb214524b6057d96092d70a0f5a52a8b2cf2b8a21e1b1c89f63dc9c267"
+    },
+    "EXT-phish-H": {
+      "n": 142,
+      "sha256_ids": "984a3579d7c8a5e354c91aaffa8c7555eb73dbc6345762cd032f084e4f5d4f3c"
+    },
+    "MODERN-phish": {
+      "n": 970,
+      "sha256_ids": "f1dcfa89830d46d65d4f6c9245be367246632e5cd41069ec575b32792f3fa0e3"
+    },
+    "LLMGen-legit": {
+      "n": 1269,
+      "sha256_ids": "b46992698b6559c327ef5401f94ab8ef0ff552ec889dd798339584ca8682e759"
+    },
+    "LLMGen-phish": {
+      "n": 2477,
+      "sha256_ids": "91a30d1b0dc71ce03cced289b5878865879e94d7ddb25e9f2e62755f3e2c1006"
+    },
+    "Greco24-legit": {
+      "n": 974,
+      "sha256_ids": "8ec962fa7c053721111b55d6a9f9c53cfb0fcd319e6e24638f97788a007f1c2e"
+    },
+    "Greco24-phish": {
+      "n": 994,
+      "sha256_ids": "0a7bb34a94586f5f868c811280f78ac0d364894a8a3de62fb9a65ae202cc0014"
+    },
+    "DEV-ephish-legit": {
+      "n": 5506,
+      "sha256_ids": "0830d02b6dbd976e85606535ffd71b578325d18fbbc64c765535a71d61b0c5be"
+    },
+    "DEV-ephish-phish": {
+      "n": 5996,
+      "sha256_ids": "cea9de30942ee4ad06b4ce97e55603986cce4fab6571e3788fb36e2a58af5abd"
+    }
+  },
+  "train_val_roles": {
+    "train_r1": {
+      "n": 1418,
+      "sha256_ids": "44341c8d31e2efac44ad532e0749b433bb3e45f6807d7f7064fb1ecad1b42243"
+    },
+    "val_r1": {
+      "n": 304,
+      "sha256_ids": "984b719ec18bfa004422e46ed73ae6e5ff8bd7b4ccbb08e053cd110a7575d97f"
+    },
+    "train_r1_rw": {
+      "n": 4254,
+      "sha256_ids": "64dbefaa3e26cd5808cf632e981520ad3c4da2886442c15ef3ddad7c6cd05948"
+    },
+    "val_r1_rw": {
+      "n": 912,
+      "sha256_ids": "0e22b4e3168d54a06d60ab02e3c7ccdaf3cff62823c44f033bb4b7fa21c941ae"
+    },
+    "train_r2_extra": {
+      "n": 6529,
+      "sha256_ids": "1276f1e8bb38880df475c046d41148947a91973502f4e08da2323371d492ba06"
+    },
+    "val_r2_extra": {
+      "n": 726,
+      "sha256_ids": "bd416c1a6c889a1122617fb803cce49ec4f34457d61feaced044476ad1887ef8"
+    },
+    "train_r2_sens_nigerian": {
+      "n": 2720,
+      "sha256_ids": "a6b9c65042ea425f8de9ada89843d7e3920d5522d1d2ba4ae62912633d124d34"
+    }
+  }
+}
