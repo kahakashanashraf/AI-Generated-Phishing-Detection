@@ -1,0 +1,32 @@
+notebook,file,rows_ref,rows_new,numeric_cells,exact_equal_cells,max_abs_diff,text_columns_equal,worst_column,status
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n05_safe/metrics.csv,8,8,128.0,118.0,3.0531133177191805e-16,True,threshold_validation_5pct_fpr (max |Δ| 3.05311e-16),WITHIN_TOLERANCE
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n05_safe/paired_effects.csv,12,12,60.0,59.0,1.0061396160665481e-16,True,mean_rewrite_minus_original_phishing_score (max |Δ| 1.00614e-16),WITHIN_TOLERANCE
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n06_safe/error_rate_intervals.csv,16,16,80.0,80.0,0.0,True,,IDENTICAL
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n06_safe/paired_exact_tests.csv,12,12,120.0,120.0,0.0,True,,IDENTICAL
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n06_safe/selective_risk_coverage.csv,24,24,120.0,120.0,0.0,True,,IDENTICAL
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n07_safe/inner_cv_scores.csv,11,13,,,,,,SHAPE_OR_COLUMNS_DIFFER
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n07_safe/model_comparison.csv,16,20,,,,,,SHAPE_OR_COLUMNS_DIFFER
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n07_safe/paired_effects.csv,24,30,,,,,,SHAPE_OR_COLUMNS_DIFFER
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n08_safe/external_class_error_intervals.csv,12,14,,,,,,SHAPE_OR_COLUMNS_DIFFER
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n08_safe/external_model_metrics.csv,6,7,,,,,,SHAPE_OR_COLUMNS_DIFFER
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n09_safe/d2_ablation.csv,12,12,192.0,163.0,3.3861802251067274e-15,True,threshold_from_validation (max |Δ| 3.38618e-15),WITHIN_TOLERANCE
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n09_safe/external_ablation.csv,3,3,48.0,41.0,1.5145100840108228e-08,True,roc_auc (max |Δ| 1.51451e-08),WITHIN_TOLERANCE
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n09_safe/inner_cv_ablation.csv,5,5,15.0,15.0,0.0,True,,IDENTICAL
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n09_safe/paired_legitimate_ablation.csv,9,9,90.0,90.0,0.0,True,,IDENTICAL
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n10_safe/table01_n05_original_and_rewrites.csv,8,8,128.0,118.0,3.0531133177191805e-16,True,threshold_validation_5pct_fpr (max |Δ| 3.05311e-16),WITHIN_TOLERANCE
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n10_safe/table02_paired_exact_tests.csv,12,12,120.0,120.0,0.0,True,,IDENTICAL
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n10_safe/table03_n07_cv_selected.csv,16,20,,,,,,SHAPE_OR_COLUMNS_DIFFER
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n10_safe/table04_external_model_comparison.csv,6,7,,,,,,SHAPE_OR_COLUMNS_DIFFER
+10_Paper_Tables_Figures_and_Manifest.ipynb,phishing_n10_safe/table05_style_evidence_ablation.csv,3,3,48.0,41.0,1.5145100840108228e-08,True,roc_auc (max |Δ| 1.51451e-08),WITHIN_TOLERANCE
+11_Parent_Safe_LLM_Rewrite_Augmentation.ipynb,phishing_n11_safe/augmentation_metrics.csv,20,20,320.0,193.0,39.0,True,tn (max |Δ| 39),DIFFERENT
+11_Parent_Safe_LLM_Rewrite_Augmentation.ipynb,phishing_n11_safe/paired_benign_rewrite_effects.csv,12,12,120.0,112.0,1.0,True,original_errors (max |Δ| 1),DIFFERENT
+11_Parent_Safe_LLM_Rewrite_Augmentation.ipynb,phishing_n11_safe/support_and_training_counts.csv,4,4,16.0,12.0,0.0014161436551586304,True,validation_5pct_fpr_threshold (max |Δ| 0.00141614),DIFFERENT
+12_DistilBERT_Fine_Tune_External_Reliability.ipynb,phishing_n12_safe/train_validation_history.csv,4,4,16.0,8.0,0.004912079385157364,True,avg_train_loss (max |Δ| 0.00491208),DIFFERENT
+12_DistilBERT_Fine_Tune_External_Reliability.ipynb,phishing_n12_safe/transformer_metrics.csv,10,10,180.0,79.0,82.0,True,tn (max |Δ| 82),DIFFERENT
+13_False_Alarm_Mechanism_and_Source_Shift.ipynb,phishing_n13_safe/class_conditional_source_shift.csv,44,44,220.0,220.0,0.0,True,,IDENTICAL
+13_False_Alarm_Mechanism_and_Source_Shift.ipynb,phishing_n13_safe/legitimate_false_alarm_strata.csv,36,36,216.0,198.0,2.220446049250313e-16,True,exact_ci95_low (max |Δ| 2.22045e-16),WITHIN_TOLERANCE
+13_False_Alarm_Mechanism_and_Source_Shift.ipynb,phishing_n13_safe/near_duplicate_proxy_summary.csv,4,4,20.0,17.0,2.220446049250313e-16,True,nearest_training_cosine_p95 (max |Δ| 2.22045e-16),WITHIN_TOLERANCE
+13_False_Alarm_Mechanism_and_Source_Shift.ipynb,phishing_n13_safe/score_distribution_shift.csv,4,4,28.0,18.0,2.220446049250313e-16,True,score_p75 (max |Δ| 2.22045e-16),WITHIN_TOLERANCE
+14_Parent_Paired_Consistency_Training.ipynb,phishing_n14_safe/heldout_paired_prediction_consistency.csv,24,24,72.0,65.0,3.95516952522712e-16,True,mean_absolute_probability_shift (max |Δ| 3.95517e-16),WITHIN_TOLERANCE
+14_Parent_Paired_Consistency_Training.ipynb,phishing_n14_safe/paired_objective_model_metrics.csv,20,20,320.0,270.0,3.1086244689504383e-15,True,threshold_from_d2_validation (max |Δ| 3.10862e-15),WITHIN_TOLERANCE
+14_Parent_Paired_Consistency_Training.ipynb,phishing_n14_safe/training_objective_diagnostics.csv,4,4,32.0,27.0,3.1086244689504383e-15,False,frozen_validation_threshold (max |Δ| 3.10862e-15),DIFFERENT

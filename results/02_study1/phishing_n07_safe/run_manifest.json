@@ -1,0 +1,35 @@
+{
+  "release": "N07-E03-ClassicalCV-v1.0-2026-11-02",
+  "status": "KAGGLE_REAL_DATA_COMPLETED",
+  "selftest": "PASS",
+  "source": "same D2 pinned source as N05; no external source",
+  "inner_cv": "3-fold StratifiedKFold on N05 train originals; TF-IDF fitted per fold in sklearn Pipeline",
+  "model_selection": "highest mean inner-CV average precision per family, tie-break lexical name",
+  "selection": {
+    "word_lr": "word_lr_C3.0",
+    "word_nb": "word_nb_alpha0.1",
+    "char_lr": "char_lr_C3.0",
+    "word_trigram_lr": "word_trigram_lr_C1.0",
+    "word_lgb": "word_lgb_leaves31"
+  },
+  "lightgbm": "available",
+  "sklearn": "1.6.1",
+  "reported_variants": [
+    "original",
+    "gpt4o",
+    "deepseek",
+    "randomapi"
+  ],
+  "limitations": [
+    "Same already observed N05 held-out test; not a newly sealed external test",
+    "Not independent AI-authored legitimate mail; source-annotated original and rewrites",
+    "CV is train-only, but published test remains exploratory for research questions shaped by N05",
+    "Calibration not separately fitted for new model families",
+    "Multiple-comparison p-values are exploratory and not adjusted"
+  ],
+  "files": {
+    "inner_cv_scores.csv": "d1f6dd6301fb37f1e6c8af66e46483f4bf8bbec76b142c307f376d825f560a61",
+    "model_comparison.csv": "c62a3729e7e5a53a04c1f97646c63141274ce89ab00e29a732a9119f7ea5e68d",
+    "paired_effects.csv": "b20d8d2939b4da82c2f9751ae97cb6687535e0ee09da376fb2f598c6af9e18cb"
+  }
+}

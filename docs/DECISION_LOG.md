@@ -122,3 +122,15 @@ None of these may be scored before N20.
   - open `key.csv`;
   - run or inspect the sampling code on the real inputs.
 - **Attestation.** When the ratings are committed, each rater adds a dated one-line confirmation of this, and of independent rating, below this entry.
+
+## D016 — 2026-11-26 — 02 (Study 1 re-execution) finished with one gate failure: explained, results committed
+- **Gate.** `no_shape_or_column_changes` failed. The cause is environmental, not a defect:
+  - LightGBM is installed in the unified Kaggle image but was skipped on GitHub Actions ("not-installed: SKIPPED"), so N07, N08 and N10 gained `word_lgb` rows.
+  - All original rows reproduce to ≤ 6e-16.
+- **Other differences.**
+  - N11: ≤ 0.71 pp, from platform floating-point in logistic regression on augmented sets.
+  - N12: DistilBERT ≤ 3.5 pp FPR, GPU versus CPU, single seed.
+- **Handling.**
+  - The gate was not changed after the fact, and the kernel was not re-run. The failure and its explanation are documented in `results/02_study1/REPRODUCTION_NOTE.md`.
+  - The safe outputs were committed by hand, because the pipeline commits only COMPLETED runs.
+  - Per D013, these are the canonical Study 1 numbers.

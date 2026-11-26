@@ -1,0 +1,32 @@
+[
+  {
+    "notebook": "10_Paper_Tables_Figures_and_Manifest.ipynb",
+    "seconds": 182.1,
+    "error": null,
+    "notebook_sha256": "91fc388a1eac63b6eb60d1ad4c221843240c39d7ed01afcab0cd1e9469439b15"
+  },
+  {
+    "notebook": "11_Parent_Safe_LLM_Rewrite_Augmentation.ipynb",
+    "seconds": 203.5,
+    "error": null,
+    "notebook_sha256": "edc5b28a6f9378aa88f6f62bb3131c1a190086adbd5a3d24b990b85a17e426d3"
+  },
+  {
+    "notebook": "12_DistilBERT_Fine_Tune_External_Reliability.ipynb",
+    "seconds": 481.2,
+    "error": null,
+    "notebook_sha256": "8099c1c1f76103d14f0ce116af3809b0f8cf9c82b7676f9b23e3d18510ef2abf"
+  },
+  {
+    "notebook": "13_False_Alarm_Mechanism_and_Source_Shift.ipynb",
+    "seconds": 210.2,
+    "error": null,
+    "notebook_sha256": "ebb3402b03aafaac4dc8af7eadc19aa9c22b98bd924f23a87e7318281838f567"
+  },
+  {
+    "notebook": "14_Parent_Paired_Consistency_Training.ipynb",
+    "seconds": 357.6,
+    "error": null,
+    "notebook_sha256": "1de4fe68822dcc1c985c3ebfc6d04c7f5b7cc330aaef00065175fc44b5bd44a6"
+  }
+]

@@ -1,0 +1,44 @@
+{
+  "release": "N08-E04-ExternalAIAuthored-v1.0-2026-11-02",
+  "status": "KAGGLE_REAL_DATA_COMPLETED",
+  "source": "pajola/e-phishGen/ephishLLM.json",
+  "source_published_paper": "https://doi.org/10.1145/3733799.3762967",
+  "pinned_git_blob_sha1": "7a0e74ecebc1f3f5b21f42deccfb716b14bba46b",
+  "sha256_downloaded_bytes": "56420b143e30343f6db723c3716e10abec9f72a67ba99ae2cc7c3a87b547f51f",
+  "source_origin": "verified_private_cache",
+  "source_total": 16616,
+  "source_class_counts": {
+    "0": 8398,
+    "1": 8218
+  },
+  "source_language_counts": {
+    "it": 2701,
+    "en": 11502,
+    "fr": 12,
+    "de": 2349,
+    "es": 35,
+    "zh-cn": 3,
+    "ja": 2,
+    "da": 4,
+    "no": 3,
+    "sv": 5
+  },
+  "english_unique_decontaminated": 11502,
+  "excluded_non_english": 5114,
+  "excluded_empty": 0,
+  "excluded_exact_cross_source": 0,
+  "excluded_internal_exact_duplicate": 0,
+  "evaluation": "original D2 train-fitted classifiers with D2 validation-frozen thresholds; no external-data fitting",
+  "limitations": [
+    "Synthetic LLM-authored benign != verified human benign; no causal AI style comparison",
+    "English-only main evaluation; other language samples excluded deliberately",
+    "No measured near-duplicate clustering beyond exact normalized text",
+    "Datasets may differ in topic, message conventions, synthetic artifacts and label policies",
+    "N05 test already seen before N07 model family planning; N08 external outcomes must not drive further tuning",
+    "Dataset license and raw-message publication rights not established here"
+  ],
+  "files": {
+    "external_model_metrics.csv": "190de7cd9603e4c2caa16bf883babd1f3e0d70b872f9ec89d41a2383c7be0933",
+    "external_class_error_intervals.csv": "d724405795b741bf1f0cc98a0cf96bfcb985eca26d6a593d23f8352fab951e03"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "release": "N10-E06-Figures-v1.0-2026-11-02",
+  "status": "KAGGLE_REAL_DATA_COMPLETED",
+  "source_datasets": [
+    "HarmJ0y D2",
+    "E-PhishLLM published synthetic corpus"
+  ],
+  "scope": "Aggregate-only descriptive tables and figures; draft manuscript material, not publication claim",
+  "scientific_warnings": [
+    "N05 and later D2 test already explored; not a fresh holdout",
+    "E-PhishLLM is a synthetic AI-authored corpus and differs in theme, language and generator",
+    "None of these figures by itself establishes a new contribution or causal AI-style discrimination",
+    "Figures generated before independent human pair-label review and source-rights gate"
+  ],
+  "outputs": {
+    "fig01_d2_legitimate_fpr.pdf": "3a1cd6d8d82a84842865b7224f396d5b63c493dd8bbfdbf7e57ebdc43222d36e",
+    "fig01_d2_legitimate_fpr.png": "77b45360557c007885b41907f280ef5ffec438aca9ae196b0e7873ab22911abb",
+    "fig02_paired_legitimate_delta.pdf": "02bea4b88a5840e037bf52f6cabff725fdc0f02f5d187389336efdc067e67916",
+    "fig02_paired_legitimate_delta.png": "583f7fd00980c4df60a283878b7d0d26540d88298f6b793c84cf2596de7e6bd0",
+    "fig03_external_fpr_recall.pdf": "d9bdb1ae9161d3d2f4e19b959fdd4f937fade5bf98366a8b16843270b90c7098",
+    "fig03_external_fpr_recall.png": "a68e04e1fec90a7a2a27622cc5da4f48c3b139aafd1fe7817a33a2abb938e153",
+    "fig04_selective_risk_coverage.pdf": "1e0a679a3af53ca598baa0480d8e3c313289c391e90d70df92d728202b29ea3a",
+    "fig04_selective_risk_coverage.png": "aae0e43d9638e43ea749032c3ea7411de481f477bc44b9436c9fe4144153f999",
+    "run_manifest.json": "5962f8c1b2003edde8937b6a8eb577a6389f371d846af5bd7fa33846d6eb3a19",
+    "table01_n05_original_and_rewrites.csv": "c067a3edb9e076932d72e18926716408804d8a9a6ab15cdcfa219ec346b347eb",
+    "table02_paired_exact_tests.csv": "6c4ac18f594ebbb72143c2e661f3e679fef7eed4502ff96f52853f2613e9797b",
+    "table03_n07_cv_selected.csv": "c62a3729e7e5a53a04c1f97646c63141274ce89ab00e29a732a9119f7ea5e68d",
+    "table04_external_model_comparison.csv": "190de7cd9603e4c2caa16bf883babd1f3e0d70b872f9ec89d41a2383c7be0933",
+    "table05_style_evidence_ablation.csv": "fa395414e6d2e52ecc146ad4cb7cd902058dda8dc84a8e516076e0c13c3fd75a"
+  }
+}

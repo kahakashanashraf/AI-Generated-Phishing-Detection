@@ -1,0 +1,20 @@
+{
+  "release": "N09-E05-EvidenceStyleAblation-v1.0-2026-11-02",
+  "status": "KAGGLE_REAL_DATA_COMPLETED",
+  "selftest": "PASS",
+  "training": "D2 original train IDs from N05 only; feature selection uses inner train CV; threshold uses D2 validation",
+  "selected_configurations": {
+    "style_only": "style_only",
+    "evidence_proxy_only": "evidence_proxy_only",
+    "evidence_fusion": "fusion_0.5"
+  },
+  "feature_warning": "Hand-coded token patterns are lexical evidence PROXIES, not independently verified security facts.",
+  "novelty_warning": "Security-evidence fusion is a candidate method, NOT proven novel or superior until a controlled external outcome.",
+  "external_warning": "E-PhishLLM synthetic external source has topic/generator/language confounds; not causal AI-bias data.",
+  "files": {
+    "inner_cv_ablation.csv": "b532e66dd585ec37dac885b4dea030ddd09500745e3959534366a58547b4dcab",
+    "d2_ablation.csv": "e31b86fd51a121778a7e9c229c8ffcbcb2eed11c3e3d989c6d967b4f41072e13",
+    "external_ablation.csv": "fa395414e6d2e52ecc146ad4cb7cd902058dda8dc84a8e516076e0c13c3fd75a",
+    "paired_legitimate_ablation.csv": "5d6a4eb811d4f84df938dc11254a2f771ab7303d7df457fbb801f7522fdcc581"
+  }
+}

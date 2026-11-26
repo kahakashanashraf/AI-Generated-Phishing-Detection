@@ -1,0 +1,130 @@
+{
+  "notebook": "02_Study1_Exploratory_Reproduction",
+  "status": "COMPLETED_WITH_GATE_FAILURES",
+  "gates": {
+    "all_study1_notebooks_executed": true,
+    "every_reference_csv_present": true,
+    "no_shape_or_column_changes": false
+  },
+  "reproduction_summary": {
+    "WITHIN_TOLERANCE": 11,
+    "IDENTICAL": 7,
+    "SHAPE_OR_COLUMNS_DIFFER": 7,
+    "DIFFERENT": 6
+  },
+  "params": {
+    "REPO_URL": "https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection.git",
+    "CODE_COMMIT": "14186d81063908650f73c400b738f365cf8dd72b",
+    "SEED": 2026,
+    "EXPECTED_VERSIONS": {
+      "sklearn": "1.6.1"
+    },
+    "STUDY1_REFERENCE_COMMIT": "0705745806991f817037921cf06660f477194799",
+    "STUDY1_NOTEBOOKS": [
+      [
+        "10_Paper_Tables_Figures_and_Manifest.ipynb",
+        [
+          "phishing_n05_safe",
+          "phishing_n06_safe",
+          "phishing_n07_safe",
+          "phishing_n08_safe",
+          "phishing_n09_safe",
+          "phishing_n10_safe"
+        ]
+      ],
+      [
+        "11_Parent_Safe_LLM_Rewrite_Augmentation.ipynb",
+        [
+          "phishing_n11_safe"
+        ]
+      ],
+      [
+        "12_DistilBERT_Fine_Tune_External_Reliability.ipynb",
+        [
+          "phishing_n12_safe"
+        ]
+      ],
+      [
+        "13_False_Alarm_Mechanism_and_Source_Shift.ipynb",
+        [
+          "phishing_n13_safe"
+        ]
+      ],
+      [
+        "14_Parent_Paired_Consistency_Training.ipynb",
+        [
+          "phishing_n14_safe"
+        ]
+      ]
+    ],
+    "NOTEBOOK_TIMEOUT_SECONDS": 7200,
+    "ABS_TOLERANCE": 1e-06,
+    "MPLBACKEND": "Agg"
+  },
+  "environment": {
+    "utc": "2026-11-26T13:32:09.455618+00:00",
+    "python": "3.13.16",
+    "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "pkg_numpy": "2.1.3",
+    "pkg_pandas": "2.3.3",
+    "pkg_sklearn": "1.6.1",
+    "pkg_torch": "2.11.0+cu130",
+    "pkg_transformers": "5.20.2",
+    "pkg_vllm": null,
+    "pkg_langdetect": "present",
+    "git_commit": "14186d81063908650f73c400b738f365cf8dd72b",
+    "kaggle_docker_image": "gcr.io/kaggle-gpu-images/python@sha256:fc720c15545eb096a510e1f085b17fc118387a007599424d953a4f327b71cacf",
+    "phishbench": "2.1.0",
+    "cuda_devices": [
+      "Tesla T4",
+      "Tesla T4"
+    ]
+  },
+  "selftest": "Ran 34 tests in 1.604s",
+  "runtime_seconds": 1438.5,
+  "files": {
+    "notebook_runs.json": "65a9b939309e9ed7aedd409232ab790d3074644b82e13fad74b85db7dfa819e0",
+    "phishing_n05_safe/README.txt": "73519d62e45eb944d81e31e8f01904bfac573ba2e42ace7639e782fbc19e6a4e",
+    "phishing_n05_safe/metrics.csv": "c067a3edb9e076932d72e18926716408804d8a9a6ab15cdcfa219ec346b347eb",
+    "phishing_n05_safe/paired_effects.csv": "5154fde24d6e09175913d43ada64b2153f52e50d135a3b8fe0fa7b1608889cfa",
+    "phishing_n05_safe/summary.json": "1ca25968ddb5f9a6c896553d06f6d2b18e2c178a8402192eee1f7cec8c1f9b01",
+    "phishing_n06_safe/error_rate_intervals.csv": "bb286da750eded0a4646ebacd065f050d7bd0ed82d90f8ef166eedf881be973c",
+    "phishing_n06_safe/paired_exact_tests.csv": "6c4ac18f594ebbb72143c2e661f3e679fef7eed4502ff96f52853f2613e9797b",
+    "phishing_n06_safe/selective_risk_coverage.csv": "ed35b6205496e6062bb4be5a5aa00ac22d3ef992616252391b4d2c970868fde8",
+    "phishing_n07_safe/inner_cv_scores.csv": "d1f6dd6301fb37f1e6c8af66e46483f4bf8bbec76b142c307f376d825f560a61",
+    "phishing_n07_safe/model_comparison.csv": "c62a3729e7e5a53a04c1f97646c63141274ce89ab00e29a732a9119f7ea5e68d",
+    "phishing_n07_safe/paired_effects.csv": "b20d8d2939b4da82c2f9751ae97cb6687535e0ee09da376fb2f598c6af9e18cb",
+    "phishing_n08_safe/external_class_error_intervals.csv": "d724405795b741bf1f0cc98a0cf96bfcb985eca26d6a593d23f8352fab951e03",
+    "phishing_n08_safe/external_model_metrics.csv": "190de7cd9603e4c2caa16bf883babd1f3e0d70b872f9ec89d41a2383c7be0933",
+    "phishing_n09_safe/d2_ablation.csv": "e31b86fd51a121778a7e9c229c8ffcbcb2eed11c3e3d989c6d967b4f41072e13",
+    "phishing_n09_safe/external_ablation.csv": "fa395414e6d2e52ecc146ad4cb7cd902058dda8dc84a8e516076e0c13c3fd75a",
+    "phishing_n09_safe/inner_cv_ablation.csv": "b532e66dd585ec37dac885b4dea030ddd09500745e3959534366a58547b4dcab",
+    "phishing_n09_safe/paired_legitimate_ablation.csv": "5d6a4eb811d4f84df938dc11254a2f771ab7303d7df457fbb801f7522fdcc581",
+    "phishing_n10_safe/fig01_d2_legitimate_fpr.pdf": "3a1cd6d8d82a84842865b7224f396d5b63c493dd8bbfdbf7e57ebdc43222d36e",
+    "phishing_n10_safe/fig01_d2_legitimate_fpr.png": "77b45360557c007885b41907f280ef5ffec438aca9ae196b0e7873ab22911abb",
+    "phishing_n10_safe/fig02_paired_legitimate_delta.pdf": "02bea4b88a5840e037bf52f6cabff725fdc0f02f5d187389336efdc067e67916",
+    "phishing_n10_safe/fig02_paired_legitimate_delta.png": "583f7fd00980c4df60a283878b7d0d26540d88298f6b793c84cf2596de7e6bd0",
+    "phishing_n10_safe/fig03_external_fpr_recall.pdf": "d9bdb1ae9161d3d2f4e19b959fdd4f937fade5bf98366a8b16843270b90c7098",
+    "phishing_n10_safe/fig03_external_fpr_recall.png": "a68e04e1fec90a7a2a27622cc5da4f48c3b139aafd1fe7817a33a2abb938e153",
+    "phishing_n10_safe/fig04_selective_risk_coverage.pdf": "1e0a679a3af53ca598baa0480d8e3c313289c391e90d70df92d728202b29ea3a",
+    "phishing_n10_safe/fig04_selective_risk_coverage.png": "aae0e43d9638e43ea749032c3ea7411de481f477bc44b9436c9fe4144153f999",
+    "phishing_n10_safe/table01_n05_original_and_rewrites.csv": "c067a3edb9e076932d72e18926716408804d8a9a6ab15cdcfa219ec346b347eb",
+    "phishing_n10_safe/table02_paired_exact_tests.csv": "6c4ac18f594ebbb72143c2e661f3e679fef7eed4502ff96f52853f2613e9797b",
+    "phishing_n10_safe/table03_n07_cv_selected.csv": "c62a3729e7e5a53a04c1f97646c63141274ce89ab00e29a732a9119f7ea5e68d",
+    "phishing_n10_safe/table04_external_model_comparison.csv": "190de7cd9603e4c2caa16bf883babd1f3e0d70b872f9ec89d41a2383c7be0933",
+    "phishing_n10_safe/table05_style_evidence_ablation.csv": "fa395414e6d2e52ecc146ad4cb7cd902058dda8dc84a8e516076e0c13c3fd75a",
+    "phishing_n11_safe/augmentation_metrics.csv": "f716d4d824bf775d95a4965ead634d3ef8780d109c5e61076e13bd4632089ffe",
+    "phishing_n11_safe/paired_benign_rewrite_effects.csv": "e345fdad5c2e5b88e26c14693f247d145f74e647fd3f4847521f227892259b51",
+    "phishing_n11_safe/support_and_training_counts.csv": "e01a8392770f02f0b667ec830480e51d373b66bcb354e3654cfeb3f53f31a75b",
+    "phishing_n12_safe/train_validation_history.csv": "d3c6017b9587527800baa1841a331806f41cfba175bede132f56ee775807641c",
+    "phishing_n12_safe/transformer_metrics.csv": "72d818abe537cc25ce6aa4545b087a3b57b0a27b8948045162cab2857032c17c",
+    "phishing_n13_safe/class_conditional_source_shift.csv": "5a78314c7d20843982d8f73307788bf064a28ee46a6024aa4408d38ed240f58e",
+    "phishing_n13_safe/legitimate_false_alarm_strata.csv": "a3d31239c2cf4a4c2d2f44b61979289c115e9427e0a327a212f3f757423ea63c",
+    "phishing_n13_safe/near_duplicate_proxy_summary.csv": "7f0674c5ffac8376d8f74e90e30977701df047c0dece8d5b4d8292124c2a7028",
+    "phishing_n13_safe/score_distribution_shift.csv": "f727ede247b08d65bebdfc0dd436b668a427fe0a9cfb4a98bc1e8b1def2fadf4",
+    "phishing_n14_safe/heldout_paired_prediction_consistency.csv": "cb6ecb702cb455450b429dcb1dbd4304c581a99c9e212d867e6ee12106725f63",
+    "phishing_n14_safe/paired_objective_model_metrics.csv": "02935b6057a0f5268d074c3cb94094ebf055de36f53bd110285d8c95c4d15c7a",
+    "phishing_n14_safe/training_objective_diagnostics.csv": "ee45e93ce06defd74c5d276e521b11f3043999d4c2118d64afba206f13e52d4f",
+    "reproduction_report.csv": "0e323a1859207c131476673ff5a48ec310b3304cdcee77b887fb97aaf9712080"
+  }
+}

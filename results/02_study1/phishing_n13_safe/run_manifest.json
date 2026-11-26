@@ -1,0 +1,21 @@
+{
+  "release": "N13-E09-RootCauseDiagnostic-v1.0",
+  "status": "GITHUB_ACTIONS_REAL_DATA_COMPLETED",
+  "scope": "Descriptive source-shift and failure-mode diagnostics; not causal attribution",
+  "threshold": 0.35420166667950426,
+  "model": "frozen N05 tfidf logistic",
+  "external_evaluation_used_for_design": true,
+  "methodological_cautions": [
+    "Feature correlations cannot prove AI authorship causes a false alarm",
+    "Every security feature is a lexical proxy; no authenticated sender/link reputation was measured",
+    "Character n-gram similarity is a near-duplicate proxy, not semantic or template leakage proof",
+    "No parameter or threshold fitted on external data; external has been repeatedly examined and cannot be fresh blind holdout",
+    "Aggregate subgroup comparisons are exploratory, multi-comparison uncorrected; tiny cells suppressed"
+  ],
+  "files": {
+    "class_conditional_source_shift.csv": "5a78314c7d20843982d8f73307788bf064a28ee46a6024aa4408d38ed240f58e",
+    "legitimate_false_alarm_strata.csv": "a3d31239c2cf4a4c2d2f44b61979289c115e9427e0a327a212f3f757423ea63c",
+    "score_distribution_shift.csv": "f727ede247b08d65bebdfc0dd436b668a427fe0a9cfb4a98bc1e8b1def2fadf4",
+    "near_duplicate_proxy_summary.csv": "7f0674c5ffac8376d8f74e90e30977701df047c0dece8d5b4d8292124c2a7028"
+  }
+}

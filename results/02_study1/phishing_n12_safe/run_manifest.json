@@ -1,0 +1,27 @@
+{
+  "release": "N12-E08-TransformerComparator-v1.0-2026-11-02",
+  "execution_status": "KAGGLE_GPU_REAL_DATA_COMPLETED",
+  "device": "cuda",
+  "model": "distilbert/distilbert-base-uncased",
+  "model_revision": "12040accade4e8a0f71eabdb258fecc2e7e948be",
+  "training_seeds": [
+    2026,
+    2027
+  ],
+  "epochs_max": 2,
+  "train_examples_original_only": 1418,
+  "val_examples": 304,
+  "selection": "Maximum D2 validation average precision; threshold fixed by D2 validation FPR <= .05",
+  "external_evaluation": "E-PhishLLM English; zero fine-tuning or calibration on target",
+  "limitations": [
+    "Exploratory (external test examined before design). Not a fresh blind external test.",
+    "No independent annotation confirming phishing/legitimate source labels",
+    "No human-vs-AI matched original-message generator randomization",
+    "No security-meaning or near-duplicate/campaign robustness guarantee",
+    "Published transformer improvement or Q1 novelty not established by model alone"
+  ],
+  "files": {
+    "transformer_metrics.csv": "72d818abe537cc25ce6aa4545b087a3b57b0a27b8948045162cab2857032c17c",
+    "train_validation_history.csv": "d3c6017b9587527800baa1841a331806f41cfba175bede132f56ee775807641c"
+  }
+}
