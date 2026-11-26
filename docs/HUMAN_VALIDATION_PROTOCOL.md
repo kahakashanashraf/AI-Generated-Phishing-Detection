@@ -19,6 +19,11 @@ The items come from Qwen2.5-7B and Phi-3.5-mini, stratified by generator and sou
 2. **Ethics.** No approval is sought, because there are no human participants: the raters are authors rating text. The manuscript explains this in its Ethics Statement (draft: `paper/ETHICS_AND_DECLARATIONS.md`). Confirm this route with PLOS ONE staff before submission.
 3. **Check the kit run.** The kit kernel (`04-human-validation-kit`) has finished, and `results/04_human_validation/kit/run_manifest.json` is committed. That file holds `key_sha256`, which fixes the key before anyone rates.
 4. **Nobody opens `key.csv`.** Only the score kernel reads it. This includes the coordinator.
+5. **Raters stay blind by procedure.** The draw is reproducible from public code, so blinding is a promise, not a lock. Until the score run, raters A and B must not:
+   - open the 04 kernel outputs on Kaggle;
+   - open `key.csv`;
+   - run the sampling code on the real data.
+   They confirm this, and that they rated independently, with a dated line under D015 in `docs/DECISION_LOG.md` when the ratings are committed.
 
 ## Steps
 

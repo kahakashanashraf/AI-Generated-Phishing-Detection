@@ -114,3 +114,11 @@ None of these may be scored before N20.
 - **Ethics.** There are no human participants: the raters are authors rating text. The manuscript's Ethics Statement explains why no approval was needed and gives the privacy assessment for the third-party email datasets. A draft is in `paper/ETHICS_AND_DECLARATIONS.md`.
 - **To do before submission:** email PLOS ONE staff to confirm (a) the ethics route and (b) the affiliation line for authors without an institution. Record the reply here.
 - **Human validation roles.** Two authors rate (A and B) and the third coordinates and adjudicates last. Names go only into the manuscript's CRediT statement. Owner to confirm who takes which role.
+
+**D015 update (2026-11-26): roles confirmed by the owner.**
+- **Rater A:** Dipra. **Rater B:** Pujan. **Coordinator:** the repository owner. The coordinator runs the pipeline, holds the private folder, hands out the workbooks, runs the extraction and is adjudicator of last resort.
+- **Blinding caveat.** The draw is deterministic from public code, a public seed and Kaggle inputs. Blinding therefore rests on procedure, not secrecy. The Kaggle account that runs the kernels is accessible to a rater. Each rater therefore must not:
+  - open the outputs of the `04-human-validation-*` kernels on Kaggle;
+  - open `key.csv`;
+  - run or inspect the sampling code on the real inputs.
+- **Attestation.** When the ratings are committed, each rater adds a dated one-line confirmation of this, and of independent rating, below this entry.
