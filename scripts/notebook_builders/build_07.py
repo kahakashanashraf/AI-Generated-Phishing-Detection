@@ -67,7 +67,7 @@ for p in [sorted(root.rglob("records.jsonl.gz"))[0]] + [sorted(root.rglob(f"gene
                                 "generator": r.get("generator"), "source": r["source"]}
 reg = pd.concat([pd.read_csv(p) for p in sorted(root.rglob("model_registry.csv"))], ignore_index=True)
 scores = pd.concat([pd.read_csv(v["path"]) for v in SEALS.values()], ignore_index=True)
-base_id = scores["sample_id"].str.split("|I").str[0].where(scores["cell"].str.startswith("H4|"), scores["sample_id"])
+base_id = scores["sample_id"].str.rsplit("|", n=1).str[0].where(scores["cell"].str.startswith("H4|"), scores["sample_id"])
 scores["label"] = base_id.map(lambda s: meta.get(s, {}).get("label"))
 scores["parent_id"] = base_id.map(lambda s: meta.get(s, {}).get("parent_id", s))
 missing = scores["label"].isna().sum()
@@ -200,8 +200,7 @@ for (m, c), d in LOCK[~LOCK["cell"].str.startswith("H4|")].groupby(["model_id", 
         k, n = int(d[tau].sum()), len(d)
         lo, hi = stats.wilson_ci(k, n)
         SEC.append({"model": m, "cell": c, "threshold": tau.replace("dec", "tau"), "n": n, "class": {0: "legitimate", 1: "phishing", None: "mixed"}[lab],
-                    "rate": k / n, "metric": "FPR" if lab == 0 else "recall" if lab == 1 else "flag_rate", "wilson95": (lo, hi),
-                    "alerts_per_10k_at_1pct_prev": None})
+                    "rate": k / n, "metric": "FPR" if lab == 0 else "recall" if lab == 1 else "flag_rate", "wilson95": (lo, hi)})
 sec = pd.DataFrame(SEC); sec.to_csv(SAFE / "secondary_cell_metrics.csv", index=False, lineterminator="\\n")
 H2 = []
 for m in sorted(LOCK["model_id"].unique()):
@@ -245,7 +244,10 @@ for m in list(PRIMARY.values()) + ["D6|zero-shot|M0|s0"]:
         y = np.r_[np.zeros(len(L)), np.ones(len(P))]; s = np.r_[L["score"].values, P["score"].values]
         oracle_t = np.quantile(P["score"].values, 1 - VAL_RECALL.get(m, 0.95), method="lower")
         H4B.append({"model": m, "legit_cell": lc, "phish_cell": pc, "auroc": roc_auc_score(y, s), "fpr_at_tau5": float(L["dec5"].mean()),
-                    "fpr_at_oracle_matched_recall": float(np.mean(L["score"].values >= oracle_t))})
+                    "fpr_at_oracle_matched_recall": float(np.mean(L["score"].values >= oracle_t)),
+                    **{f"{k}_prev{int(pi * 100)}pct": v for pi in (0.01, 0.05) for k, v in (
+                        ("alerts_per_10k", 1e4 * (pi * P["dec5"].mean() + (1 - pi) * L["dec5"].mean())),
+                        ("precision", (pi * P["dec5"].mean()) / max(1e-12, pi * P["dec5"].mean() + (1 - pi) * L["dec5"].mean())))}})
 pd.DataFrame(H4B).to_csv(SAFE / "h4b_failure_decomposition.csv", index=False, lineterminator="\\n")
 H1IN = []
 for det, model in PRIMARY.items():
