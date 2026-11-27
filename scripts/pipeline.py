@@ -71,6 +71,9 @@ STEPS = {
                         f"{OWNER}/05-training-transformers", f"{OWNER}/06-zero-shot-llm-judge"],
                safe="safe_07", results="results/07_confirmatory"),
 }
+# CPU-only steps run in CPU sessions (same pinned image, no GPU quota, not counted against the 2 GPU slots; D018)
+for _n in ("04-kit", "04-score", "05-classical", "07"):
+    STEPS[_n]["gpu"] = False
 ORDER = ["02", "03-qwen2.5-7b", "03-phi-3.5-mini", "03-olmo-2-7b", "04-kit", "06", "05-classical", "05-transformers", "07",
          "04-score"]
 
@@ -128,7 +131,7 @@ def prepare(name: str) -> Path:
     s = STEPS[name]
     commit = sh("git", "rev-parse", "HEAD")
     kdir = REPO / "kaggle_kernels" / name
-    kernel_metadata(kdir, s["slug"].split("/")[1], s["nb"], gpu=True, kernel_sources=s["sources"],
+    kernel_metadata(kdir, s["slug"].split("/")[1], s["nb"], gpu=s.get("gpu", True), kernel_sources=s["sources"],
                     dataset_sources=s.get("datasets", []))
     sh(sys.executable, str(REPO / "scripts" / "notebook_builders" / s["builder"][0]), str(kdir / s["nb"]), commit, *s["builder"][1:])
     git_sync_commit([str(kdir.relative_to(REPO))], f"run({name}): exact notebook and kernel metadata pushed to Kaggle [skip ci]")
@@ -185,7 +188,8 @@ def main(only: list[str] | None) -> int:
                 save_state(st)
         running = [n for n in todo if st[n]["state"] == "running"]
         for n in todo:
-            if st[n]["state"] != "pending" or len(running) >= MAX_SLOTS:
+            gpu_running = [m for m in running if STEPS[m].get("gpu", True)]
+            if st[n]["state"] != "pending" or (STEPS[n].get("gpu", True) and len(gpu_running) >= MAX_SLOTS):
                 continue
             deps = STEPS[n]["deps"]
             if any(st.get(d, {}).get("state") == "failed" for d in deps):

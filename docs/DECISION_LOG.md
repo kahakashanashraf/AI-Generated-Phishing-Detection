@@ -161,3 +161,15 @@ None of these may be scored before N20.
 - Qwen is marked done.
 - Downstream steps read Qwen from the dataset `ddipra/phishbench-03-qwen2-5-7b-outputs`.
 - The runner gained a heartbeat lock, so two runners never act at once, and it logs any crash to `pipeline.log`. It still runs inside the coordinator's editor session. If that session closes, restarting the runner resumes from the saved state, and Kaggle kernels keep running in the meantime.
+
+## D018 — 2026-11-27 — GPU quota: CPU-only steps move to CPU sessions with the same image; GPU steps sequenced
+- **Situation.** The owner reported 8 GPU hours left in this week's Kaggle quota.
+- **Probe.** A private probe kernel (`zz-cpu-image-probe`) ran in a CPU session with the same pinned image. It reported the identical image digest (`fc720c15…`), Python 3.13.16, scikit-learn 1.6.1, transformers 5.20.2 and torch 2.11.0+cu130, with CUDA unavailable.
+- **Decision.** 04 (kit and score), 05-classical and 07 never use a GPU, so they now run in CPU sessions:
+  - `enable_gpu: false`, with the same `docker_image` pin;
+  - this uses no GPU quota and does not count against the 2 GPU slots.
+  - The single-environment principle (D013) holds, because only the hardware differs, and none of these steps uses a GPU.
+- **Sequencing.**
+  - Phi (test generator, on the critical path to human validation) keeps the GPU.
+  - OLMo was cancelled by the owner and is held, together with 06 and 05-transformers, until the weekly quota resets.
+  - 04-kit runs on CPU as soon as Phi completes.

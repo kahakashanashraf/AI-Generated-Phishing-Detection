@@ -298,5 +298,5 @@ manifest.write_json(SAFE / "run_manifest.json", {"notebook": "07_Confirmatory_Ev
 log("CLAIMS", json.dumps(CLAIMS, indent=1)); log("gates", GATES); assert all(GATES.values())
 """),
 ]
-write_notebook(OUT, cells, gpu=True)
+write_notebook(OUT, cells, gpu=False)
 print("wrote", OUT)

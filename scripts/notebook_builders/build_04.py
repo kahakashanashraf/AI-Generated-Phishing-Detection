@@ -216,5 +216,5 @@ assert all(gates.values()), "Gate failure"
 """),
     ]
 
-write_notebook(OUT, cells, gpu=True)
+write_notebook(OUT, cells, gpu=False)
 print("wrote", OUT)

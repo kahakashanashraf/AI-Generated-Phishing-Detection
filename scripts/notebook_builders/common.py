@@ -132,10 +132,13 @@ def write_notebook(path: Path, cells: list[dict], gpu: bool = False) -> None:
 def kernel_metadata(path: Path, slug: str, code_file: str, gpu: bool, dataset_sources=(), kernel_sources=(),
                     docker_image: str | None = DOCKER_IMAGE) -> None:
     meta = {"id": f"ddipra/{slug}", "title": slug, "code_file": code_file, "language": "python",
-            "kernel_type": "notebook", "is_private": "true", "enable_gpu": "true",
-            "enable_tpu": "false", "enable_internet": "true", "machine_shape": "NvidiaTeslaT4",
+            "kernel_type": "notebook", "is_private": "true", "enable_gpu": "true" if gpu else "false",
+            "enable_tpu": "false", "enable_internet": "true",
             "dataset_sources": list(dataset_sources), "competition_sources": [],
             "kernel_sources": list(kernel_sources), "model_sources": []}
+    if gpu:
+        meta["machine_shape"] = "NvidiaTeslaT4"
+    # CPU-only steps run in CPU sessions with the SAME pinned image (verified: identical image digest and packages; D018)
     if docker_image:
         meta["docker_image"] = docker_image
         meta["docker_image_pinning_type"] = "original"
