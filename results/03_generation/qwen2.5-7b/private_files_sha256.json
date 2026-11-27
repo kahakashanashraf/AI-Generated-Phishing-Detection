@@ -1,0 +1,10 @@
+{
+  "file_sha256": {
+    "generated_qwen2.5-7b.jsonl.gz": "0099535fb38d0d2f0f443bdf6b9c05ce0ad8b014de4984a9b083afd12bd7b934",
+    "rejected_ids_qwen2.5-7b.json": "daef6aef222397515d493d4be0959dc4be539e33351f9c5957200fc5f2e6c68c"
+  },
+  "content_sha256": {
+    "generated_qwen2.5-7b": "ef0b74a2cdb5591196fc08f11e59519ff3bd23defae13492a3ddc236cd7bf059"
+  },
+  "provenance": "Kaggle kernel ddipra/03-generation-qwen2-5-7b (pushed notebook: kaggle_kernels/03-qwen2.5-7b/), outputs frozen as the private dataset ddipra/phishbench-03-qwen2-5-7b-outputs (Kaggle decompresses .gz on upload; content hash unchanged). Deviation 12."
+}

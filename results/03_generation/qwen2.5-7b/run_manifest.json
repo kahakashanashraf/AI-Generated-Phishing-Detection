@@ -1,0 +1,95 @@
+{
+  "notebook": "03_Graded_AI_Assistance_Generation[qwen2.5-7b]",
+  "status": "COMPLETED_WITH_GATE_FAILURES",
+  "gates": {
+    "privacy_no_text_in_safe_outputs": true,
+    "kept_rate_ge_0.80_every_cell": false
+  },
+  "generator": "qwen2.5-7b",
+  "model_repo": "Qwen/Qwen2.5-7B-Instruct",
+  "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "role": "test",
+  "dtype": "float16",
+  "decoding": {
+    "temperature": 0.7,
+    "top_p": 0.95,
+    "max_new_tokens": 2048,
+    "do_sample": true
+  },
+  "seeding": "per batch (deviation 2)",
+  "embedder": {
+    "repo": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "cosine_threshold": 0.7
+  },
+  "records_01_sha256": "bbf544db7cc0145a31c4ab558ad8cb275e30165de9e440a67212c8c495c69616",
+  "phishbench_commit": "2fc02b9e51b060e64224852b51e49add53007866",
+  "requests": 4845,
+  "kept": 4364,
+  "batches": 158,
+  "new_tokens": 1336599,
+  "runtime_seconds": 24562.6,
+  "gpus": [
+    "Tesla T4",
+    "Tesla T4"
+  ],
+  "params": {
+    "REPO_URL": "https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection.git",
+    "CODE_COMMIT": "2fc02b9e51b060e64224852b51e49add53007866",
+    "SEED": 2026,
+    "GENERATOR": "qwen2.5-7b",
+    "GENERATORS": {
+      "qwen2.5-7b": {
+        "repo": "Qwen/Qwen2.5-7B-Instruct",
+        "role": "test",
+        "kv_budget_gb": 6.0,
+        "dtype": "float16"
+      },
+      "phi-3.5-mini": {
+        "repo": "microsoft/Phi-3.5-mini-instruct",
+        "role": "test",
+        "kv_budget_gb": 6.0,
+        "dtype": "float32"
+      },
+      "olmo-2-7b": {
+        "repo": "allenai/OLMo-2-1124-7B-Instruct",
+        "role": "train",
+        "kv_budget_gb": 6.0,
+        "dtype": "float16"
+      }
+    },
+    "EMBED_REPO": "sentence-transformers/all-MiniLM-L6-v2",
+    "COSINE_THRESHOLD": 0.7,
+    "MAX_BATCH": 32,
+    "FIRST_BATCH_MIN_PASS": 0.5,
+    "EXPECTED_VERSIONS": {
+      "sklearn": "1.6.1",
+      "transformers": "5.20.2",
+      "sentence_transformers": "5.7.0"
+    }
+  },
+  "environment": {
+    "utc": "2026-11-26T13:09:08.756144+00:00",
+    "python": "3.13.16",
+    "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "pkg_numpy": "2.1.3",
+    "pkg_pandas": "2.3.3",
+    "pkg_sklearn": "1.6.1",
+    "pkg_torch": "2.11.0+cu130",
+    "pkg_transformers": "5.20.2",
+    "pkg_vllm": null,
+    "pkg_langdetect": "present",
+    "git_commit": "2fc02b9e51b060e64224852b51e49add53007866",
+    "kaggle_docker_image": "gcr.io/kaggle-gpu-images/python@sha256:fc720c15545eb096a510e1f085b17fc118387a007599424d953a4f327b71cacf",
+    "phishbench": "2.1.0",
+    "cuda_devices": [
+      "Tesla T4",
+      "Tesla T4"
+    ]
+  },
+  "selftest": "Ran 28 tests in 0.196s",
+  "files": {
+    "generation_summary.csv": "37506cb460170e491822bc66d6753e99615f2e8c9b1ea027be06dcf87e946d4f",
+    "manipulation_check.csv": "afec390aaa576059d725f32ff9d55a7c2495991d171fd8c6c0c79d8572387b85"
+  }
+}

@@ -58,10 +58,12 @@ log("seals", len(SEALS), "verified" if SEAL_OK else "MISMATCH")
 assert SEAL_OK, "Seal verification failed: refusing to evaluate"
 
 def read_gz(p):
+    if str(p).endswith(".jsonl"):
+        return manifest.read_jsonl(p)
     with gzip.open(p, "rt", encoding="utf-8") as f:
         return [json.loads(l) for l in f]
 meta = {}
-for p in [sorted(root.rglob("records.jsonl.gz"))[0]] + [sorted(root.rglob(f"generated_{g}.jsonl.gz"))[0] for g in TEST_GENERATORS]:
+for p in [manifest.find_artifact(root, "records")] + [manifest.find_artifact(root, f"generated_{g}") for g in TEST_GENERATORS]:
     for r in read_gz(p):
         meta[r["sample_id"]] = {"label": r["label"], "parent_id": r["parent_id"], "level": r.get("level") or "L0",
                                 "generator": r.get("generator"), "source": r["source"]}

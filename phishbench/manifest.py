@@ -73,3 +73,37 @@ def file_hashes(folder: Path) -> dict:
     folder = Path(folder)
     return {str(p.relative_to(folder)).replace("\\", "/"): sha256_file(p)
             for p in sorted(folder.rglob("*")) if p.is_file() and p.name != "run_manifest.json"}
+
+
+def find_artifact(root, stem: str) -> Path:
+    """The single `<stem>.jsonl.gz` or `<stem>.jsonl` under root.
+
+    Kaggle datasets decompress .gz files on upload, while kernel outputs keep them. More than one hit is an error,
+    because it would make the input ambiguous.
+    """
+    hits = sorted(p for p in Path(root).rglob(f"{stem}.jsonl*") if p.name in (f"{stem}.jsonl.gz", f"{stem}.jsonl"))
+    if len(hits) != 1:
+        raise FileNotFoundError(f"expected exactly one {stem}.jsonl(.gz) under {root}, found {[str(h) for h in hits]}")
+    return hits[0]
+
+
+def _open_text(path: Path):
+    import gzip
+    path = Path(path)
+    return gzip.open(path, "rt", encoding="utf-8") if path.suffix == ".gz" else path.open(encoding="utf-8")
+
+
+def read_jsonl(path) -> list[dict]:
+    with _open_text(path) as f:
+        return [json.loads(line) for line in f if line.strip()]
+
+
+def content_sha256(path) -> str:
+    """SHA-256 of the uncompressed bytes, so a .jsonl.gz and its decompressed .jsonl hash the same."""
+    import gzip
+    path = Path(path)
+    h = hashlib.sha256()
+    with (gzip.open(path, "rb") if path.suffix == ".gz" else path.open("rb")) as f:
+        for block in iter(lambda: f.read(1 << 20), b""):
+            h.update(block)
+    return h.hexdigest()

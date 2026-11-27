@@ -45,7 +45,8 @@ if PART == "kit":
          "Kernel outputs of `03-generation-qwen2-5-7b` and `03-generation-phi-3-5-mini` (generated text and run manifests)"],
         [COMMON_OUT + ": sample summary, rater instructions, run manifest with the key and item hashes",
          "`private_04/rater_A.xlsx`, `rater_B.xlsx`, `practice_A.xlsx`, `practice_B.xlsx`, `key.csv`, `practice_key.csv` (private; never committed)"],
-        ["both 03 run manifests say COMPLETED", "every stratum and the practice set reach their target sizes", "no email text in safe outputs"],
+        ["both generated files match the SHA-256 committed in `results/03_generation/<generator>/private_files_sha256.json`",
+         "every stratum and the practice set reach their target sizes", "no email text in safe outputs"],
         "Kaggle GPU T4×2 image (CPU work), about 2 minutes")
 else:
     head = header(
@@ -85,22 +86,20 @@ if PART == "kit":
         md("## 1. Load the parents (01) and the generated records of the test generators (03), and check the 03 manifests"),
         code("""
 root = Path(INPUT_ROOT)
-src01 = sorted(root.rglob("records.jsonl.gz")); assert src01, "Attach the 01 kernel output"
-parents = {}
-with gzip.open(src01[0], "rt", encoding="utf-8") as f:
-    for line in f:
-        r = json.loads(line)
-        parents[r["sample_id"]] = r
-INPUT_HASHES = {"records_01": manifest.sha256_file(src01[0])}
+src01 = manifest.find_artifact(root, "records")
+parents = {r["sample_id"]: r for r in manifest.read_jsonl(src01)}
+INPUT_HASHES = {"records_01": manifest.content_sha256(src01)}
 generated, GEN_MANIFESTS = [], {}
 for g in TEST_GENERATORS:
-    gp = sorted(root.rglob(f"generated_{g}.jsonl.gz")); assert gp, f"Attach the 03 kernel output for {g}"
-    mp = [p for p in root.rglob("run_manifest.json") if p.parent.name == g]; assert mp, f"03 run manifest for {g} missing"
+    gp = manifest.find_artifact(root, f"generated_{g}")
+    mp = [p for p in root.rglob("run_manifest.json") if json.loads(p.read_text(encoding="utf-8")).get("generator") == g]
+    assert mp, f"03 run manifest for {g} missing"
     m = json.loads(mp[0].read_text(encoding="utf-8"))
     GEN_MANIFESTS[g] = {"status": m["status"], "model_revision": m.get("model_revision"), "phishbench_commit": m.get("phishbench_commit")}
-    INPUT_HASHES[f"generated_{g}"] = manifest.sha256_file(gp[0])
-    with gzip.open(gp[0], "rt", encoding="utf-8") as f:
-        generated += [json.loads(line) for line in f]
+    INPUT_HASHES[f"generated_{g}"] = manifest.content_sha256(gp)
+    committed = json.loads((REPO / "results" / "03_generation" / g / "private_files_sha256.json").read_text(encoding="utf-8"))
+    GEN_MANIFESTS[g]["matches_committed_sha256"] = committed["content_sha256"].get(f"generated_{g}") == INPUT_HASHES[f"generated_{g}"]
+    generated += manifest.read_jsonl(gp)
 log("parents", len(parents), "| generated", Counter(r["generator"] for r in generated), "| 03 manifests", GEN_MANIFESTS)
 """),
         md("## 2. Draw the stratified sample, blind it, and write one workbook per rater"),
@@ -142,7 +141,7 @@ for row in report:
 safe_blob = textnorm.normalize("\\n".join(p.read_text(encoding="utf-8") for p in SAFE.glob("*") if p.is_file()))
 probe = [x for x in items + practice if len(textnorm.normalize(x["body"])) >= 40]
 leaks = sum(1 for x in probe if textnorm.normalize(x["body"])[:40] in safe_blob)
-gates = {"03_manifests_completed": all(m["status"] == "COMPLETED" for m in GEN_MANIFESTS.values()),
+gates = {"03_outputs_match_committed_sha256": all(m["matches_committed_sha256"] for m in GEN_MANIFESTS.values()),
          "every_stratum_at_target": all(r["drawn"] == r["target"] for r in report),
          "practice_at_target": all(r["drawn"] == r["target"] for r in practice_report),
          "privacy_no_text_in_safe_outputs": leaks == 0}

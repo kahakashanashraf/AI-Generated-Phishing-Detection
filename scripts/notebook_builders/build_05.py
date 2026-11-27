@@ -52,17 +52,11 @@ for _p in (SAFE, PRIVATE, SCORES):
     selftest_cell(),
     md("## 1. Load the locked records (01) and the generated records (03)"),
     code("""
-def read_gz(path):
-    with gzip.open(path, "rt", encoding="utf-8") as f:
-        return [json.loads(l) for l in f]
-def find(pattern):
-    hits = sorted(Path(INPUT_ROOT).rglob(pattern))
-    assert hits, f"missing kernel input: {pattern}"
-    return hits[0]
-INPUTS = {"01": find("records.jsonl.gz")}
+read_gz = manifest.read_jsonl          # .jsonl.gz from kernel outputs, .jsonl from Kaggle datasets (deviation 12)
+INPUTS = {"01": manifest.find_artifact(INPUT_ROOT, "records")}
 for g in TEST_GENERATORS + [TRAIN_GENERATOR]:
-    INPUTS[g] = find(f"generated_{g}.jsonl.gz")
-INPUT_SHA256 = {k: manifest.sha256_file(v) for k, v in INPUTS.items()}
+    INPUTS[g] = manifest.find_artifact(INPUT_ROOT, f"generated_{g}")
+INPUT_SHA256 = {k: manifest.content_sha256(v) for k, v in INPUTS.items()}
 by_cell = defaultdict(list)
 for k, p in INPUTS.items():
     for r in read_gz(p):

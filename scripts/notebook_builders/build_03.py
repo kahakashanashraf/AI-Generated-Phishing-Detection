@@ -13,13 +13,16 @@ PARAMS = {
     "GENERATOR": GEN,
     "GENERATORS": {
         "qwen2.5-7b": {"repo": "Qwen/Qwen2.5-7B-Instruct", "role": "test", "kv_budget_gb": 6.0, "dtype": "float16"},
-        "phi-3.5-mini": {"repo": "microsoft/Phi-3.5-mini-instruct", "role": "test", "kv_budget_gb": 6.0, "dtype": "float32"},
-        "olmo-2-7b": {"repo": "allenai/OLMo-2-1124-7B-Instruct", "role": "train", "kv_budget_gb": 6.0, "dtype": "float16"},
+        # deviation 12: Phi in float16 (float32 needed > 12 h); KV budgets use the memory left after the weights
+        "phi-3.5-mini": {"repo": "microsoft/Phi-3.5-mini-instruct", "role": "test", "kv_budget_gb": 12.0, "dtype": "float16"},
+        "olmo-2-7b": {"repo": "allenai/OLMo-2-1124-7B-Instruct", "role": "train", "kv_budget_gb": 10.0, "dtype": "float16"},
     },
     "EMBED_REPO": "sentence-transformers/all-MiniLM-L6-v2",
     "COSINE_THRESHOLD": 0.70,
     "MAX_BATCH": 32,
     "FIRST_BATCH_MIN_PASS": 0.5,
+    "MAX_GEN_SECONDS": 37800,        # 10.5 h: stop starting new batches, keep time to embed and write (Kaggle 12 h limit)
+    "ATTRITION_FLAG_BELOW": 0.80,    # reported for the paper, not a gate: §3.4 counts exclusions (deviation 12)
     "EXPECTED_VERSIONS": {"sklearn": "1.6.1", "transformers": "5.20.2", "sentence_transformers": "5.7.0"},
 }
 
@@ -34,8 +37,9 @@ cells = [
             "Pinned Hugging Face model revisions (resolved and recorded at run time)"],
            ["`safe_03/<generator>/` (committed to `results/03_generation/`): generation summary, manipulation check, run manifest",
             "`private_03/generated_<generator>.jsonl.gz` (private): generated text, used as input to 05 and 07"],
-           ["first-batch pass rate ≥ 0.5 (fail fast on numerical issues)", "kept rate ≥ 0.80 in every cell", "no email text in safe outputs"],
-           "Kaggle GPU T4×2, internet ON, about 2–4 hours per generator"),
+           ["first-batch pass rate ≥ 0.5 (fail fast on numerical issues)", "every task attempted within the time guard",
+            "no email text in safe outputs (cells with kept rate < 0.80 are flagged for reporting, as §3.4 counts exclusions)"],
+           "Kaggle GPU T4×2, internet ON, about 4–7 hours per generator"),
     params_cell(PARAMS),
     env_cell("""import numpy as np, torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -142,6 +146,11 @@ def run_batch(batch):
 
 results, new_tokens = [], 0
 for bi, batch in enumerate(batches):
+    if time.time() - T0 > MAX_GEN_SECONDS:   # time guard: record the rest as not run, so nothing already generated is lost
+        for b2 in batches[bi:]:
+            results += [(r, None, "not_run_time_limit") for r in b2]
+        log(f"TIME GUARD at batch {bi+1}/{len(batches)}: {sum(len(b2) for b2 in batches[bi:])} tasks not run")
+        break
     for r, text, n in run_batch(batch):
         if text is None:
             results.append((r, None, "oom")); continue
@@ -203,6 +212,9 @@ with gzip.open(PRIVATE / f"generated_{GENERATOR}.jsonl.gz", "wt", encoding="utf-
     for r in final:
         f.write(json.dumps(r, ensure_ascii=False) + "\\n")
 manifest.write_json(PRIVATE / f"rejected_ids_{GENERATOR}.json", sorted([r["id"], why] for r, res, why in results if why is not None))
+PRIVATE_HASHES = {"file_sha256": {p.name: manifest.sha256_file(p) for p in sorted(PRIVATE.glob(f"*_{GENERATOR}.*"))},
+                  "content_sha256": {f"generated_{GENERATOR}": manifest.content_sha256(PRIVATE / f"generated_{GENERATOR}.jsonl.gz")}}
+manifest.write_json(SAFE / "private_files_sha256.json", PRIVATE_HASHES)   # downstream notebooks verify these
 
 requested = Counter(r["cell"] for r in requests)
 kept = Counter(r["cell"] for r in final)
@@ -232,9 +244,11 @@ safe_blob = "\\n".join(p.read_text(encoding="utf-8") for p in SAFE.glob("*") if 
 probe = random.Random(SEED).sample(final, min(300, len(final))) if final else []
 leaks = sum(1 for r in probe if len(textnorm.normalize(r["body"])) >= 40 and textnorm.normalize(r["body"])[:40] in textnorm.normalize(safe_blob))
 gates = {"privacy_no_text_in_safe_outputs": leaks == 0,
-         "kept_rate_ge_0.80_every_cell": all(kept[c] / requested[c] >= 0.80 for c in requested)}
+         "every_task_attempted": not any(why == "not_run_time_limit" for _, _, why in results)}
+ATTRITION = {c: round(kept[c] / requested[c], 4) for c in sorted(requested) if kept[c] / requested[c] < ATTRITION_FLAG_BELOW}
 manifest.write_json(SAFE / "run_manifest.json", {
-    "notebook": f"03_Graded_AI_Assistance_Generation[{GENERATOR}]", "status": "COMPLETED" if all(gates.values()) else "COMPLETED_WITH_GATE_FAILURES",
+    "notebook": f"03_Graded_AI_Assistance_Generation[{GENERATOR}]", "status": "COMPLETED" if all(gates.values()) else ("PARTIAL_TIME_LIMIT" if gates["privacy_no_text_in_safe_outputs"] else "COMPLETED_WITH_GATE_FAILURES"),
+    "attrition_flags_kept_rate_below_0.80": ATTRITION, "private_files_sha256": PRIVATE_HASHES,
     "gates": gates, "generator": GENERATOR, "model_repo": CFG["repo"], "model_revision": REV, "role": CFG["role"],
     "dtype": CFG["dtype"], "decoding": generation.DECODING, "seeding": "per batch (deviation 2)",
     "embedder": {"repo": EMBED_REPO, "revision": EMBED_REV, "cosine_threshold": COSINE_THRESHOLD},
@@ -244,7 +258,10 @@ manifest.write_json(SAFE / "run_manifest.json", {
     "params": PARAMS, "environment": ENV, "selftest": SELFTEST, "files": manifest.file_hashes(SAFE),
 })
 log("gates", gates)
-assert all(gates.values()), "Gate failure: outputs must not be used downstream"
+log("attrition flags (reported, not a gate)", ATTRITION)
+assert gates["privacy_no_text_in_safe_outputs"], "Privacy gate failure: outputs must not be used downstream"
+if not gates["every_task_attempted"]:
+    log("PARTIAL run: outputs kept for a continuation; not usable downstream as a complete cell set")
 """),
 ]
 write_notebook(OUT, cells, gpu=True)

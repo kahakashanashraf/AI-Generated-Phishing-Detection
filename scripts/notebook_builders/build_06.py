@@ -44,13 +44,10 @@ SAFE, PRIVATE = WORK / "safe_06", WORK / "private_06"
     selftest_cell(),
     md("## 1. Inputs and the cells to score (identical to 05, without the H4 cells)"),
     code("""
-def read_gz(p):
-    with gzip.open(p, "rt", encoding="utf-8") as f:
-        return [json.loads(l) for l in f]
-def find(pattern):
-    hits = sorted(Path(INPUT_ROOT).rglob(pattern)); assert hits, pattern; return hits[0]
-INPUTS = {"01": find("records.jsonl.gz"), **{g: find(f"generated_{g}.jsonl.gz") for g in TEST_GENERATORS}}
-INPUT_SHA256 = {k: manifest.sha256_file(v) for k, v in INPUTS.items()}
+read_gz = manifest.read_jsonl          # .jsonl.gz from kernel outputs, .jsonl from Kaggle datasets (deviation 12)
+INPUTS = {"01": manifest.find_artifact(INPUT_ROOT, "records"),
+          **{g: manifest.find_artifact(INPUT_ROOT, f"generated_{g}") for g in TEST_GENERATORS}}
+INPUT_SHA256 = {k: manifest.content_sha256(v) for k, v in INPUTS.items()}
 by_cell = defaultdict(list)
 for p in INPUTS.values():
     for r in read_gz(p):

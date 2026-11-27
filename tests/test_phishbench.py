@@ -543,3 +543,27 @@ class TestHumanValidation(unittest.TestCase):
             self.assertEqual(sorted(r["item_id"] for r in back), sorted(x["item_id"] for x in items))
             self.assertTrue(all("body" not in r for r in back))
             self.assertEqual(back[0]["intent_preserved" if back[0]["task"] == "RW" else "plausible_legitimate"], "yes")
+
+
+class TestArtifacts(unittest.TestCase):
+    def test_find_read_and_content_hash(self):
+        import gzip as _gz
+        from phishbench import manifest as mf
+        rows = [{"a": 1}, {"b": "x"}]
+        blob = "".join(json.dumps(r) + "\n" for r in rows).encode("utf-8")
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            (d / "k1").mkdir(); (d / "k2").mkdir()
+            with _gz.open(d / "k1" / "generated_g.jsonl.gz", "wb") as f:
+                f.write(blob)
+            (d / "k2" / "generated_h.jsonl").write_bytes(blob)
+            pg, ph = mf.find_artifact(d, "generated_g"), mf.find_artifact(d, "generated_h")
+            self.assertEqual(mf.read_jsonl(pg), rows)
+            self.assertEqual(mf.read_jsonl(ph), rows)
+            self.assertEqual(mf.content_sha256(pg), mf.content_sha256(ph))
+            self.assertNotEqual(mf.sha256_file(pg), mf.sha256_file(ph))
+            (d / "k2" / "generated_g.jsonl").write_bytes(blob)          # ambiguity is an error
+            with self.assertRaises(FileNotFoundError):
+                mf.find_artifact(d, "generated_g")
+            with self.assertRaises(FileNotFoundError):
+                mf.find_artifact(d, "generated_zzz")

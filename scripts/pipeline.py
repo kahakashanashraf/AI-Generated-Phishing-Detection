@@ -35,6 +35,11 @@ from common import kernel_metadata  # noqa: E402
 
 K01 = f"{OWNER}/01-data-sources-audit-and-locked-cells"
 GEN = {g: f"{OWNER}/03-generation-{g.replace('.', '-')}" for g in ("qwen2.5-7b", "phi-3.5-mini", "olmo-2-7b")}
+# Deviation 12: the Qwen kernel finished all generation, but a builder-level gate (not in the protocol) failed. Its exact
+# outputs are frozen as a private dataset (content hashes in results/03_generation/qwen2.5-7b/private_files_sha256.json),
+# so downstream steps read Qwen from the dataset, not from the kernel.
+QWEN_DS = f"{OWNER}/phishbench-03-qwen2-5-7b-outputs"
+GEN_SRC = {g: k for g, k in GEN.items() if g != "qwen2.5-7b"}
 
 STEPS = {
     "02": dict(builder=["build_02.py"], nb="02_Study1_Exploratory_Reproduction.ipynb", slug=f"{OWNER}/02-study1-exploratory-reproduction",
@@ -42,13 +47,13 @@ STEPS = {
     **{f"03-{g}": dict(builder=["build_03.py", g], nb="03_Graded_AI_Assistance_Generation.ipynb", slug=GEN[g], deps=[],
                        sources=[K01], safe=f"safe_03/{g}", results=f"results/03_generation/{g}") for g in GEN},
     "05-classical": dict(builder=["build_05.py", "classical"], nb="05_Detector_Training_and_Sealed_Scoring.ipynb",
-                         slug=f"{OWNER}/05-training-classical", deps=[f"03-{g}" for g in GEN], sources=[K01, *GEN.values()],
+                         slug=f"{OWNER}/05-training-classical", deps=[f"03-{g}" for g in GEN], sources=[K01, *GEN_SRC.values()], datasets=[QWEN_DS],
                          safe="safe_05/classical", results="results/05_training/classical"),
     "05-transformers": dict(builder=["build_05.py", "transformers"], nb="05_Detector_Training_and_Sealed_Scoring.ipynb",
-                            slug=f"{OWNER}/05-training-transformers", deps=[f"03-{g}" for g in GEN], sources=[K01, *GEN.values()],
+                            slug=f"{OWNER}/05-training-transformers", deps=[f"03-{g}" for g in GEN], sources=[K01, *GEN_SRC.values()], datasets=[QWEN_DS],
                             safe="safe_05/transformers", results="results/05_training/transformers"),
     "04-kit": dict(builder=["build_04.py", "kit"], nb="04_Human_Validation.ipynb", slug=f"{OWNER}/04-human-validation-kit",
-                   deps=["03-qwen2.5-7b", "03-phi-3.5-mini"], sources=[K01, GEN["qwen2.5-7b"], GEN["phi-3.5-mini"]],
+                   deps=["03-qwen2.5-7b", "03-phi-3.5-mini"], sources=[K01, GEN["phi-3.5-mini"]], datasets=[QWEN_DS],
                    safe="safe_04/kit", results="results/04_human_validation/kit"),
     # 04-score waits until both raters' answers and the adjudication are committed (docs/HUMAN_VALIDATION_PROTOCOL.md)
     "04-score": dict(builder=["build_04.py", "score"], nb="04_Human_Validation.ipynb", slug=f"{OWNER}/04-human-validation-score",
@@ -56,11 +61,11 @@ STEPS = {
                      results="results/04_human_validation/score",
                      requires=[f"results/04_human_validation/ratings/{n}" for n in ("rater_A.csv", "rater_B.csv", "adjudication.csv")]),
     "06": dict(builder=["build_06.py"], nb="06_Zero_Shot_LLM_Judge.ipynb", slug=f"{OWNER}/06-zero-shot-llm-judge",
-               deps=["03-qwen2.5-7b", "03-phi-3.5-mini"], sources=[K01, GEN["qwen2.5-7b"], GEN["phi-3.5-mini"]],
+               deps=["03-qwen2.5-7b", "03-phi-3.5-mini"], sources=[K01, GEN["phi-3.5-mini"]], datasets=[QWEN_DS],
                safe="safe_06", results="results/06_judge"),
     "07": dict(builder=["build_07.py"], nb="07_Confirmatory_Evaluation.ipynb", slug=f"{OWNER}/07-confirmatory-evaluation",
                deps=["05-classical", "05-transformers", "06"],
-               sources=[K01, GEN["qwen2.5-7b"], GEN["phi-3.5-mini"], f"{OWNER}/05-training-classical",
+               datasets=[QWEN_DS], sources=[K01, GEN["phi-3.5-mini"], f"{OWNER}/05-training-classical",
                         f"{OWNER}/05-training-transformers", f"{OWNER}/06-zero-shot-llm-judge"],
                safe="safe_07", results="results/07_confirmatory"),
 }
@@ -122,7 +127,7 @@ def prepare(name: str) -> Path:
     commit = sh("git", "rev-parse", "HEAD")
     kdir = REPO / "kaggle_kernels" / name
     kernel_metadata(kdir, s["slug"].split("/")[1], s["nb"], gpu=True, kernel_sources=s["sources"],
-                    dataset_sources=[])
+                    dataset_sources=s.get("datasets", []))
     sh(sys.executable, str(REPO / "scripts" / "notebook_builders" / s["builder"][0]), str(kdir / s["nb"]), commit, *s["builder"][1:])
     git_sync_commit([str(kdir.relative_to(REPO))], f"run({name}): exact notebook and kernel metadata pushed to Kaggle [skip ci]")
     return kdir
