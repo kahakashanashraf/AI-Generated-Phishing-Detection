@@ -30,22 +30,22 @@ The work is submitted from **EliteLab** (owner decision, 2026-11-27).
 - **Confirm before submission:** ask PLOS ONE staff to confirm that this is acceptable, in the same email as the ethics route (DECISION_LOG D015).
 
 ## Author contributions (CRediT; required by PLOS ONE)
-Fill in at least one role per author. Suggested roles for this project:
+Author order as given by the owner on 2026-11-27. Two full names are still to come. Every listed author must meet the authorship criteria, which means a real contribution (for example review & editing), and must approve the final version. Fill in at least one role per author:
 
-| CRediT role | [Author 1] | [Author 2] | [Author 3] |
-|---|---|---|---|
-| Conceptualization | | | |
-| Methodology | | | |
-| Software | | | |
-| Validation (human validation raters) | | | |
-| Formal analysis | | | |
-| Investigation | | | |
-| Data curation | | | |
-| Writing – original draft | | | |
-| Writing – review & editing | | | |
-| Visualization | | | |
-| Supervision | | | |
-| Project administration | | | |
+| CRediT role | Dipra Das | [Author 2] | Kahakashan Ashraf | [Author 4] | Md Kishor Morol | Tze Hui Liew |
+|---|---|---|---|---|---|---|
+| Conceptualization | | | | | | |
+| Methodology | | | | | | |
+| Software | | | | | | |
+| Validation (human validation raters) | | | | | | |
+| Formal analysis | | | | | | |
+| Investigation | | | | | | |
+| Data curation | | | | | | |
+| Writing – original draft | | | | | | |
+| Writing – review & editing | | | | | | |
+| Visualization | | | | | | |
+| Supervision | | | | | | |
+| Project administration | | | | | | |
 
 Both raters in the human validation (§3.5) should hold **Validation** and **Investigation**. The coordinator should hold **Project administration**.
 

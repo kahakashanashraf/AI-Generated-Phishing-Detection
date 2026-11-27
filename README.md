@@ -71,3 +71,9 @@ GPU is not required for the initial literature review, data audit or TF-IDF clas
 **[Issue #1 — start literature/problem gate](https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection/issues/1)**. For each checkbox: show dated artifact + dataset/code versions/hashes + executed test/log + GO/NO-GO. Once a milestone is complete, close its issue and tick the corresponding ROADMAP item. Never tick for unrun code, a paper citation alone, or an unaudited dataset.
 
 Security: do not publish private messages, credentials, live-looking phishing links or copyrighted/raw restricted corpora.
+
+## Licence and citation
+- **Code:** MIT (`LICENSE`).
+- **Results and documents:** CC BY 4.0 (`LICENSE-CC-BY-4.0.md`).
+- **Third-party datasets** keep their own terms. The repository contains no email text.
+- **Citation:** see `CITATION.cff`. Each release is archived on Zenodo with a DOI. Version 1 is the protocol snapshot, archived before the confirmatory analysis.

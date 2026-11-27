@@ -1,0 +1,44 @@
+{
+  "title": "Is it the AI or the inbox? Code, pre-registered protocol and text-free results",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "MIT",
+  "creators": [
+    {
+      "name": "Das, Dipra"
+    },
+    {
+      "name": "[AUTHOR 2: Family, Given - fill before release]"
+    },
+    {
+      "name": "Ashraf, Kahakashan"
+    },
+    {
+      "name": "[AUTHOR 4: Family, Given - fill before release]"
+    },
+    {
+      "name": "Morol, Md Kishor"
+    },
+    {
+      "name": "Liew, Tze Hui"
+    }
+  ],
+  "description": "<p>Code, the frozen pre-registered protocol (with every logged deviation) and the text-free results of the study \"Is it the AI or the inbox?\". The study asks whether phishing-email detectors raise false alarms on legitimate email written with graded AI assistance, separating style, content and source. It also tests mitigations from both sides.</p><p><b>Version 1 is the protocol snapshot.</b> It was archived before the single confirmatory analysis (notebook 07), so that the analysis plan is independently timestamped. Later versions add the confirmatory results and the paper package.</p><p>The archive contains <b>no email text</b>, raw or generated. Code is MIT-licensed. Results and documents are under CC BY 4.0 (see LICENSE-CC-BY-4.0.md).</p>",
+  "keywords": [
+    "phishing detection",
+    "large language models",
+    "AI-generated text",
+    "false positives",
+    "pre-registration",
+    "reproducibility",
+    "email security"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "notes": "Kaggle notebooks run in one pinned image; every run manifest records parameters, environment and SHA-256 hashes."
+}

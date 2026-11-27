@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software or its results, please cite it as below."
+type: software
+title: "Is it the AI or the inbox? Code, pre-registered protocol and text-free results"
+authors:
+  - family-names: "Das"
+    given-names: "Dipra"
+  - name: "[AUTHOR 2: fill before release]"
+  - family-names: "Ashraf"
+    given-names: "Kahakashan"
+  - name: "[AUTHOR 4: fill before release]"
+  - family-names: "Morol"
+    given-names: "Md Kishor"
+  - family-names: "Liew"
+    given-names: "Tze Hui"
+license: MIT
+repository-code: https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection
+keywords:
+  - "phishing detection"
+  - "large language models"
+  - "AI-generated text"
+  - "false positives"
+  - "pre-registration"
+  - "reproducibility"
+  - "email security"

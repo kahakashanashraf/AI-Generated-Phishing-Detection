@@ -200,3 +200,16 @@ None of these may be scored before N20.
 - **Affiliation line:** "EliteLab, City, Country" for every author.
 - **University affiliations:** listed only where that university's policy allows it.
 - **Pending:** PLOS ONE staff are to confirm both the ethics route and the affiliation before submission. The draft email is held by the coordinator.
+
+**D015 update (2026-11-27): author list.**
+- **Order given by the owner:**
+  1. Dipra Das
+  2. [name to come]
+  3. Kahakashan Ashraf
+  4. [name to come]
+  5. Md Kishor Morol
+  6. Tze Hui Liew
+- **Human-validation roles are unchanged:** rater A Dipra, rater B Pujan, coordinator Kahakashan Ashraf.
+- **If any author is a university supervisor,** the affiliation and ethics route of deviation 10 should be re-checked before the human rating starts.
+- **Release metadata:** `CITATION.cff` and `.zenodo.json` hold the list. `scripts/check_release_metadata.py` blocks a release while any name is a placeholder.
+- **Licences:** code is MIT (`LICENSE`). Results and documents are CC BY 4.0 (`LICENSE-CC-BY-4.0.md`). The authors can still change either before the first Zenodo release.
