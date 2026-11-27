@@ -51,9 +51,10 @@ STEPS = {
     "05-classical": dict(builder=["build_05.py", "classical"], nb="05_Detector_Training_and_Sealed_Scoring.ipynb",
                          slug=f"{OWNER}/05-training-classical", deps=[f"03-{g}" for g in GEN], sources=[K01, *GEN_SRC.values()], datasets=[QWEN_DS],
                          safe="safe_05/classical", results="results/05_training/classical"),
-    "05-transformers": dict(builder=["build_05.py", "transformers"], nb="05_Detector_Training_and_Sealed_Scoring.ipynb",
-                            slug=f"{OWNER}/05-training-transformers", deps=[f"03-{g}" for g in GEN], sources=[K01, *GEN_SRC.values()], datasets=[QWEN_DS],
-                            safe="safe_05/transformers", results="results/05_training/transformers"),
+    **{f"05-{part}": dict(builder=["build_05.py", part], nb="05_Detector_Training_and_Sealed_Scoring.ipynb",
+                          slug=f"{OWNER}/05-training-{part}", deps=[f"03-{g}" for g in GEN], sources=[K01, *GEN_SRC.values()],
+                          datasets=[QWEN_DS], safe=f"safe_05/{part}", results=f"results/05_training/{part}")
+       for part in ("transformers-a", "transformers-b")},   # D019: two shards of the pre-registered transformer plan
     "04-kit": dict(builder=["build_04.py", "kit"], nb="04_Human_Validation.ipynb", slug=f"{OWNER}/04-human-validation-kit",
                    deps=["03-qwen2.5-7b", "03-phi-3.5-mini"], sources=[K01, GEN["phi-3.5-mini"]], datasets=[QWEN_DS],
                    safe="safe_04/kit", results="results/04_human_validation/kit"),
@@ -66,15 +67,16 @@ STEPS = {
                deps=["03-qwen2.5-7b", "03-phi-3.5-mini"], sources=[K01, GEN["phi-3.5-mini"]], datasets=[QWEN_DS],
                safe="safe_06", results="results/06_judge"),
     "07": dict(builder=["build_07.py"], nb="07_Confirmatory_Evaluation.ipynb", slug=f"{OWNER}/07-confirmatory-evaluation",
-               deps=["05-classical", "05-transformers", "06"],
+               deps=["05-classical", "05-transformers-a", "05-transformers-b", "06"],
                datasets=[QWEN_DS], sources=[K01, GEN["phi-3.5-mini"], f"{OWNER}/05-training-classical",
-                        f"{OWNER}/05-training-transformers", f"{OWNER}/06-zero-shot-llm-judge"],
+                        f"{OWNER}/05-training-transformers-a", f"{OWNER}/05-training-transformers-b",
+                        f"{OWNER}/06-zero-shot-llm-judge"],
                safe="safe_07", results="results/07_confirmatory"),
 }
 # CPU-only steps run in CPU sessions (same pinned image, no GPU quota, not counted against the 2 GPU slots; D018)
 for _n in ("04-kit", "04-score", "05-classical", "07"):
     STEPS[_n]["gpu"] = False
-ORDER = ["02", "03-qwen2.5-7b", "03-phi-3.5-mini", "03-olmo-2-7b", "04-kit", "06", "05-classical", "05-transformers", "07",
+ORDER = ["02", "03-qwen2.5-7b", "03-phi-3.5-mini", "03-olmo-2-7b", "04-kit", "06", "05-classical", "05-transformers-a", "05-transformers-b", "07",
          "04-score"]
 
 

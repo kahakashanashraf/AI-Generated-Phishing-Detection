@@ -1,4 +1,4 @@
-"""Builds notebooks/05_Detector_Training_and_Sealed_Scoring.ipynb (PART = 'classical' or 'transformers')."""
+"""Builds notebooks/05_Detector_Training_and_Sealed_Scoring.ipynb (PART = 'classical', 'transformers-a' or 'transformers-b')."""
 import sys
 from pathlib import Path
 
@@ -6,7 +6,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from common import code, env_cell, header, md, params_cell, selftest_cell, write_notebook  # noqa: E402
 
 OUT, COMMIT, PART = Path(sys.argv[1]), sys.argv[2], sys.argv[3]
-assert PART in ("classical", "transformers")
+assert PART in ("classical", "transformers-a", "transformers-b")
 
 PARAMS = {
     "REPO_URL": "https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection.git",
@@ -25,6 +25,9 @@ PARAMS = {
                      "D5": {"repo": "FacebookAI/roberta-base", "revision": None, "max_epochs": 4}},
     "TRANSFORMER_PLAN": {"D4": [["R1", "M0"], ["R2", "M0"]],
                          "D5": [["R1", "M0"], ["R2", "M0"], ["R1", "M1"], ["R1", "M2"], ["R1", "M4"], ["R1", "M5"]]},
+    # D019: the pre-registered plan above runs as two kernels, each well inside Kaggle's 12 h limit (union == plan)
+    "TRANSFORMER_SHARDS": {"transformers-a": {"D4": [["R1", "M0"], ["R2", "M0"]], "D5": [["R1", "M0"], ["R2", "M0"]]},
+                           "transformers-b": {"D5": [["R1", "M1"], ["R1", "M2"], ["R1", "M4"], ["R1", "M5"]]}},
     "H4_MODELS": ["D1|R1|M0", "D2|R1|M0", "D3|R1|M0", "D5|R1|M0"],
     "INPUT_ROOT": "/kaggle/input",
 }
@@ -177,13 +180,16 @@ from transformers import AutoTokenizer
 from huggingface_hub import HfApi, snapshot_download
 from phishbench import transformer_train as tt
 api = HfApi()
+PLAN = TRANSFORMER_SHARDS[PART]
+_union = sorted((d, tuple(c)) for sh in TRANSFORMER_SHARDS.values() for d, cs in sh.items() for c in cs)
+assert _union == sorted((d, tuple(c)) for d, cs in TRANSFORMER_PLAN.items() for c in cs), "shards must cover the plan exactly once"
 RESOLVED = {}
-for det, cfg in TRANSFORMERS.items():
+for det, cfg in [(d, TRANSFORMERS[d]) for d in PLAN]:
     rev = cfg["revision"] or api.model_info(cfg["repo"]).sha
     RESOLVED[det] = {"repo": cfg["repo"], "revision": rev,
                      "path": snapshot_download(cfg["repo"], revision=rev, allow_patterns=["*.json", "*.safetensors", "*.txt", "merges.txt", "vocab*"])}
     log(det, cfg["repo"], rev)
-for det, plan in TRANSFORMER_PLAN.items():
+for det, plan in PLAN.items():
     tok = AutoTokenizer.from_pretrained(RESOLVED[det]["path"])
     cache = {}
     def enc_texts(txts):
@@ -217,7 +223,7 @@ cells += [md("## 4. Registry, seal manifest and gates"),
 with (SAFE / "model_registry.csv").open("w", newline="", encoding="utf-8") as f:
     wr = csv.DictWriter(f, fieldnames=list(REGISTRY[0].keys()), lineterminator="\\n"); wr.writeheader(); wr.writerows(REGISTRY)
 expected = (sum(3 if m == "M0" else (2 if m == "M2" else 1) for (_, m) in TRAINSETS) if PART == "classical"
-            else sum(len(p) * len(SEEDS) for p in TRANSFORMER_PLAN.values()))
+            else sum(len(p) * len(SEEDS) for p in TRANSFORMER_SHARDS[PART].values()))
 manifest.write_json(SAFE / "seal_manifest.json", {"part": PART, "rule": "deviation 7: per-model score files are opened only by 07",
                                                   "files": SEAL, "combined_sha256": manifest.sha256_of_ids(f"{k}:{v}" for k, v in SEAL.items())})
 GATES = {"every_planned_model_trained": len(REGISTRY) == expected,
@@ -230,5 +236,5 @@ manifest.write_json(SAFE / "run_manifest.json", {"notebook": f"05_Detector_Train
 log("STATUS", STATUS, GATES)
 assert all(GATES.values())
 """)]
-write_notebook(OUT, cells, gpu=(PART == "transformers"))
+write_notebook(OUT, cells, gpu=(PART != "classical"))
 print("wrote", OUT)

@@ -173,3 +173,14 @@ None of these may be scored before N20.
   - Phi (test generator, on the critical path to human validation) keeps the GPU.
   - OLMo was cancelled by the owner and is held, together with 06 and 05-transformers, until the weekly quota resets.
   - 04-kit runs on CPU as soon as Phi completes.
+
+## D019 — 2026-11-27 — 05-transformers runs as two kernels (same pre-registered plan)
+- **Estimate.** The transformer plan is 40 models: D4 2 configurations × 5 seeds, and D5 6 configurations × 5 seeds. Each model scores every cell. The estimate is about 8–9 hours, too close to Kaggle's 12-hour session limit, which already cost one Phi run.
+- **Decision.** Two shards, each kept well inside the limit:
+  - `transformers-a`: D4 R1 and R2, and D5 R1 and R2.
+  - `transformers-b`: D5 M1, M2, M4 and M5.
+- **Safeguards.**
+  - Each configuration keeps all five seeds inside one shard, so the five-seed ensembles are unchanged.
+  - The notebook asserts that the shards cover the pre-registered plan exactly once.
+  - 07 already reads every seal manifest and registry it finds.
+- **What does not change:** no model, hyperparameter, seed or endpoint.
