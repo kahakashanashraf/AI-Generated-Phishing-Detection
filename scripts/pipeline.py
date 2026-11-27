@@ -26,7 +26,9 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 PRIVATE = Path(os.environ.get("PHISH_PRIVATE", REPO.parent / "AI-Generated-Phishing-Detection_private"))
-CLI = os.environ.get("KAGGLE_CLI", "kaggle")
+_VENV_CLI = REPO.parent / "AI-Generated-Phishing-Detection_venv" / "Scripts" / "kaggle.exe"
+CLI = os.environ.get("KAGGLE_CLI") or (str(_VENV_CLI) if _VENV_CLI.exists() else "kaggle")
+LOCK = PRIVATE / "pipeline.lock"   # heartbeat: refreshed every poll; a second runner exits while it is fresh
 OWNER = "ddipra"
 MAX_SLOTS = 2
 POLL = 90
@@ -156,8 +158,16 @@ def collect(name: str) -> bool:
     return True
 
 
+def heartbeat() -> None:
+    LOCK.write_text(f"{os.getpid()} {datetime.now(timezone.utc).isoformat()}", encoding="utf-8")
+
+
 def main(only: list[str] | None) -> int:
     PRIVATE.mkdir(parents=True, exist_ok=True)
+    if LOCK.exists() and time.time() - LOCK.stat().st_mtime < 3 * POLL:
+        log(f"another runner is active ({LOCK.read_text(encoding='utf-8')}); exiting")
+        return 1
+    heartbeat()
     st = load_state()
     todo = [n for n in ORDER if (not only or n in only)]
     for n in todo:
@@ -201,8 +211,10 @@ def main(only: list[str] | None) -> int:
                 st[n]["state"] == "pending" and all(st.get(d, {}).get("state") == "done" for d in STEPS[n]["deps"])
                 and available(n) for n in todo):
             log("nothing runnable: waiting for builders or dependencies"); break
+        heartbeat()
         time.sleep(POLL)
     log("pipeline stop: " + json.dumps({n: st[n]["state"] for n in todo}))
+    LOCK.unlink(missing_ok=True)
     return 0
 
 
