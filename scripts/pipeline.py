@@ -67,7 +67,7 @@ STEPS = {
                deps=["03-qwen2.5-7b", "03-phi-3.5-mini"], sources=[K01, GEN["phi-3.5-mini"]], datasets=[QWEN_DS],
                safe="safe_06", results="results/06_judge"),
     "07": dict(builder=["build_07.py"], nb="07_Confirmatory_Evaluation.ipynb", slug=f"{OWNER}/07-confirmatory-evaluation",
-               deps=["05-classical", "05-transformers-a", "05-transformers-b", "06"],
+               deps=["05-classical", "05-transformers-a", "05-transformers-b", "06", "04-score"],   # §3.5 decisions first
                datasets=[QWEN_DS], sources=[K01, GEN["phi-3.5-mini"], f"{OWNER}/05-training-classical",
                         f"{OWNER}/05-training-transformers-a", f"{OWNER}/05-training-transformers-b",
                         f"{OWNER}/06-zero-shot-llm-judge"],

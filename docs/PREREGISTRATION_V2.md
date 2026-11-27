@@ -404,3 +404,16 @@ Mitigations are claimed as useful **only** if they pass all of §5 (a), (b) and 
 - *Inputs:* Kaggle datasets decompress `.gz` files on upload. Downstream notebooks therefore accept `.jsonl.gz` or `.jsonl` and verify the SHA-256 of the **uncompressed** content.
 - *Why:* to follow §3.4 as written, and to make generation feasible within Kaggle's limits.
 - *Results affected:* no detector has been trained or scored. Phi's generation numerics change from float32 to float16. Attrition is reported in full.
+
+**Deviation 13 (2026-11-27, before any detector is trained or scored): how 07 applies the §3.5 rule.**
+- *What changed:* §3.5 says a generator whose label preservation is below 90% has its RW results reported only as sensitivity analysis. It did not say how the confirmatory endpoints implement this.
+  - 07 now runs only after 04-score, as the planned order N17 then N20 implies. It reads the committed `results/04_human_validation/score/decisions.json`.
+  - **Primary analysis.** Every quantity that contains RW (L3) output pools only the generators that passed:
+    - PE1, the L3-versus-L0 equivalence test;
+    - PE0, the dose–response, because L3 is one of its levels;
+    - the AI-legitimate and phishing pools of PE3, criteria (a) and (b), and the attacker-benefit L3 measure.
+  - PE2 (DN, L4) is not an RW result, so it always uses both test generators.
+  - **Sensitivity analysis.** If any generator fails, the same endpoints are also computed with all generators and labelled `sensitivity_all_generators`.
+  - The §7 claims use the primary rows. If no generator passes, PE1 is "not estimable".
+- *Why:* to apply §3.5 mechanically, once, inside the single confirmatory run, rather than adjusting results afterwards.
+- *Results affected:* none yet. Both scenarios were verified on synthetic sealed inputs (all generators pass; one generator fails).

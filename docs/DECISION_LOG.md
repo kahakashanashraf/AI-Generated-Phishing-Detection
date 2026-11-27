@@ -184,3 +184,9 @@ None of these may be scored before N20.
   - The notebook asserts that the shards cover the pre-registered plan exactly once.
   - 07 already reads every seal manifest and registry it finds.
 - **What does not change:** no model, hyperparameter, seed or endpoint.
+
+## D020 — 2026-11-27 — 07 waits for human validation (deviation 13)
+- **Order.** The pipeline makes 07 depend on 04-score. The confirmatory run therefore happens once, after both raters' adjudicated answers and the §3.5 decisions are committed.
+- **Dry runs.**
+  - When both generators pass, the output has primary rows only.
+  - When Phi fails, the primary analysis pools only Qwen's RW cells, and a full-generator sensitivity set is written alongside.
