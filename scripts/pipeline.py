@@ -161,6 +161,12 @@ def collect(name: str) -> bool:
     return True
 
 
+def not_yet(step: dict) -> bool:
+    """True while a step's optional "not_before" time (UTC, ISO 8601) lies in the future (for example a quota reset)."""
+    nb = step.get("not_before")
+    return bool(nb) and datetime.now(timezone.utc) < datetime.fromisoformat(nb)
+
+
 def heartbeat() -> None:
     LOCK.write_text(f"{os.getpid()} {datetime.now(timezone.utc).isoformat()}", encoding="utf-8")
 
@@ -189,7 +195,7 @@ def main(only: list[str] | None) -> int:
         running = [n for n in todo if st[n]["state"] == "running"]
         for n in todo:
             gpu_running = [m for m in running if STEPS[m].get("gpu", True)]
-            if st[n]["state"] != "pending" or (STEPS[n].get("gpu", True) and len(gpu_running) >= MAX_SLOTS):
+            if st[n]["state"] != "pending" or (STEPS[n].get("gpu", True) and len(gpu_running) >= MAX_SLOTS) or not_yet(st[n]):
                 continue
             deps = STEPS[n]["deps"]
             if any(st.get(d, {}).get("state") == "failed" for d in deps):
@@ -213,7 +219,8 @@ def main(only: list[str] | None) -> int:
             break
         if not any(st[n]["state"] == "running" for n in todo) and not any(
                 st[n]["state"] == "pending" and all(st.get(d, {}).get("state") == "done" for d in STEPS[n]["deps"])
-                and available(n) for n in todo):
+                and available(n) for n in todo) and not any(
+                st[n]["state"] == "pending" and not_yet(st[n]) for n in todo):
             log("nothing runnable: waiting for builders or dependencies"); break
         heartbeat()
         time.sleep(POLL)
