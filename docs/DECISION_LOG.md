@@ -134,3 +134,30 @@ None of these may be scored before N20.
   - The gate was not changed after the fact, and the kernel was not re-run. The failure and its explanation are documented in `results/02_study1/REPRODUCTION_NOTE.md`.
   - The safe outputs were committed by hand, because the pipeline commits only COMPLETED runs.
   - Per D013, these are the canonical Study 1 numbers.
+
+## D017 — 2026-11-27 — Qwen generation accepted; Phi re-run in float16 (deviation 12)
+
+**Qwen2.5-7B** (kernel `03-generation-qwen2-5-7b`, 24,563 s):
+- 4,364 of 4,845 tasks kept.
+- A builder-level gate (kept ≥ 0.80 per cell), which is not in §3.4, failed in four cells. The worst is IN-phish-L3 at 0.327: 51 length-ratio and 46 placeholder exclusions.
+- The outputs are accepted as produced and frozen as a private dataset with content hashes.
+
+**Manipulation check (deviation 5), Qwen, EXT median cosine:**
+
+| Level | Median cosine |
+|---|---|
+| L1 | 0.991 |
+| L2 | 0.952 |
+| L3 | 0.976 |
+| L4 | 0.545 |
+
+- L2 changed the text more than L3 (Jaccard medians 0.086 and 0.141).
+- The nominal dose order is therefore not monotone between L2 and L3 for this generator. This is reported descriptively, as deviation 5 anticipated.
+- PE0 stays as pre-registered, ordinal L0–L4. A measured-distance analysis may be added only as clearly labelled exploratory.
+
+**Phi-3.5-mini:** the float32 run hit Kaggle's 12-hour limit at 3,725 of 4,845 tasks and saved no outputs. It is re-run in float16 with a larger KV budget and a time guard.
+
+**Pipeline:**
+- Qwen is marked done.
+- Downstream steps read Qwen from the dataset `ddipra/phishbench-03-qwen2-5-7b-outputs`.
+- The runner now runs as a detached process, so closing the editor no longer stops it.

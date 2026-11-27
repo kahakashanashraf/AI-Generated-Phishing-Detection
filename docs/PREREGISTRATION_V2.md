@@ -371,3 +371,36 @@ Mitigations are claimed as useful **only** if they pass all of §5 (a), (b) and 
   - Practice answers are committed without text and reported descriptively. They never enter any statistic.
 - *Why:* operational definitions and calibration are standard for reliable annotation, and they protect κ from avoidable disagreement. Practice items come from outside the sample, so the real ratings stay independent.
 - *Results affected:* none. This changes procedure only.
+
+**Deviation 12 (2026-11-27, after generation for Qwen, before any detector is trained or scored): generation run handling.**
+
+- *Qwen2.5-7B: outputs accepted under §3.4.*
+  - The kernel attempted all 4,845 tasks and kept 4,364 after the §3.4 filters.
+  - The notebook also carried a builder-level gate, "kept rate ≥ 0.80 in every cell". That gate is **not** part of §3.4, which fixes the filters and requires exclusions to be counted per cell and generator. It failed in four cells:
+
+    | Cell | Kept rate |
+    |---|---|
+    | IN-phish-L3 | 0.327 |
+    | IN-legit-L3 | 0.734 |
+    | IN-legit-L2 | 0.741 |
+    | EXT-phish-L3 | 0.775 |
+
+  - The failure marked the kernel as errored.
+  - The outputs are accepted as produced. There is no regeneration and no resampling, because §3.4 is a single pass.
+  - Every exclusion is reported per cell and reason. The main reasons are changed placeholders and a body-length ratio outside 0.5–2.0.
+  - A descriptive attrition analysis is added (secondary): kept versus excluded parents, by source, label, length and number of placeholders. Paired endpoints use kept pairs only, as before.
+  - The exact outputs are frozen as the private Kaggle dataset `ddipra/phishbench-03-qwen2-5-7b-outputs`. Their content SHA-256 is committed in `results/03_generation/qwen2.5-7b/private_files_sha256.json`.
+- *Gate for future runs:* the builder-level gate is replaced by protocol-faithful gates:
+  - privacy;
+  - every task attempted;
+  - the first-batch fail-fast (deviation 6).
+
+  Cells with a kept rate below 0.80 are listed in the run manifest for reporting, but they do not block the run.
+- *Phi-3.5-mini: float16.*
+  - The float32 run (deviation 6) reached 3,725 of 4,845 tasks in 11.8 h. Kaggle's 12-hour limit then stopped it, before any output was written.
+  - Phi is re-run in float16, like Qwen and OLMo, with `remove_invalid_values=True` and the first-batch fail-fast.
+  - The KV-cache budgets now use the memory left after the weights: 12 GB for Phi and 10 GB for OLMo. This changes only batch sizes. Batch formation and per-batch seeding (deviation 2) are unchanged.
+  - A 10.5-hour time guard stops new batches before the limit, so finished work is never lost.
+- *Inputs:* Kaggle datasets decompress `.gz` files on upload. Downstream notebooks therefore accept `.jsonl.gz` or `.jsonl` and verify the SHA-256 of the **uncompressed** content.
+- *Why:* to follow §3.4 as written, and to make generation feasible within Kaggle's limits.
+- *Results affected:* no detector has been trained or scored. Phi's generation numerics change from float32 to float16. Attrition is reported in full.
