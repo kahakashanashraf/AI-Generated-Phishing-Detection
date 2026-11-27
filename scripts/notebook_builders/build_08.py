@@ -185,7 +185,7 @@ def save_fig(fig, name):
     fig.savefig(FIG / f"{name}.tif", dpi=FIG_DPI, format="tiff", pil_kwargs={"compression": "tiff_lzw"}, facecolor="white")
     fig.savefig(FIG / f"{name}.png", dpi=120, facecolor="white")
     plt.close(fig)
-    FIGS[name] = {"inches": [round(w, 2), round(h, 2)], "pixels": [int(round(w * FIG_DPI)), int(round(h * FIG_DPI))]}
+    FIGS[name] = {"inches": [round(float(w), 2), round(float(h), 2)], "pixels": [int(round(w * FIG_DPI)), int(round(h * FIG_DPI))]}
 
 sec = C07["secondary_cell_metrics"]
 if len(sec):

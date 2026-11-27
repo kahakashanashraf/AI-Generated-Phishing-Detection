@@ -66,6 +66,9 @@ STEPS = {
     "06": dict(builder=["build_06.py"], nb="06_Zero_Shot_LLM_Judge.ipynb", slug=f"{OWNER}/06-zero-shot-llm-judge",
                deps=["03-qwen2.5-7b", "03-phi-3.5-mini"], sources=[K01, GEN["phi-3.5-mini"]], datasets=[QWEN_DS],
                safe="safe_06", results="results/06_judge"),
+    "08": dict(builder=["build_08.py"], nb="08_Paper_Tables_Figures_and_Reproducibility.ipynb",
+               slug=f"{OWNER}/08-paper-tables-figures-reproducibility", deps=["07"], datasets=[QWEN_DS],
+               sources=[K01, GEN["phi-3.5-mini"], GEN["olmo-2-7b"]], safe="safe_08", results="results/08_paper", gpu=False),
     "07": dict(builder=["build_07.py"], nb="07_Confirmatory_Evaluation.ipynb", slug=f"{OWNER}/07-confirmatory-evaluation",
                deps=["05-classical", "05-transformers-a", "05-transformers-b", "06", "04-score"],   # §3.5 decisions first
                datasets=[QWEN_DS], sources=[K01, GEN["phi-3.5-mini"], f"{OWNER}/05-training-classical",
@@ -77,7 +80,7 @@ STEPS = {
 for _n in ("04-kit", "04-score", "05-classical", "07"):
     STEPS[_n]["gpu"] = False
 ORDER = ["02", "03-qwen2.5-7b", "03-phi-3.5-mini", "03-olmo-2-7b", "04-kit", "06", "05-classical", "05-transformers-a", "05-transformers-b", "07",
-         "04-score"]
+         "04-score", "08"]
 
 
 def sh(*args, cwd=REPO, check=True) -> str:
