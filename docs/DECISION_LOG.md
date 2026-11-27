@@ -190,3 +190,13 @@ None of these may be scored before N20.
 - **Dry runs.**
   - When both generators pass, the output has primary rows only.
   - When Phi fails, the primary analysis pools only Qwen's RW cells, and a full-generator sensitivity set is written alongside.
+
+**D015 update (2026-11-27): affiliation.**
+- **Owner decision:** the paper is submitted from **EliteLab**.
+- **The three authors:**
+  - are each students at a university;
+  - did not do the study under any university supervisor;
+  - did not use any university resources; all computing was on Kaggle.
+- **Affiliation line:** "EliteLab, City, Country" for every author.
+- **University affiliations:** listed only where that university's policy allows it.
+- **Pending:** PLOS ONE staff are to confirm both the ethics route and the affiliation before submission. The draft email is held by the coordinator.
