@@ -160,4 +160,4 @@ None of these may be scored before N20.
 **Pipeline:**
 - Qwen is marked done.
 - Downstream steps read Qwen from the dataset `ddipra/phishbench-03-qwen2-5-7b-outputs`.
-- The runner now runs as a detached process, so closing the editor no longer stops it.
+- The runner gained a heartbeat lock, so two runners never act at once, and it logs any crash to `pipeline.log`. It still runs inside the coordinator's editor session. If that session closes, restarting the runner resumes from the saved state, and Kaggle kernels keep running in the meantime.

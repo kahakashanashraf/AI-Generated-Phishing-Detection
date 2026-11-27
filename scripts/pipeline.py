@@ -220,4 +220,10 @@ def main(only: list[str] | None) -> int:
 
 if __name__ == "__main__":
     only = sys.argv[sys.argv.index("--only") + 1].split(",") if "--only" in sys.argv else None
-    sys.exit(main(only))
+    try:
+        sys.exit(main(only))
+    except Exception:   # a detached runner has no console: record the reason, release the lock, exit non-zero
+        import traceback
+        log("CRASH: " + " | ".join(traceback.format_exc().splitlines())[-1500:])
+        LOCK.unlink(missing_ok=True)
+        sys.exit(2)
