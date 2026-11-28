@@ -567,3 +567,44 @@ class TestArtifacts(unittest.TestCase):
                 mf.find_artifact(d, "generated_g")
             with self.assertRaises(FileNotFoundError):
                 mf.find_artifact(d, "generated_zzz")
+
+
+class TestApacheLoader(unittest.TestCase):
+    def _mbox(self, d, msgs):
+        p = Path(d) / "m.mbox"
+        box = mailbox.mbox(str(p))
+        for kw in msgs:
+            m = EmailMessage()
+            m["From"] = kw.get("frm", "Ann Lee <ann@example.org>")
+            m["Subject"] = kw.get("subj", "Question about cluster sizing")
+            m["Date"] = kw.get("date", "Tue, 12 May 2020 10:00:00 +0000")
+            m["Message-ID"] = kw.get("mid", "<abc@example.org>")
+            if kw.get("reply"):
+                m["In-Reply-To"] = "<x@example.org>"
+            m.set_content(kw.get("body", LOREM))
+            box.add(m)
+        box.flush(); box.close()
+        return p
+
+    def test_thread_starters_filters_and_footer(self):
+        from phishbench.loaders import load_apache_mbox
+        footer = "\n\n" + "-" * 60 + "\nTo unsubscribe, e-mail: user-unsubscribe@x.apache.org\nFor additional commands, e-mail: user-help@x.apache.org\n"
+        with tempfile.TemporaryDirectory() as d:
+            p = self._mbox(d, [
+                {"mid": "<1@a>", "body": LOREM + footer.replace("\\n", "\n")},
+                {"mid": "<2@a>", "reply": True},
+                {"mid": "<3@a>", "frm": "ASF GitHub Bot <git@apache.org>"},
+                {"mid": "<4@a>", "subj": "[VOTE] Release 1.2.3"},
+                {"mid": "<5@a>", "body": "Please review.\ndiff --git a/x b/x\n--- a/x\n+++ b/x\n@@ -1 +1 @@\n-a\n+b\n".replace("\\n", "\n")},
+                {"mid": "<6@a>", "date": "Mon, 05 Dec 2022 10:00:00 +0000"},
+                {"mid": "<7@a>", "body": "Stack:\n" + "\n".join("    at org.apache.spark.Foo.bar(Foo.java:%d)" % i for i in range(10)).replace("\\n", "\n")},
+            ])
+            recs, why = load_apache_mbox(p, "user@spark")
+        self.assertEqual([r["native_id"] for r in recs], [recs[0]["native_id"]])
+        self.assertEqual(len(recs), 1)
+        r = recs[0]
+        self.assertTrue(r["sample_id"].startswith("EXT3:") and "@" not in r["sample_id"])
+        self.assertEqual((r["cell"], r["label"], r["authorship"], r["list"], r["month"]), ("EXT3-legit-L0", 0, "human", "user@spark", "2020-05"))
+        self.assertNotIn("unsubscribe", r["body"].lower())
+        for k in ("reply", "automated_sender", "automated_or_vote_subject", "patch_or_diff", "outside_window", "code_or_trace"):
+            self.assertEqual(why.get(k), 1, k)

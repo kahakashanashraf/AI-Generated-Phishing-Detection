@@ -192,3 +192,75 @@ def load_ephish(path: Path) -> list[dict]:
         out.append(record(f"ephish:{i}", "ephish", i, r.get("Subject"), r.get("Body"), lab, "ai",
                           generator="ephishgen(paper)"))
     return out
+
+
+# ---- EXT3 (deviation 15): public Apache Software Foundation mailing lists, thread starters, 2019-01 to 2022-10 ----
+APACHE_AUTO_SENDER_RE = re.compile(r"(\bjira\b|\bgit(hub)?\b|\bbot\b|notification|no-?reply|jenkins|buildbot|\bcommits\b)", re.IGNORECASE)
+APACHE_AUTO_SUBJECT_RE = re.compile(r"^\s*\[(jira|github|ci|vote|result)\]", re.IGNORECASE)
+APACHE_PATCH_RE = re.compile(r"(^diff --git |^--- a/|^\+\+\+ b/|^@@ -\d)", re.MULTILINE)
+APACHE_CODE_LINE_RE = re.compile(r"(^\s+at [\w$.]+\(|^\s*[{}]\s*$|;\s*$|^\s*(def|class|import|public|private|return)\s|"
+                                 r"^\s*[\w.\[\]]+\s*=\s*[\w\"'(\[]|^\s*\$ |^>>> |^\s*<[/\w][^>]*>\s*$)")
+APACHE_FOOTER_RE = re.compile(r"\n-{20,}\s*\n\s*To unsubscribe.*\Z", re.IGNORECASE | re.DOTALL)
+APACHE_FOOTER_LINE_RE = re.compile(r"^(To unsubscribe, e-mail:|For additional commands, e-mail:).*$", re.IGNORECASE | re.MULTILINE)
+
+
+def apache_body_reason(body: str) -> str | None:
+    """None when the body is ordinary human prose; otherwise the exclusion reason (deviation 15)."""
+    if APACHE_PATCH_RE.search(body):
+        return "patch_or_diff"
+    lines = [ln for ln in body.splitlines() if ln.strip()]
+    if lines and sum(bool(APACHE_CODE_LINE_RE.search(ln)) for ln in lines) / len(lines) > 0.30:
+        return "code_or_trace"
+    return None
+
+
+def strip_list_footer(body: str) -> str:
+    """Remove the footer the list software appends (not written by the sender), so every EXT3 email does not share it."""
+    body = APACHE_FOOTER_RE.sub("", body or "")
+    return APACHE_FOOTER_LINE_RE.sub("", body).strip()
+
+
+def load_apache_mbox(path: Path, list_name: str, start: str = "2019-01", end: str = "2022-10") -> tuple[list[dict], dict]:
+    """Thread-starting human messages from one month of one public Apache list. Returns (records, exclusion counts).
+
+    Sample IDs are EXT3: plus SHA-1(Message-ID)[:16], so no address appears in an identifier.
+    """
+    import hashlib
+    from collections import Counter
+    from email.utils import parsedate_to_datetime
+
+    out, why = [], Counter()
+    box = mailbox.mbox(str(path), create=False)
+    try:
+        for msg in box:
+            mid = (msg.get("Message-ID") or "").strip()
+            if not mid:
+                why["no_message_id"] += 1; continue
+            try:
+                dt = parsedate_to_datetime(msg.get("Date"))
+                ym = f"{dt.year:04d}-{dt.month:02d}"
+            except Exception:
+                why["no_date"] += 1; continue
+            if not (start <= ym <= end):
+                why["outside_window"] += 1; continue
+            if msg.get("In-Reply-To") or msg.get("References"):
+                why["reply"] += 1; continue
+            sender, subject = _hdr(msg.get("From")), _hdr(msg.get("Subject"))
+            if APACHE_AUTO_SENDER_RE.search(sender or ""):
+                why["automated_sender"] += 1; continue
+            if APACHE_AUTO_SUBJECT_RE.search(subject or ""):
+                why["automated_or_vote_subject"] += 1; continue
+            body = strip_list_footer(message_body(msg))
+            if not body:
+                why["no_body"] += 1; continue
+            r = apache_body_reason(body)
+            if r:
+                why[r] += 1; continue
+            sid = "EXT3:" + hashlib.sha1(mid.encode("utf-8", "replace")).hexdigest()[:16]
+            rec = record(sid, "apache", sid.split(":", 1)[1], subject, body, 0, "human", year=dt.year)
+            rec.update(cell="EXT3-legit-L0", list=list_name, month=ym)
+            out.append(rec)
+            why["candidate"] += 1
+    finally:
+        box.close()
+    return out, dict(why)
