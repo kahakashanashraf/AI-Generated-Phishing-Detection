@@ -1,0 +1,1 @@
+{"bitsandbytes": "MISSING: ModuleNotFoundError(\"No module named 'bitsandbytes'\")", "accelerate": "1.15.0", "transformers": "5.20.2", "torch": "2.11.0+cu130", "requests": "2.34.2", "BitsAndBytesConfig": "ok"}
