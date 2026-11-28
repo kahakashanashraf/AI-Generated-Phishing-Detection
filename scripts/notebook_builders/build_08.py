@@ -76,7 +76,8 @@ def rcsv(rel):
     return pd.read_csv(p) if p.exists() else pd.DataFrame()
 C07 = {k: rcsv(f"07_confirmatory/{k}.csv") for k in ("pe0_dose_response", "pe1_rewrite_equivalence", "pe2_compose_effect",
                                                     "pe3_mitigations", "secondary_cell_metrics", "h2_source_effect",
-                                                    "h4_interventions", "h4b_failure_decomposition", "h1_in_replication")}
+                                                    "h4_interventions", "h4b_failure_decomposition", "h1_in_replication",
+                                                    "exploratory_extensions")}
 CLAIMS = json.loads((RES / "07_confirmatory/claims.json").read_text(encoding="utf-8")) if (RES / "07_confirmatory/claims.json").exists() else {}
 HV = json.loads((RES / "04_human_validation/score/decisions.json").read_text(encoding="utf-8")) if (RES / "04_human_validation/score/decisions.json").exists() else {}
 GEN_SUM = {g: rcsv(f"03_generation/{g}/generation_summary.csv") for g in TEST_GENERATORS + [TRAIN_GENERATOR]}
@@ -164,7 +165,9 @@ if len(pe3):
 for key, name, cap in (("h2_source_effect", "S_T_h2_source", "H2: external minus in-source FPR"),
                        ("h1_in_replication", "S_T_h1_in", "H1-IN: in-source L3 rewrite equivalence by provider"),
                        ("h4b_failure_decomposition", "S_T_h4b", "H4b: ranking versus threshold failure, alerts and precision at 1% and 5% prevalence"),
-                       ("h4_interventions", "S_T_h4", "H4: cue interventions, mean change in logit")):
+                       ("h4_interventions", "S_T_h4", "H4: cue interventions, mean change in logit"),
+                       ("exploratory_extensions", "S_T_exploratory_extensions",
+                        "Exploratory extensions (deviation 15): E1 newer human email (EXT3) and E2 generator scale (Qwen2.5-14B)")):
     if len(C07[key]):
         TABLES[name] = save_table(C07[key], name, cap)
 if len(REG):

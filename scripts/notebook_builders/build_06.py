@@ -21,6 +21,7 @@ PARAMS = {
     "TOKEN_BUDGET": 12000, "MAX_BATCH": 16,
     "FPR_TARGETS": {"tau5": 0.05, "tau1": 0.01},
     "TEST_GENERATORS": ["qwen2.5-7b", "phi-3.5-mini"],
+    "EXTENSION_INPUTS": ["records_ext3", "generated_qwen2.5-7b__ext3", "generated_phi-3.5-mini__ext3", "generated_qwen2.5-14b"],   # deviation 15
     "INPUT_ROOT": "/kaggle/input",
 }
 cells = [
@@ -46,7 +47,8 @@ SAFE, PRIVATE = WORK / "safe_06", WORK / "private_06"
     code("""
 read_gz = manifest.read_jsonl          # .jsonl.gz from kernel outputs, .jsonl from Kaggle datasets (deviation 12)
 INPUTS = {"01": manifest.find_artifact(INPUT_ROOT, "records"),
-          **{g: manifest.find_artifact(INPUT_ROOT, f"generated_{g}") for g in TEST_GENERATORS}}
+          **{g: manifest.find_artifact(INPUT_ROOT, f"generated_{g}") for g in TEST_GENERATORS},
+          **{stem: manifest.find_artifact(INPUT_ROOT, stem) for stem in EXTENSION_INPUTS}}   # deviation 15
 INPUT_SHA256 = {k: manifest.content_sha256(v) for k, v in INPUTS.items()}
 by_cell = defaultdict(list)
 for p in INPUTS.values():

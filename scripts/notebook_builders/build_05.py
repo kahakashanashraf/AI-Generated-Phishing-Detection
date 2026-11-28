@@ -17,6 +17,7 @@ PARAMS = {
     "EXPECTED_VERSIONS": {"sklearn": "1.6.1", "transformers": "5.20.2"},
     "TEST_GENERATORS": ["qwen2.5-7b", "phi-3.5-mini"],
     "TRAIN_GENERATOR": "olmo-2-7b",
+    "EXTENSION_INPUTS": ["records_ext3", "generated_qwen2.5-7b__ext3", "generated_phi-3.5-mini__ext3", "generated_qwen2.5-14b"],   # deviation 15
     "FPR_TARGETS": {"tau5": 0.05, "tau1": 0.01},
     "D1_C_GRID": [0.1, 1.0, 10.0],
     "D3_ALPHA_GRID": [0.1, 0.5, 1.0],
@@ -59,6 +60,8 @@ read_gz = manifest.read_jsonl          # .jsonl.gz from kernel outputs, .jsonl f
 INPUTS = {"01": manifest.find_artifact(INPUT_ROOT, "records")}
 for g in TEST_GENERATORS + [TRAIN_GENERATOR]:
     INPUTS[g] = manifest.find_artifact(INPUT_ROOT, f"generated_{g}")
+for stem in EXTENSION_INPUTS:   # deviation 15: extension cells are scored in the same sealed run
+    INPUTS[stem] = manifest.find_artifact(INPUT_ROOT, stem)
 INPUT_SHA256 = {k: manifest.content_sha256(v) for k, v in INPUTS.items()}
 by_cell = defaultdict(list)
 for k, p in INPUTS.items():

@@ -13,6 +13,7 @@ PARAMS = {
     "EXPECTED_VERSIONS": {"sklearn": "1.6.1"},
     "INPUT_ROOT": "/kaggle/input",
     "TEST_GENERATORS": ["qwen2.5-7b", "phi-3.5-mini"],
+    "EXTENSION_INPUTS": ["records_ext3", "generated_qwen2.5-7b__ext3", "generated_phi-3.5-mini__ext3", "generated_qwen2.5-14b"],   # deviation 15
     "BOOTSTRAP_B": 10000,
     "TOST_MARGIN": 0.03,
     "PRIMARY": {"D2": "D2|R1|M0|s2026", "D5": "D5|R1|M0|ens"},
@@ -64,7 +65,8 @@ def read_gz(p):
     with gzip.open(p, "rt", encoding="utf-8") as f:
         return [json.loads(l) for l in f]
 meta = {}
-for p in [manifest.find_artifact(root, "records")] + [manifest.find_artifact(root, f"generated_{g}") for g in TEST_GENERATORS]:
+for p in ([manifest.find_artifact(root, "records")] + [manifest.find_artifact(root, f"generated_{g}") for g in TEST_GENERATORS]
+          + [manifest.find_artifact(root, stem) for stem in EXTENSION_INPUTS]):
     for r in read_gz(p):
         meta[r["sample_id"]] = {"label": r["label"], "parent_id": r["parent_id"], "level": r.get("level") or "L0",
                                 "generator": r.get("generator"), "source": r["source"]}
@@ -283,6 +285,46 @@ for det, model in PRIMARY.items():
         H1IN.append({"detector": det, "cell": c, "n": len(common), "delta": b["delta"], "ci90": b["ci90"], "tost_equivalent": stats.tost_equivalent(b, TOST_MARGIN)})
 pd.DataFrame(H1IN).to_csv(SAFE / "h1_in_replication.csv", index=False, lineterminator="\\n")
 log("secondary analyses written")
+
+# ---- Deviation 15: pre-specified EXPLORATORY extensions (never in the §7 claims or the primary Holm families) ----
+def pairs_for(model, l0_cell, lk_cells):
+    l0 = rows(model, l0_cell).set_index("sample_id")["dec5"]
+    out = []
+    for c in lk_cells:
+        d = rows(model, c)
+        out += [(pid, int(l0[pid]), int(dec)) for pid, dec in zip(d["parent_id"], d["dec5"]) if pid in l0.index]
+    return out
+def x_row(endpoint, det, model, prs, ref="L0"):
+    row = {"endpoint": endpoint, "detector": det, "model": model, "reference": ref, "n_pairs": len(prs)}
+    if not prs:
+        return {**row, "status": "not_estimable_no_pairs"}
+    par, a, b = (list(t) for t in zip(*prs))
+    boot = stats.cluster_bootstrap_delta(par, a, b, iterations=BOOTSTRAP_B, seed=SEED)
+    n01, n10 = stats.paired_discordance(a, b)
+    return {**row, "status": "ok", "rate_ref": float(np.mean(a)), "rate_cmp": float(np.mean(b)), "delta": boot["delta"],
+            "ci90": boot["ci90"], "ci95": boot["ci95"], "mcnemar_p": stats.mcnemar_exact(n01, n10),
+            "tost_equivalent_descriptive": stats.tost_equivalent(boot, TOST_MARGIN)}
+XR = []
+for det, model in PRIMARY.items():
+    XR.append(x_row("X1a_EXT3_L3_vs_L0", det, model, pairs_for(model, "EXT3-legit-L0", [f"EXT3-legit-L3-{g}" for g in RW_GENS])))
+    XR.append(x_row("X1b_EXT3_L4_vs_L0", det, model, pairs_for(model, "EXT3-legit-L0", [f"EXT3-legit-L4-{g}" for g in TEST_GENERATORS])))
+    x, b = rows(model, "EXT3-legit-L0")["dec5"].values, rows(model, "EXT-legit-L0")["dec5"].values
+    if len(x) and len(b):
+        bb = [RNG.choice(x, len(x)).mean() - RNG.choice(b, len(b)).mean() for _ in range(2000)]
+        XR.append({"endpoint": "X1c_EXT3_L0_minus_EXT_L0", "detector": det, "model": model, "reference": "EXT-legit-L0", "status": "ok",
+                   "n_pairs": None, "rate_ref": float(b.mean()), "rate_cmp": float(x.mean()), "delta": float(x.mean() - b.mean()),
+                   "ci95": (float(np.quantile(bb, .025)), float(np.quantile(bb, .975)))})
+    XR.append(x_row("X2a_14B_L3_vs_L0", det, model, pairs_for(model, "EXT-legit-L0", ["EXT-legit-L3-qwen2.5-14b"])))
+    XR.append(x_row("X2b_14B_L4_vs_L0", det, model, pairs_for(model, "EXT-legit-L0", ["EXT-legit-L4-qwen2.5-14b"])))
+    for L in ("L3", "L4"):   # X2c: same parents, 14B decision minus 7B decision
+        d14 = rows(model, f"EXT-legit-{L}-qwen2.5-14b").set_index("parent_id")["dec5"]
+        d7 = rows(model, f"EXT-legit-{L}-qwen2.5-7b").set_index("parent_id")["dec5"]
+        common = sorted(set(d14.index) & set(d7.index))
+        XR.append(x_row(f"X2c_scale_{L}_14B_minus_7B", det, model, [(p, int(d7[p]), int(d14[p])) for p in common], ref=f"{L} Qwen2.5-7B"))
+for r in XR:
+    r["qwen_rw_role"] = HV["decisions"].get("qwen2.5-7b", {}).get("rw_results_role")
+pd.DataFrame(XR).to_csv(SAFE / "exploratory_extensions.csv", index=False, lineterminator="\\n")
+log("exploratory extensions", len(XR), "rows")
 """),
     md("## 6. Per-row predictions (D009: IDs only), claims (§7) and manifest"),
     code("""
@@ -317,7 +359,8 @@ txt_leak = pred.columns.intersection(["subject", "body"]).tolist()
 n_prim = lambda store: sum(r["analysis"] == "primary" for r in store)
 GATES = {"all_seals_verified": SEAL_OK, "human_validation_decisions_applied": True,
          "primary_endpoints_present": n_prim(PE0) == 4 and n_prim(PE1) == 4 and n_prim(PE2) == 4 and n_prim(PE3) == 12,
-         "per_row_file_has_no_text_columns": not txt_leak}
+         "per_row_file_has_no_text_columns": not txt_leak,
+         "exploratory_extensions_computed": len(XR) == 7 * len(PRIMARY)}
 manifest.write_json(SAFE / "run_manifest.json", {"notebook": "07_Confirmatory_Evaluation", "status": "COMPLETED" if all(GATES.values()) else "COMPLETED_WITH_GATE_FAILURES",
                     "gates": GATES, "seals": {k: v["found"] for k, v in SEALS.items()}, "claims": CLAIMS, "params": PARAMS, "environment": ENV,
                     "selftest": SELFTEST, "runtime_seconds": round(time.time() - T0, 1), "files": manifest.file_hashes(SAFE)})
