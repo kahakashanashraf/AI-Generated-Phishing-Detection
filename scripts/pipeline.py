@@ -84,10 +84,29 @@ STEPS = {
 # CPU-only steps run in CPU sessions (same pinned image, no GPU quota, not counted against the 2 GPU slots; D018)
 for _n in ("04-kit", "04-score", "05-classical", "07"):
     STEPS[_n]["gpu"] = False
+# Deviation 15: pre-specified exploratory extensions E1 (EXT3, newer human email) and E2 (Qwen2.5-14B, scale)
+K01B = f"{OWNER}/01b-extension-newer-human-email"
+EXT_KERNELS = {"03-ext3-qwen2.5-7b": f"{OWNER}/03-ext3-generation-qwen2-5-7b", "03-ext3-phi-3.5-mini": f"{OWNER}/03-ext3-generation-phi-3-5-mini",
+               "03-e2-qwen2.5-14b": f"{OWNER}/03-e2-generation-qwen2-5-14b"}
+STEPS["01b-ext3"] = dict(builder=["build_01b.py"], nb="01b_Extension_Newer_Human_Email.ipynb", slug=K01B, deps=[], sources=[K01],
+                         safe="safe_01b", results="results/01b_ext3", gpu=False)
+for _g in ("qwen2.5-7b", "phi-3.5-mini"):
+    STEPS[f"03-ext3-{_g}"] = dict(builder=["build_03.py", _g, "ext3"], nb="03_Graded_AI_Assistance_Generation.ipynb",
+                                  slug=EXT_KERNELS[f"03-ext3-{_g}"], deps=["01b-ext3"], sources=[K01, K01B],
+                                  safe=f"safe_03/{_g}__ext3", results=f"results/03_generation/{_g}__ext3")
+STEPS["03-e2-qwen2.5-14b"] = dict(builder=["build_03.py", "qwen2.5-14b", "e2"], nb="03_Graded_AI_Assistance_Generation.ipynb",
+                                  slug=EXT_KERNELS["03-e2-qwen2.5-14b"], deps=[], sources=[K01],
+                                  safe="safe_03/qwen2.5-14b", results="results/03_generation/qwen2.5-14b")
+EXT_SRC = [K01B, *EXT_KERNELS.values()]
+for _n in ("05-classical", "05-transformers-a", "05-transformers-b", "06"):   # one sealed scoring run covers the extension cells
+    STEPS[_n]["deps"] = STEPS[_n]["deps"] + ["01b-ext3", *EXT_KERNELS]
+    STEPS[_n]["sources"] = STEPS[_n]["sources"] + EXT_SRC
+STEPS["07"]["sources"] = STEPS["07"]["sources"] + EXT_SRC
 STEPS["03-phi-3.5-mini-cont"] = dict(
     builder=["build_03.py", "phi-3.5-mini", "cont"], nb="03_Graded_AI_Assistance_Generation.ipynb", slug=PHI_CONT, deps=[],
     sources=[K01, GEN["phi-3.5-mini"]], safe="safe_03/phi-3.5-mini", results="results/03_generation/phi-3.5-mini")
-ORDER = ["02", "03-qwen2.5-7b", "03-phi-3.5-mini", "03-phi-3.5-mini-cont", "03-olmo-2-7b", "04-kit", "06", "05-classical", "05-transformers-a", "05-transformers-b", "07",
+ORDER = ["02", "03-qwen2.5-7b", "03-phi-3.5-mini", "03-phi-3.5-mini-cont", "03-olmo-2-7b",
+         "01b-ext3", "03-ext3-qwen2.5-7b", "03-ext3-phi-3.5-mini", "03-e2-qwen2.5-14b", "04-kit", "06", "05-classical", "05-transformers-a", "05-transformers-b", "07",
          "04-score", "08"]
 
 

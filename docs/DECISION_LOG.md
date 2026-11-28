@@ -269,3 +269,16 @@ None of these may be scored before N20.
   - Phi continuation, OLMo and 04 continue.
   - A delay of a few weeks is acceptable to the owner.
 - **Recommended:** a Zenodo release `v0.2-extensions` before the E1 data are collected, so that this pre-specification is timestamped independently.
+## D025 — 2026-11-28 — Deviation 15: implementation notes, fixed before any extension data are collected
+- **Automated-sender filter.** It matches whole words: jira, git or github, bot, commits; and substrings: notification, noreply / no-reply, jenkins, buildbot. Real names such as "Brigitte" are therefore not excluded.
+  - Lists append their own footer ("To unsubscribe…"). The sender did not write it, so it is stripped before any filter runs.
+- **Draw in two stages.**
+  1. Per list: filters, decontamination and within-list near-duplicate removal, capped at 60.
+  2. Across lists: near duplicates (for example, cross-posted announcements) are removed and the seeded n = 500 is drawn.
+- **E2 package.** The pinned image lacks bitsandbytes (checked with a CPU probe kernel), so the E2 kernel alone installs `bitsandbytes==0.50.2` (released 2026-08-27) and records its version. No other kernel changes.
+- **Verified on synthetic inputs before release:**
+  - 01b, run on two real months.
+  - 03 in ext3 and e2 modes, with a tiny model.
+  - 05 scores all seven extension cells.
+  - 07 computes the 14 exploratory rows (X1a–X1c and X2a–X2c for D2 and D5).
+- **Order.** 01b and the E2 generation are held until the owner's Zenodo release `v0.2-extensions` timestamps deviation 15. 05 and 06 wait for every extension cell, so all cells are scored in one sealed run.
