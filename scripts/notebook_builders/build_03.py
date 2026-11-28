@@ -6,7 +6,12 @@ sys.path.insert(0, str(Path(__file__).parent))
 from common import code, env_cell, header, md, params_cell, selftest_cell, write_notebook  # noqa: E402
 
 OUT, COMMIT, GEN = Path(sys.argv[1]), sys.argv[2], sys.argv[3]
-CONT = len(sys.argv) > 4 and sys.argv[4] == "cont"   # deviation 14: continuation of a partial run
+MODE = sys.argv[4] if len(sys.argv) > 4 else "main"
+assert MODE in ("main", "cont", "ext3", "e2"), MODE
+CONT = MODE == "cont"                                   # deviation 14: continuation of a partial run
+TASK_SET = MODE if MODE in ("ext3", "e2") else "main"   # deviation 15: exploratory extensions E1 (ext3) and E2 (e2)
+assert TASK_SET != "e2" or GEN == "qwen2.5-14b", "E2 is defined for Qwen2.5-14B only"
+OUTSTEM = f"{GEN}__ext3" if TASK_SET == "ext3" else GEN
 PARAMS = {
     "REPO_URL": "https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection.git",
     "CODE_COMMIT": COMMIT,
@@ -18,6 +23,9 @@ PARAMS = {
         # deviation 14: KV budgets leave headroom for outputs longer than the batching estimate
         "phi-3.5-mini": {"repo": "microsoft/Phi-3.5-mini-instruct", "role": "test", "kv_budget_gb": 9.0, "dtype": "float16"},
         "olmo-2-7b": {"repo": "allenai/OLMo-2-1124-7B-Instruct", "role": "train", "kv_budget_gb": 7.0, "dtype": "float16"},
+        # deviation 15 (E2): scale within the Qwen family; 4-bit NF4 so that it fits 2xT4 (bitsandbytes is not in the pinned image)
+        "qwen2.5-14b": {"repo": "Qwen/Qwen2.5-14B-Instruct", "role": "scale", "kv_budget_gb": 6.0, "dtype": "float16",
+                        "quantization": "nf4", "pip": "bitsandbytes==0.50.2"},
     },
     "EMBED_REPO": "sentence-transformers/all-MiniLM-L6-v2",
     "COSINE_THRESHOLD": 0.70,
@@ -26,12 +34,17 @@ PARAMS = {
     "MAX_GEN_SECONDS": 37800,        # 10.5 h: stop starting new batches, keep time to embed and write (Kaggle 12 h limit)
     "ATTRITION_FLAG_BELOW": 0.80,    # reported for the paper, not a gate: §3.4 counts exclusions (deviation 12)
     "CONTINUATION": CONT,            # deviation 14: keep a partial run's outputs; redo only technically failed tasks
+    "TASK_SET": TASK_SET,            # main | ext3 | e2 (deviation 15)
+    "OUTPUT_STEM": OUTSTEM,          # file and folder stem of this run's outputs
+    "EXTENSION_LEVELS": ["L3", "L4"],
+    "E2_N_PARENTS": 400,
     "RETRY_REASONS": ["not_run_time_limit", "oom"],   # technical failures, never §3.4 quality exclusions
     "EXPECTED_VERSIONS": {"sklearn": "1.6.1", "transformers": "5.20.2", "sentence_transformers": "5.7.0"},
 }
 
 cells = [
-    header("03", f"Graded AI-assistance generation ({GEN}{', continuation' if CONT else ''})",
+    header("03", f"Graded AI-assistance generation ({GEN}{', continuation' if CONT else ''}"
+                 f"{', extension E1: EXT3' if TASK_SET == 'ext3' else ''}{', extension E2: scale' if TASK_SET == 'e2' else ''})",
            "Produce paired, placeholder-locked AI-assisted versions of real emails. Test-only generators write L1 proofread, "
            "L2 polish, L3 rewrite and L4 compose-from-subject for EXT and IN legitimate parents, and L3 for EXT and IN phishing parents. "
            "The train-only generator writes L3 and L4 for R1 training legitimate parents and L3 for R1 training phishing parents "
@@ -54,7 +67,7 @@ from phishbench import generation
 from phishbench.dedup import MinHasher, shingles, estimated_jaccard
 CFG = GENERATORS[GENERATOR]
 DTYPE = getattr(torch, CFG["dtype"])
-SAFE, PRIVATE = WORK / "safe_03" / GENERATOR, WORK / "private_03"
+SAFE, PRIVATE = WORK / "safe_03" / OUTPUT_STEM, WORK / "private_03"
 for _p in (SAFE, PRIVATE):
     _p.mkdir(parents=True, exist_ok=True)"""),
     selftest_cell(),
@@ -71,7 +84,16 @@ with gzip.open(src[0], "rt", encoding="utf-8") as f:
 log("01 records", RECORDS_01_SHA256[:12], {k: len(v) for k, v in by_cell.items() if not k.startswith("INFULL")})
 
 tasks = []   # (parent, level, out_cell)
-if CFG["role"] == "test":
+if TASK_SET == "ext3":   # E1: L3 and L4 of the newer human email cell (01b)
+    for p in manifest.read_jsonl(manifest.find_artifact(Path("/kaggle/input"), "records_ext3")):
+        for lv in EXTENSION_LEVELS:
+            tasks.append((p, lv, f"EXT3-legit-{lv}-{GENERATOR}"))
+elif TASK_SET == "e2":   # E2: a seeded 400 of the 1,000 EXT parents, independent of any 7B output
+    from phishbench.freeze import seeded_order
+    for p in seeded_order(by_cell["EXT-legit-L0"], SEED)[:E2_N_PARENTS]:
+        for lv in EXTENSION_LEVELS:
+            tasks.append((p, lv, f"EXT-legit-{lv}-{GENERATOR}"))
+elif CFG["role"] == "test":
     for cell in ("EXT-legit-L0", "IN-legit-L0"):
         for p in by_cell[cell]:
             for lv in ("L1", "L2", "L3", "L4"):
@@ -89,11 +111,12 @@ log("tasks", len(tasks), Counter(t[2] for t in tasks))
 PREV, REDO = None, set()
 if CONTINUATION:
     inp = Path("/kaggle/input")
-    pm = [q for q in inp.rglob("run_manifest.json") if json.loads(q.read_text(encoding="utf-8")).get("generator") == GENERATOR]
+    pm = [q for q in inp.rglob("run_manifest.json") if json.loads(q.read_text(encoding="utf-8")).get("generator") == GENERATOR
+          and json.loads(q.read_text(encoding="utf-8")).get("task_set", "main") == TASK_SET]
     assert len(pm) == 1, f"continuation needs exactly one previous {GENERATOR} run manifest, found {len(pm)}"
     prev_m = json.loads(pm[0].read_text(encoding="utf-8"))
-    gp = manifest.find_artifact(inp, f"generated_{GENERATOR}")
-    rj = json.loads(sorted(inp.rglob(f"rejected_ids_{GENERATOR}.json"))[0].read_text(encoding="utf-8"))
+    gp = manifest.find_artifact(inp, f"generated_{OUTPUT_STEM}")
+    rj = json.loads(sorted(inp.rglob(f"rejected_ids_{OUTPUT_STEM}.json"))[0].read_text(encoding="utf-8"))
     with (pm[0].parent / "generation_summary.csv").open(encoding="utf-8") as f:
         prev_reasons = Counter({(r["cell"], r["reason"]): int(r["count"]) for r in csv.DictReader(f) if r["reason"]})
     REDO = {sid for sid, why in rj if why in RETRY_REASONS}
@@ -114,10 +137,17 @@ tok = AutoTokenizer.from_pretrained(mpath)
 tok.padding_side = "left"
 if tok.pad_token is None:
     tok.pad_token = tok.eos_token
+QKW = {}
+if CFG.get("quantization") == "nf4":   # deviation 15 (E2): the one package added on top of the pinned image, for this run only
+    subprocess.run([sys.executable, "-m", "pip", "install", "--quiet", CFG["pip"]], check=True)
+    import bitsandbytes
+    from transformers import BitsAndBytesConfig
+    ENV["pkg_bitsandbytes"] = bitsandbytes.__version__
+    QKW["quantization_config"] = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.float16)
 try:
-    model = AutoModelForCausalLM.from_pretrained(mpath, dtype=DTYPE, device_map="auto")
+    model = AutoModelForCausalLM.from_pretrained(mpath, dtype=DTYPE, device_map="auto", **QKW)
 except TypeError:
-    model = AutoModelForCausalLM.from_pretrained(mpath, torch_dtype=DTYPE, device_map="auto")
+    model = AutoModelForCausalLM.from_pretrained(mpath, torch_dtype=DTYPE, device_map="auto", **QKW)
 model.eval()
 cfg = model.config
 head_dim = getattr(cfg, "head_dim", None) or cfg.hidden_size // cfg.num_attention_heads
@@ -246,7 +276,7 @@ if CONTINUATION:   # merge: previous kept records (with their manipulation metri
 
 # D2-provided rewrites: same manipulation check (test-role kernels only)
 d2_metrics = defaultdict(list)
-if CFG["role"] == "test":
+if CFG["role"] == "test" and TASK_SET == "main":
     parents = {r["sample_id"]: r for c in ("IN-legit-L0", "IN-phish-H") for r in by_cell[c]}
     for c in [k for k in by_cell if k.startswith("IN-") and "-L3-" in k]:
         rows = [(parents[r["parent_id"]], r) for r in by_cell[c] if r["parent_id"] in parents]
@@ -260,13 +290,13 @@ log("final passed", len(final), "| rejected", sum(reasons.values()))
 """),
 md("## 4. Write private generated records and safe aggregate outputs"),
 code("""
-with gzip.open(PRIVATE / f"generated_{GENERATOR}.jsonl.gz", "wt", encoding="utf-8") as f:
+with gzip.open(PRIVATE / f"generated_{OUTPUT_STEM}.jsonl.gz", "wt", encoding="utf-8") as f:
     for r in final:
         f.write(json.dumps(r, ensure_ascii=False) + "\\n")
 REJECTED = [[r["id"], why] for r, res, why in results if why is not None] + LOW_SIM + (PREV["rejected"] if CONTINUATION else [])
-manifest.write_json(PRIVATE / f"rejected_ids_{GENERATOR}.json", sorted(REJECTED))
-PRIVATE_HASHES = {"file_sha256": {p.name: manifest.sha256_file(p) for p in sorted(PRIVATE.glob(f"*_{GENERATOR}.*"))},
-                  "content_sha256": {f"generated_{GENERATOR}": manifest.content_sha256(PRIVATE / f"generated_{GENERATOR}.jsonl.gz")}}
+manifest.write_json(PRIVATE / f"rejected_ids_{OUTPUT_STEM}.json", sorted(REJECTED))
+PRIVATE_HASHES = {"file_sha256": {p.name: manifest.sha256_file(p) for p in sorted(PRIVATE.glob(f"*_{OUTPUT_STEM}.*"))},
+                  "content_sha256": {f"generated_{OUTPUT_STEM}": manifest.content_sha256(PRIVATE / f"generated_{OUTPUT_STEM}.jsonl.gz")}}
 manifest.write_json(SAFE / "private_files_sha256.json", PRIVATE_HASHES)   # downstream notebooks verify these
 
 requested = ALL_REQUESTED
@@ -300,7 +330,7 @@ gates = {"privacy_no_text_in_safe_outputs": leaks == 0,
          "every_task_attempted": not any(why == "not_run_time_limit" for _, _, why in results)}
 ATTRITION = {c: round(kept[c] / requested[c], 4) for c in sorted(requested) if kept[c] / requested[c] < ATTRITION_FLAG_BELOW}
 manifest.write_json(SAFE / "run_manifest.json", {
-    "notebook": f"03_Graded_AI_Assistance_Generation[{GENERATOR}]", "status": "COMPLETED" if all(gates.values()) else ("PARTIAL_TIME_LIMIT" if gates["privacy_no_text_in_safe_outputs"] else "COMPLETED_WITH_GATE_FAILURES"),
+    "notebook": f"03_Graded_AI_Assistance_Generation[{OUTPUT_STEM}]", "task_set": TASK_SET, "status": "COMPLETED" if all(gates.values()) else ("PARTIAL_TIME_LIMIT" if gates["privacy_no_text_in_safe_outputs"] else "COMPLETED_WITH_GATE_FAILURES"),
     "attrition_flags_kept_rate_below_0.80": ATTRITION, "private_files_sha256": PRIVATE_HASHES,
     "gates": gates, "generator": GENERATOR, "model_repo": CFG["repo"], "model_revision": REV, "role": CFG["role"],
     "dtype": CFG["dtype"], "decoding": generation.DECODING, "seeding": "per batch (deviation 2)",
