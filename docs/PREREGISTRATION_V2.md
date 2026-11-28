@@ -437,3 +437,52 @@ Mitigations are claimed as useful **only** if they pass all of §5 (a), (b) and 
 - *Verified:* a local dry run with a small model went through a partial run and then a continuation. The continuation redid 18 of 24 tasks. Afterwards kept + rejected = 24 unique IDs, with no technical failure left.
 - *Why:* technical failures must not masquerade as §3.4 quality exclusions, and §3.4 is a single pass, so tasks that already received a §3.4 verdict are never regenerated.
 - *Results affected:* Phi and OLMo generation only. No detector has been trained or scored.
+
+**Deviation 15 (2026-11-28, before any extension data is collected or generated, and before any detector is trained or scored): two pre-specified EXPLORATORY extensions.**
+
+They answer two foreseeable criticisms:
+- the external human email is old (Enron 2001, Clinton 2009–12);
+- the open generators are small (3.8B and 7B).
+
+They are **exploratory**. They never enter the §7 claim table or the Holm families of the primary endpoints. Each is reported in its own clearly labelled section. Both use only free resources.
+
+*E1 — newer human legitimate email (cell EXT3).*
+- **Source:** public Apache Software Foundation mailing-list archives (lists.apache.org, Pony Mail mbox API, under the ASF Public Forum Archive Policy). Text is never redistributed. Sample IDs are `EXT3:` plus the first 16 hex characters of SHA-1(Message-ID).
+- **Lists (12, fixed):** user@spark, users@kafka, user@flink, user@hadoop, user@cassandra, users@tomcat, users@httpd, dev@httpd, dev@airflow, general@incubator, dev@community, users@maven.
+  - A list that returns no messages is skipped and reported, with no substitution.
+- **Window:** 2019-01 to 2022-10, which ends before ChatGPT's release on 2022-11-30.
+- **Months:** 6 per list, drawn with a seeded sample (seed 2026) from the 46 months in the window.
+- **Messages kept:** thread starters only, meaning no In-Reply-To or References header.
+- **Messages excluded:**
+  - automated senders: address or name containing jira, git, github, bot, notification, noreply, jenkins, buildbot or commits;
+  - subjects starting with [jira], [GitHub], [CI], [VOTE] or [RESULT];
+  - patches and diffs;
+  - bodies whose lines are more than 30% stack trace or code.
+- **Filters, as for the other human cells:**
+  - 20–1,500 words, English;
+  - decontamination against R1 and R2 training and validation (exact plus MinHash Jaccard ≥ 0.80);
+  - within-cell near-duplicate removal.
+- **Sample:** n = 500, seeded, with at most 60 per list.
+- **Generation:** L3 and L4 by the two test generators (Qwen2.5-7B, Phi-3.5-mini), with the frozen prompts, decoding and §3.4 filters.
+- **Endpoints (exploratory), for D2 and D5 under R1, plus descriptively for all detectors:**
+  - X1a: paired ΔFPR, EXT3 L3 versus L0, pooling the generators that passed §3.5 (deviation 13).
+  - X1b: paired ΔFPR, EXT3 L4 versus L0, pooling both generators.
+  - X1c: FPR(EXT3-L0) − FPR(EXT-L0), from an unpaired bootstrap (era and domain shift).
+  - **Statistics:** 90% and 95% cluster-bootstrap CIs, exact McNemar, and TOST ±3 pp reported descriptively.
+- **Disclosure:** one month of one list (dev@httpd, 2020-05) was downloaded on 2026-11-28 only to check that the API returns mbox data (HTTP 200, 103 messages). No message content was read or analysed.
+
+*E2 — a larger open generator (scale within one family).*
+- **Model:** `Qwen/Qwen2.5-14B-Instruct` (Apache-2.0), loaded in 4-bit NF4 (bitsandbytes, float16 compute) so that it fits 2×T4. The revision is pinned at first download. Prompts, decoding and the §3.4 filters are unchanged.
+- **Parents:** 400 EXT-legit-L0 parents, a seeded sample from all 1,000 that does not depend on the 7B outputs.
+- **Levels:** L3 and L4.
+- **Role:** test-side only; never used for training or mitigations.
+- **Endpoints (exploratory), for D2 and D5 under R1:**
+  - X2a and X2b: paired ΔFPR, 14B L3 and L4 versus L0.
+  - X2c: the scale contrast. It is the mean over parents with kept outputs at both scales of [decision(14B) − decision(7B)], for L3 and for L4, with a cluster-bootstrap 95% CI.
+- **Caveat:** 4-bit quantisation is a confound of scale. It is reported as a limitation.
+
+*Common to E1 and E2:*
+- Manipulation check and attrition reported as in deviations 5 and 12.
+- No human validation, which is a stated limitation.
+- 05 and 06 score the extension cells in the same sealed runs as everything else.
+- 07 computes the extension endpoints once, in a separate exploratory section.

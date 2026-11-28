@@ -258,3 +258,14 @@ None of these may be scored before N20.
 - **Timing.** The snapshot predates every detector training and scoring run (05, 06) and the confirmatory evaluation (07). It is therefore the independent timestamp of the frozen protocol (v2.1) and deviations 1–14.
 - **OSF.** The owners chose Zenodo instead of OSF, which PLOS ONE does not require for this study type.
 - **Final package.** It will be a new version under the same concept DOI.
+
+## D024 — 2026-11-28 — Owner chose two free exploratory extensions (deviation 15)
+- **Choice.** Asked about free ways to pre-empt reviewer criticism, the owner chose:
+  - **E1:** newer human email from Apache mailing lists, 2019–2022.
+  - **E2:** Qwen2.5-14B in 4-bit, to test scale.
+- **Rejected:** the Gemini free API. On the unpaid tier, submitted content may be used for product improvement and read by human reviewers, which conflicts with the privacy assessment. It is also not reproducible.
+- **Timing.**
+  - 05 and 06 are held, so that all cells are scored in one sealed run.
+  - Phi continuation, OLMo and 04 continue.
+  - A delay of a few weeks is acceptable to the owner.
+- **Recommended:** a Zenodo release `v0.2-extensions` before the E1 data are collected, so that this pre-specification is timestamped independently.
