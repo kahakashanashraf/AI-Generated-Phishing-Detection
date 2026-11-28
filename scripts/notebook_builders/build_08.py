@@ -346,6 +346,14 @@ for man in sorted(RES.rglob("run_manifest.json")):
         AUDIT_FILES.append({"manifest": str(man.relative_to(REPO)), "file": rel, "present": f.exists(),
                             "sha256_match": f.exists() and manifest.sha256_file(f) == h})
 af = pd.DataFrame(AUDIT_FILES, columns=["manifest", "file", "present", "sha256_match"])
+# every run must have executed in the one pinned image (D013); the run manifests record the image each kernel actually used
+IMAGES = {}
+for man in sorted(RES.rglob("run_manifest.json")):
+    img = (json.loads(man.read_text(encoding="utf-8")).get("environment") or {}).get("kaggle_docker_image")
+    if img:
+        IMAGES[str(man.relative_to(REPO))] = img
+pd.DataFrame(sorted(IMAGES.items()), columns=["manifest", "kaggle_docker_image"]).to_csv(SAFE / "audit_images.csv", index=False, lineterminator="\\n")
+IMAGE_DIGESTS = sorted({v.split("@")[-1] for v in IMAGES.values()})
 af.to_csv(SAFE / "audit_result_files.csv", index=False, lineterminator="\\n")
 
 def builder_for(step):
@@ -418,11 +426,13 @@ leaks = sum(1 for r in probe if textnorm.normalize(r["body"])[:60] in safe_blob)
 GATES = {"required_results_present": all(PRESENT.values()),
          "result_files_match_manifests": bool(len(af)) and bool(af["present"].all() and af["sha256_match"].all()),
          "notebooks_rebuild_identically": bool(len(an)) and bool(an["rebuild_identical"].all()),
+         "one_pinned_image_digest": len(IMAGE_DIGESTS) == 1,
          "privacy_no_text_in_outputs": leaks == 0,
          "figures_within_plos_limits": all(v["pixels"][0] <= 2250 and v["pixels"][1] <= 2625 for v in FIGS.values())}
 manifest.write_json(SAFE / "run_manifest.json", {
     "notebook": "08_Paper_Tables_Figures_and_Reproducibility", "status": "COMPLETED" if all(GATES.values()) else "COMPLETED_WITH_GATE_FAILURES",
     "gates": GATES, "present": PRESENT, "tables": sorted(TABLES), "figures": FIGS, "figure_font": FONT, "attrition": ATTR,
+    "image_digests": IMAGE_DIGESTS,
     "audit": {"result_files": len(af), "hash_mismatches": int((~af["sha256_match"]).sum()) if len(af) else None,
               "notebooks": len(an), "rebuild_mismatches": int((~an["rebuild_identical"]).sum()) if len(an) else None},
     "phishbench_commit": CODE_COMMIT, "runtime_seconds": round(time.time() - T0, 1), "params": PARAMS, "environment": ENV,
