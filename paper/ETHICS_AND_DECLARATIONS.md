@@ -47,7 +47,7 @@ Author order confirmed by the owner on 2026-11-28. Every listed author must meet
 | Supervision | | | | | | |
 | Project administration | | | | | | |
 
-Both raters in the human validation (§3.5) should hold **Validation** and **Investigation**. The coordinator should hold **Project administration**.
+In the human validation (§3.5), the raters are Dipra Das and Johora Bibi Juhi. Both should hold **Validation** and **Investigation**. The coordinator, Kahakashan Ashraf, should hold **Project administration**. Amit Dasgupta reviews the writing and supports the literature search, so he should hold **Writing – review & editing** and, if the authors agree, **Investigation**.
 
 ## Funding
 > The authors received no specific funding for this work.

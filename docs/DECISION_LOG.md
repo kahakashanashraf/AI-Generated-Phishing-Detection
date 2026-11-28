@@ -116,7 +116,7 @@ None of these may be scored before N20.
 - **Human validation roles.** Two authors rate (A and B) and the third coordinates and adjudicates last. Names go only into the manuscript's CRediT statement. Owner to confirm who takes which role.
 
 **D015 update (2026-11-26): roles confirmed by the owner.**
-- **Rater A:** Dipra. **Rater B:** Pujan. **Coordinator:** the repository owner. The coordinator runs the pipeline, holds the private folder, hands out the workbooks, runs the extraction and is adjudicator of last resort.
+- **Rater A:** Dipra Das. **Rater B:** Amit Dasgupta. **Coordinator:** the repository owner. The coordinator runs the pipeline, holds the private folder, hands out the workbooks, runs the extraction and is adjudicator of last resort.
 - **Blinding caveat.** The draw is deterministic from public code, a public seed and Kaggle inputs. Blinding therefore rests on procedure, not secrecy. The Kaggle account that runs the kernels is accessible to a rater. Each rater therefore must not:
   - open the outputs of the `04-human-validation-*` kernels on Kaggle;
   - open `key.csv`;
@@ -209,7 +209,7 @@ None of these may be scored before N20.
   4. [name to come]
   5. Md Kishor Morol
   6. Tze Hui Liew
-- **Human-validation roles are unchanged:** rater A Dipra, rater B Pujan, coordinator Kahakashan Ashraf.
+- **Human-validation roles are unchanged:** rater A Dipra Das, rater B Amit Dasgupta, coordinator Kahakashan Ashraf.
 - **If any author is a university supervisor,** the affiliation and ethics route of deviation 10 should be re-checked before the human rating starts.
 - **Release metadata:** `CITATION.cff` and `.zenodo.json` hold the list. `scripts/check_release_metadata.py` blocks a release while any name is a placeholder.
 - **Licences:** code is MIT (`LICENSE`). Results and documents are CC BY 4.0 (`LICENSE-CC-BY-4.0.md`). The authors can still change either before the first Zenodo release.
@@ -231,3 +231,12 @@ None of these may be scored before N20.
 6. Tze Hui Liew
 
 `CITATION.cff` and `.zenodo.json` are complete, and `scripts/check_release_metadata.py` passes.
+
+**D015 update (2026-11-28): roles reassigned before any rating.**
+- **Human validation:**
+  - Rater A: Dipra Das.
+  - Rater B: **Johora Bibi Juhi**.
+  - Coordinator: Kahakashan Ashraf.
+- **Amit Dasgupta** reviews the writing and helps with the literature search. He no longer rates.
+- **Why this is safe:** no workbook has been issued yet, so the change cannot affect any rating.
+- **Attestation:** the blinding rules and the attestation (D015) now apply to Dipra Das and Johora Bibi Juhi.
