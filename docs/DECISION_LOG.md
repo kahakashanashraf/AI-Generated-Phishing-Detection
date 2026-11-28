@@ -221,3 +221,13 @@ None of these may be scored before N20.
 - **Continuation:** `03-generation-phi-3-5-mini-cont` generates only the 1,140 technically failed tasks and merges the result with run 1. The fixed OLMo run starts once the owner has cancelled the buggy version 2.
 - **Runner:** a pending step whose kernel still runs from an older push now waits (`adopt: false`) instead of adopting it.
 - **Lesson:** the editor session ended twice while kernels were running, and nothing was collected in the meantime. The coordinator keeps the session open; on return, the runner resumes from its saved state.
+
+**D015 update (2026-11-28): author order confirmed.**
+1. Dipra Das
+2. Johora Bibi Juhi
+3. Kahakashan Ashraf
+4. Amit Dasgupta
+5. Md Kishor Morol
+6. Tze Hui Liew
+
+`CITATION.cff` and `.zenodo.json` are complete, and `scripts/check_release_metadata.py` passes.

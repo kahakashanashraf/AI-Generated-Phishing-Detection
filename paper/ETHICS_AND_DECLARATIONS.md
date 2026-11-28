@@ -30,9 +30,9 @@ The work is submitted from **EliteLab** (owner decision, 2026-11-27).
 - **Confirm before submission:** ask PLOS ONE staff to confirm that this is acceptable, in the same email as the ethics route (DECISION_LOG D015).
 
 ## Author contributions (CRediT; required by PLOS ONE)
-Author order as given by the owner on 2026-11-27. Two full names are still to come. Every listed author must meet the authorship criteria, which means a real contribution (for example review & editing), and must approve the final version. Fill in at least one role per author:
+Author order confirmed by the owner on 2026-11-28. Every listed author must meet the authorship criteria, which means a real contribution (for example review & editing), and must approve the final version. Fill in at least one role per author:
 
-| CRediT role | Dipra Das | [Author 2] | Kahakashan Ashraf | [Author 4] | Md Kishor Morol | Tze Hui Liew |
+| CRediT role | Dipra Das | Johora Bibi Juhi | Kahakashan Ashraf | Amit Dasgupta | Md Kishor Morol | Tze Hui Liew |
 |---|---|---|---|---|---|---|
 | Conceptualization | | | | | | |
 | Methodology | | | | | | |
