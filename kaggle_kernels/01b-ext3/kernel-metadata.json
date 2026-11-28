@@ -1,0 +1,19 @@
+{
+  "id": "ddipra/01b-extension-newer-human-email",
+  "title": "01b-extension-newer-human-email",
+  "code_file": "01b_Extension_Newer_Human_Email.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "true",
+  "enable_gpu": "false",
+  "enable_tpu": "false",
+  "enable_internet": "true",
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": [
+    "ddipra/01-data-sources-audit-and-locked-cells"
+  ],
+  "model_sources": [],
+  "docker_image": "gcr.io/kaggle-private-byod/python@sha256:fc720c15545eb096a510e1f085b17fc118387a007599424d953a4f327b71cacf",
+  "docker_image_pinning_type": "original"
+}
