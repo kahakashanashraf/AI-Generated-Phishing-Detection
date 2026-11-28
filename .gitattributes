@@ -1,3 +1,4 @@
 # Exact bytes for audited artefacts: no end-of-line conversion on any platform (notebook 08 audits their SHA-256)
 results/** -text
 kaggle_kernels/** -text
+pipeline_state/** text eol=lf

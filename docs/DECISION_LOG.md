@@ -287,3 +287,16 @@ None of these may be scored before N20.
 - **What the record holds:** the same six creators, the MIT licence, and a single 1.8 MB repository archive (md5 a28af14f0e1f54d3c21dadd6f5030510).
 - **Timing.** The snapshot predates the E1 data collection (01b), every extension generation run (03 ext3, 03 e2), every detector training and scoring run (05, 06) and the evaluation (07). The only earlier contact with Apache data is the API checks already disclosed in deviation 15 and D025; no message content from them enters any result.
 - **Action.** The pipeline holds on `01b-ext3` and `03-e2-qwen2.5-14b` were released after this record existed.
+## D027 — 2026-11-28 — Pipeline runner moved to GitHub Actions; owner cancellations recorded
+- **Why.** The local runner stops whenever the owner's laptop is off. The scheduled workflow `.github/workflows/kaggle-pipeline.yml` runs one tick of `scripts/pipeline.py --once` every 15 minutes in the cloud. Each tick collects the kernels that finished, pushes the next steps whose dependencies are done, and commits.
+- **State.** The state and the log moved from the private folder to `pipeline_state/` (committed). They hold step names, states, timestamps and Kaggle messages only. Machine paths are scrubbed from the log.
+- **Privacy.** The cloud runner downloads **only the safe folder** of each kernel output (`--file-pattern ^<safe>/`). Email text, generated text and rater keys stay on Kaggle as kernel outputs. Kaggle's own run log also lands on the runner's temporary disk; it is never committed.
+- **Security.** The Kaggle token is a repository secret (`KAGGLE_API_TOKEN`). The workflow runs only on schedule or manual dispatch, so pull requests from forks never see the secret. Every tick checks first that Kaggle answers for a known finished kernel, and changes nothing otherwise.
+- **One runner.** The local loop is no longer run while the workflow is enabled.
+- **Owner actions on Kaggle, 2026-11-28 (no data affected).**
+  - The owner cancelled Phi-cont v1 and OLMo v3 after about 3 h in the queue; neither had started.
+  - An interactive editor session the owner opened on the OLMo notebook was stopped. It produced no output that is used anywhere.
+  - Phi-cont v2, which was still queued, was cancelled at the same time.
+  - The pipeline then pushed OLMo v4 (15:12:15Z). Phi-cont is re-pushed unchanged when a GPU slot frees.
+  - Every result comes from a version pushed by the pipeline on the pinned image.
+

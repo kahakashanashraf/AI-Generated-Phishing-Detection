@@ -8,15 +8,21 @@ For each step:
   4. When the run ends: download the outputs to the private folder, check that the run manifest says COMPLETED,
      copy ONLY the safe folder into results/, then git commit and push.
   5. A failed step stops its dependants, and the reason is logged. Steps are never retried blindly.
-State lives in <private>/pipeline_state.json, so the runner can be stopped and resumed.
+State and log live in pipeline_state/ (committed; step names, states and Kaggle messages only, never text), so any runner
+can stop and resume.
 
-Usage: python scripts/pipeline.py [--only step1,step2]
+Usage:
+  python scripts/pipeline.py --once            one tick (what the scheduled GitHub Actions workflow runs; D027)
+  python scripts/pipeline.py [--only a,b]      a local loop that polls every 90 s (never while the workflow is enabled)
+With PIPELINE_SAFE_ONLY=1 (the cloud runner), a finished kernel's outputs are downloaded for its safe folder ONLY,
+so private files (email text, generated text, rater keys) never leave Kaggle.
 """
 
 from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -28,7 +34,9 @@ REPO = Path(__file__).resolve().parents[1]
 PRIVATE = Path(os.environ.get("PHISH_PRIVATE", REPO.parent / "AI-Generated-Phishing-Detection_private"))
 _VENV_CLI = REPO.parent / "AI-Generated-Phishing-Detection_venv" / "Scripts" / "kaggle.exe"
 CLI = os.environ.get("KAGGLE_CLI") or (str(_VENV_CLI) if _VENV_CLI.exists() else "kaggle")
-LOCK = PRIVATE / "pipeline.lock"   # heartbeat: refreshed every poll; a second runner exits while it is fresh
+STATE_DIR = REPO / "pipeline_state"   # committed, so the cloud runner and a local runner share one state
+SAFE_ONLY = os.environ.get("PIPELINE_SAFE_ONLY") == "1"
+LOCK = PRIVATE / "pipeline.lock"   # local loop only: refreshed every poll; a second local runner exits while it is fresh
 OWNER = "ddipra"
 MAX_SLOTS = 2
 POLL = 90
@@ -118,19 +126,21 @@ def sh(*args, cwd=REPO, check=True) -> str:
 
 
 def log(msg: str) -> None:
+    for local, label in ((str(PRIVATE), "<private>"), (str(REPO.parent), "<root>"), (str(Path.home()), "<home>")):
+        msg = msg.replace(local, label)   # the log is committed to a public repository: no machine paths in it
     line = f"{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}Z {msg}"
     print(line, flush=True)
-    with (PRIVATE / "pipeline.log").open("a", encoding="utf-8") as f:
+    with (STATE_DIR / "pipeline.log").open("a", encoding="utf-8", newline="\n") as f:
         f.write(line + "\n")
 
 
 def load_state() -> dict:
-    p = PRIVATE / "pipeline_state.json"
+    p = STATE_DIR / "state.json"
     return json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
 
 
 def save_state(st: dict) -> None:
-    (PRIVATE / "pipeline_state.json").write_text(json.dumps(st, indent=2), encoding="utf-8")
+    (STATE_DIR / "state.json").write_bytes((json.dumps(st, indent=2) + "\n").encode("utf-8"))
 
 
 def kstatus(slug: str) -> str:
@@ -174,7 +184,8 @@ def collect(name: str) -> bool:
     s = STEPS[name]
     out = PRIVATE / f"{name}_{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S')}"
     out.mkdir(parents=True, exist_ok=True)
-    sh(CLI, "kernels", "output", s["slug"], "-p", str(out), check=False)
+    only_safe = ["--file-pattern", "^" + re.escape(s["safe"]) + "/"] if SAFE_ONLY else []
+    sh(CLI, "kernels", "output", s["slug"], "-p", str(out), "-q", *only_safe, check=False)
     man = out / s["safe"] / "run_manifest.json"
     if not man.exists():
         log(f"{name}: no run manifest in outputs ({out})")
@@ -203,52 +214,75 @@ def heartbeat() -> None:
     LOCK.write_text(f"{os.getpid()} {datetime.now(timezone.utc).isoformat()}", encoding="utf-8")
 
 
-def main(only: list[str] | None) -> int:
+def commit_state() -> None:
+    git_sync_commit([str(STATE_DIR.relative_to(REPO))], "pipeline: state and log [skip ci]")
+
+
+def tick(st: dict, todo: list[str]) -> None:
+    """One pass: collect every finished kernel, then push each step whose dependencies are done while a slot is free."""
+    running = [n for n in todo if st[n]["state"] == "running"]
+    for n in running:
+        k = kstatus(STEPS[n]["slug"])
+        if k in ("COMPLETE", "ERROR", "CANCEL"):
+            ok = k == "COMPLETE" and collect(n)
+            st[n]["state"] = "done" if ok else "failed"
+            st[n]["finished"] = datetime.now(timezone.utc).isoformat()
+            log(f"{n}: kernel {k} -> {st[n]['state']}")
+            save_state(st)
+    running = [n for n in todo if st[n]["state"] == "running"]
+    for n in todo:
+        gpu_running = [m for m in running if STEPS[m].get("gpu", True)]
+        if st[n]["state"] != "pending" or (STEPS[n].get("gpu", True) and len(gpu_running) >= MAX_SLOTS) or not_yet(st[n]):
+            continue
+        deps = STEPS[n]["deps"]
+        if any(st.get(d, {}).get("state") == "failed" for d in deps):
+            st[n]["state"] = "blocked"; log(f"{n}: blocked by a failed dependency"); save_state(st); continue
+        if not all(st.get(d, {}).get("state") == "done" for d in deps):
+            continue
+        if not available(n):
+            continue   # builder or required committed inputs (for example ratings) not there yet; the step waits
+        if kstatus(STEPS[n]["slug"]) in ("RUNNING", "QUEUED"):
+            if not st[n].get("adopt", True):
+                continue   # an older, unwanted run is still active (for example awaiting cancellation): wait
+            st[n].update(state="running", adopted=True); log(f"{n}: adopted an already running kernel"); save_state(st)
+            running.append(n); continue
+        kdir = prepare(n)
+        out = sh(CLI, "kernels", "push", "-p", str(kdir), check=False)
+        if "successfully" in out:
+            st[n].update(state="running", pushed=datetime.now(timezone.utc).isoformat(), commit=sh("git", "rev-parse", "HEAD"))
+            log(f"{n}: pushed ({out.splitlines()[-1][:90]})"); running.append(n)
+        else:
+            log(f"{n}: push deferred: {out.splitlines()[-1][:120] if out else 'no output'}")
+        save_state(st)
+
+
+def main(only: list[str] | None, once: bool = False) -> int:
     PRIVATE.mkdir(parents=True, exist_ok=True)
-    if LOCK.exists() and time.time() - LOCK.stat().st_mtime < 3 * POLL:
-        log(f"another runner is active ({LOCK.read_text(encoding='utf-8')}); exiting")
-        return 1
-    heartbeat()
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    if once:
+        # the scheduled cloud runner: do nothing at all unless Kaggle answers for a known, finished kernel
+        if not os.environ.get("KAGGLE_API_TOKEN") and not (Path.home() / ".kaggle").is_dir():
+            print("no Kaggle credentials (repository secret KAGGLE_API_TOKEN is not set): runner inactive, nothing changed")
+            return 0
+        if kstatus(K01) != "COMPLETE":
+            print("Kaggle API not reachable or not authenticated: nothing changed")
+            return 1
+        sh("git", "pull", "--rebase", "--autostash", "-q", "origin", "main")
+    else:
+        if LOCK.exists() and time.time() - LOCK.stat().st_mtime < 3 * POLL:
+            log(f"another runner is active ({LOCK.read_text(encoding='utf-8')}); exiting")
+            return 1
+        heartbeat()
     st = load_state()
     todo = [n for n in ORDER if (not only or n in only)]
     for n in todo:
         st.setdefault(n, {"state": "pending"})
     save_state(st)
     while True:
-        running = [n for n in todo if st[n]["state"] == "running"]
-        for n in running:
-            k = kstatus(STEPS[n]["slug"])
-            if k in ("COMPLETE", "ERROR", "CANCEL"):
-                ok = k == "COMPLETE" and collect(n)
-                st[n]["state"] = "done" if ok else "failed"
-                st[n]["finished"] = datetime.now(timezone.utc).isoformat()
-                log(f"{n}: kernel {k} -> {st[n]['state']}")
-                save_state(st)
-        running = [n for n in todo if st[n]["state"] == "running"]
-        for n in todo:
-            gpu_running = [m for m in running if STEPS[m].get("gpu", True)]
-            if st[n]["state"] != "pending" or (STEPS[n].get("gpu", True) and len(gpu_running) >= MAX_SLOTS) or not_yet(st[n]):
-                continue
-            deps = STEPS[n]["deps"]
-            if any(st.get(d, {}).get("state") == "failed" for d in deps):
-                st[n]["state"] = "blocked"; log(f"{n}: blocked by a failed dependency"); save_state(st); continue
-            if not all(st.get(d, {}).get("state") == "done" for d in deps):
-                continue
-            if not available(n):
-                continue   # builder or required committed inputs (for example ratings) not there yet; the step waits
-            if kstatus(STEPS[n]["slug"]) in ("RUNNING", "QUEUED"):
-                if not st[n].get("adopt", True):
-                    continue   # an older, unwanted run is still active (for example awaiting cancellation): wait
-                st[n].update(state="running", adopted=True); log(f"{n}: adopted an already running kernel"); save_state(st)
-                running.append(n); continue
-            kdir = prepare(n)
-            out = sh(CLI, "kernels", "push", "-p", str(kdir), check=False)
-            if "successfully" in out:
-                st[n].update(state="running", pushed=datetime.now(timezone.utc).isoformat(), commit=sh("git", "rev-parse", "HEAD"))
-                log(f"{n}: pushed ({out.splitlines()[-1][:90]})"); running.append(n)
-            else:
-                log(f"{n}: push deferred: {out.splitlines()[-1][:120] if out else 'no output'}")
-            save_state(st)
+        tick(st, todo)
+        commit_state()
+        if once:
+            return 0
         if all(st[n]["state"] in ("done", "failed", "blocked") for n in todo):
             break
         if not any(st[n]["state"] == "running" for n in todo) and not any(
@@ -259,16 +293,22 @@ def main(only: list[str] | None) -> int:
         heartbeat()
         time.sleep(POLL)
     log("pipeline stop: " + json.dumps({n: st[n]["state"] for n in todo}))
+    commit_state()
     LOCK.unlink(missing_ok=True)
     return 0
 
 
 if __name__ == "__main__":
     only = sys.argv[sys.argv.index("--only") + 1].split(",") if "--only" in sys.argv else None
+    once = "--once" in sys.argv
     try:
-        sys.exit(main(only))
-    except Exception:   # a detached runner has no console: record the reason, release the lock, exit non-zero
+        sys.exit(main(only, once))
+    except Exception:   # record the reason (committed, so the cloud runner's crash is visible too), release the lock
         import traceback
         log("CRASH: " + " | ".join(traceback.format_exc().splitlines())[-1500:])
+        try:
+            commit_state()
+        except Exception:
+            pass
         LOCK.unlink(missing_ok=True)
         sys.exit(2)

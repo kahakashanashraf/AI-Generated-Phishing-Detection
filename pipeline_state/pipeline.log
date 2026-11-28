@@ -1,0 +1,28 @@
+2026-11-26 13:31:45Z 02: pushed (Kernel version 3 successfully pushed.  Please check progress at https://www.kaggle.com/cod)
+2026-11-26 13:31:48Z 03-qwen2.5-7b: adopted an already running kernel
+2026-11-26 13:58:58Z 02: status COMPLETED_WITH_GATE_FAILURES gates {'all_study1_notebooks_executed': True, 'every_reference_csv_present': True, 'no_shape_or_column_changes': False}
+2026-11-26 13:58:58Z 02: kernel COMPLETE -> failed
+2026-11-26 13:59:12Z 03-phi-3.5-mini: pushed (Kernel version 1 successfully pushed.  Please check progress at https://www.kaggle.com/cod)
+2026-11-27 05:20:44Z 03-phi-3.5-mini: pushed (Kernel version 2 successfully pushed.  Please check progress at https://www.kaggle.com/cod)
+2026-11-27 05:27:50Z 03-olmo-2-7b: pushed (Kernel version 1 successfully pushed.  Please check progress at https://www.kaggle.com/cod)
+2026-11-28 11:43:22Z 03-phi-3.5-mini: status PARTIAL_TIME_LIMIT gates {'privacy_no_text_in_safe_outputs': True, 'every_task_attempted': False}
+2026-11-28 11:43:22Z 03-phi-3.5-mini: kernel COMPLETE -> failed
+2026-11-28 11:43:37Z 03-olmo-2-7b: pushed (Kernel version 2 successfully pushed.  Please check progress at https://www.kaggle.com/cod)
+2026-11-28 11:43:37Z 04-kit: blocked by a failed dependency
+2026-11-28 11:43:37Z 06: blocked by a failed dependency
+2026-11-28 11:43:37Z 05-classical: blocked by a failed dependency
+2026-11-28 11:43:37Z 05-transformers-a: blocked by a failed dependency
+2026-11-28 11:43:37Z 05-transformers-b: blocked by a failed dependency
+2026-11-28 11:55:09Z 03-phi-3.5-mini-cont: pushed (Kernel version 1 successfully pushed.  Please check progress at https://www.kaggle.com/cod)
+2026-11-28 12:18:07Z 03-olmo-2-7b: pushed (Kernel version 3 successfully pushed.  Please check progress at https://www.kaggle.com/cod)
+2026-11-28 14:27:05Z 01b-ext3: pushed (Kernel version 1 successfully pushed.  Please check progress at https://www.kaggle.com/cod)
+2026-11-28 15:01:32Z 01b-ext3: COMPLETED -> results/01b_ext3 committed at 0739c902
+2026-11-28 15:01:32Z 01b-ext3: kernel COMPLETE -> done
+2026-11-28 15:03:08Z 03-olmo-2-7b: kernel CANCEL -> failed
+2026-11-28 15:03:18Z 03-ext3-qwen2.5-7b: pushed (Kernel version 1 successfully pushed.  Please check progress at https://www.kaggle.com/cod)
+2026-11-28 15:03:18Z 05-classical: blocked by a failed dependency
+2026-11-28 15:05:44Z 03-phi-3.5-mini-cont: pushed (Kernel version 2 successfully pushed.  Please check progress at https://www.kaggle.com/cod)
+2026-11-28 15:12:02Z 03-phi-3.5-mini-cont: kernel CANCEL -> failed
+2026-11-28 15:12:15Z 03-olmo-2-7b: pushed (Kernel version 4 successfully pushed.  Please check progress at https://www.kaggle.com/cod)
+2026-11-28 15:12:15Z 04-kit: blocked by a failed dependency
+2026-11-28 15:12:15Z 05-classical: blocked by a failed dependency

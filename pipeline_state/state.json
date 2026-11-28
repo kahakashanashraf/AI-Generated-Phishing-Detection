@@ -1,0 +1,90 @@
+{
+  "02": {
+    "state": "failed",
+    "pushed": "2026-11-26T13:31:44.978245+00:00",
+    "commit": "e598dc15f0f48153fb1709aee806be602e65c9ba",
+    "finished": "2026-11-26T13:58:58.433013+00:00"
+  },
+  "03-qwen2.5-7b": {
+    "state": "done",
+    "note": "accepted under deviation 12; outputs frozen as dataset ddipra/phishbench-03-qwen2-5-7b-outputs",
+    "finished": "2026-11-27T05:18:08.369487+00:00"
+  },
+  "03-phi-3.5-mini": {
+    "state": "partial_superseded",
+    "note": "run 1 (v2 kernel): PARTIAL_TIME_LIMIT; continued by 03-phi-3.5-mini-cont (deviation 14)"
+  },
+  "03-olmo-2-7b": {
+    "state": "running",
+    "note": "v3 was cancelled by the owner after ~3 h in the queue (never ran); an interactive editor session the owner opened was stopped; v4 pushed 15:12:15Z by the pipeline",
+    "previous": {
+      "state": "failed",
+      "adopt": false,
+      "note": "v2 (pushed 11:43Z) has the OOM-recovery bug; owner asked to cancel it; push the fixed version once it stops",
+      "pushed": "2026-11-28T12:18:07.389180+00:00",
+      "commit": "5fff5193c3eb1d2de053cd80d7f863d932af42cb",
+      "finished": "2026-11-28T15:03:08.338515+00:00"
+    },
+    "pushed": "2026-11-28T15:12:15.875372+00:00",
+    "commit": "48e6831dd6c8742b7585b315da9c46042bf7e36b"
+  },
+  "06": {
+    "state": "pending"
+  },
+  "05-classical": {
+    "state": "pending"
+  },
+  "07": {
+    "state": "pending"
+  },
+  "04-kit": {
+    "state": "pending"
+  },
+  "04-score": {
+    "state": "pending"
+  },
+  "05-transformers-a": {
+    "state": "pending"
+  },
+  "05-transformers-b": {
+    "state": "pending"
+  },
+  "08": {
+    "state": "pending"
+  },
+  "03-phi-3.5-mini-cont": {
+    "state": "pending",
+    "note": "v1 (queued ~3 h) and v2 (queued) were cancelled by the owner in the Kaggle UI on 2026-11-28 without running; re-pushed unchanged when a GPU slot frees",
+    "previous": {
+      "state": "failed",
+      "note": "previous version was CANCEL_ACKNOWLEDGED on Kaggle at about 15:00Z on 2026-11-28 after about 3 h in the queue, without ever running; re-pushed unchanged",
+      "previous": {
+        "state": "running",
+        "pushed": "2026-11-28T11:55:09.587209+00:00",
+        "commit": "14c229e81ebeab86c6f6892706f88161a628b98e"
+      },
+      "pushed": "2026-11-28T15:05:44.031553+00:00",
+      "commit": "8ff7170830e5b1ffdcbc16267e18ba08433a142d",
+      "finished": "2026-11-28T15:12:02.196141+00:00"
+    }
+  },
+  "01b-ext3": {
+    "state": "done",
+    "note": "hold released 2026-11-28: deviation 15 timestamped by Zenodo v0.2-extensions 10.5281/zenodo.24629702 (D026)",
+    "pushed": "2026-11-28T14:27:05.550414+00:00",
+    "commit": "4e5149811cc738378952bea12a1184f84ab99662",
+    "finished": "2026-11-28T15:01:32.702632+00:00"
+  },
+  "03-ext3-qwen2.5-7b": {
+    "state": "running",
+    "pushed": "2026-11-28T15:03:18.710767+00:00",
+    "commit": "b10744b6caca1f04191376b1c3d7262f9915cd75"
+  },
+  "03-ext3-phi-3.5-mini": {
+    "state": "pending"
+  },
+  "03-e2-qwen2.5-14b": {
+    "state": "pending",
+    "note": "hold released 2026-11-28: deviation 15 timestamped by Zenodo v0.2-extensions 10.5281/zenodo.24629702 (D026)"
+  }
+}

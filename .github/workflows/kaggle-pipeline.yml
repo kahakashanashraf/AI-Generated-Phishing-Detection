@@ -1,0 +1,41 @@
+name: kaggle-pipeline
+# Cloud runner for scripts/pipeline.py (D027), so the study advances while the owners' computers are off.
+# Every run is ONE tick: collect the kernels that finished, push the next steps whose dependencies are done,
+# commit the text-free results and pipeline_state/. Only the safe folder of each kernel output is downloaded
+# (PIPELINE_SAFE_ONLY=1): email text, generated text and rater keys never leave Kaggle.
+# Triggers are schedule and manual dispatch only, so the Kaggle secret is never exposed to pull requests from forks.
+on:
+  schedule:
+    - cron: "7,22,37,52 * * * *"   # every 15 min, off the top of the hour
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kaggle-pipeline
+  cancel-in-progress: false
+
+jobs:
+  tick:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install the pinned Kaggle CLI
+        run: pip install --quiet kaggle==2.2.5 kagglesdk==0.1.38
+      - name: Git identity for pipeline commits
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: One pipeline tick
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+          PHISH_PRIVATE: ${{ runner.temp }}/private
+          PIPELINE_SAFE_ONLY: "1"
+        run: python scripts/pipeline.py --once
