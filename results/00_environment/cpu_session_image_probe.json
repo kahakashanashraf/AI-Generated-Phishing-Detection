@@ -1,0 +1,1 @@
+{"python": "3.13.16", "image": "gcr.io/kaggle-gpu-images/python@sha256:fc720c15545eb096a510e1f085b17fc118387a007599424d953a4f327b71cacf", "cpus": 4, "torch": "2.11.0+cu130", "cuda": false, "sklearn": "1.6.1", "transformers": "5.20.2"}

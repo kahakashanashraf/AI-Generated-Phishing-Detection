@@ -240,3 +240,15 @@ None of these may be scored before N20.
 - **Amit Dasgupta** reviews the writing and helps with the literature search. He no longer rates.
 - **Why this is safe:** no workbook has been issued yet, so the change cannot affect any rating.
 - **Attestation:** the blinding rules and the attestation (D015) now apply to Dipra Das and Johora Bibi Juhi.
+
+## D022 — 2026-11-28 — Clean-up of superseded Kaggle runs
+- **Owner request:** remove superseded or buggy runs on Kaggle and in git.
+- **Kaggle:**
+  - Deleted the one-off probe kernel `zz-cpu-image-probe`, after committing its output to `results/00_environment/`.
+  - Kaggle refused to delete individual notebook versions ("Deleting individual kernel versions is not supported"). Deleting a whole kernel would also delete the versions the study uses, so the superseded versions stay inside their notebooks:
+    - 01 v1;
+    - 02 v1 and v2;
+    - Phi v1, the float32 run;
+    - OLMo v1 and v2.
+  - These kernels are private, and their history agrees with the deviation log.
+- **Git:** history is not rewritten. Every pushed notebook pins its code commit, and 08 audits rebuilds against those commits, so rewriting history would break reproducibility. Superseded result folders, such as `results/03_generation/phi-3.5-mini-run1-partial/`, are kept on purpose because they document deviation 14.
