@@ -438,7 +438,7 @@ Mitigations are claimed as useful **only** if they pass all of §5 (a), (b) and 
 - *Why:* technical failures must not masquerade as §3.4 quality exclusions, and §3.4 is a single pass, so tasks that already received a §3.4 verdict are never regenerated.
 - *Results affected:* Phi and OLMo generation only. No detector has been trained or scored.
 
-**Deviation 15 (2026-11-28, before any extension data is collected or generated, and before any detector is trained or scored): two pre-specified EXPLORATORY extensions.**
+**Deviation 15 (2026-11-28, before any extension data is collected or generated, and before any detector is trained or scored): two pre-specified EXPLORATORY extensions.** Timestamped by Zenodo 10.5281/zenodo.24629702 (`v0.2-extensions`, D026).
 
 They answer two foreseeable criticisms:
 - the external human email is old (Enron 2001, Clinton 2009–12);

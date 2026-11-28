@@ -24,6 +24,9 @@ identifiers:
   - type: doi
     value: 10.5281/zenodo.24627573
     description: v0.1-protocol, the protocol snapshot taken before the confirmatory analysis
+  - type: doi
+    value: 10.5281/zenodo.24629702
+    description: v0.2-extensions, the pre-specification of the exploratory extensions (deviation 15) taken before any extension data were collected
 repository-code: https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection
 keywords:
   - "phishing detection"

@@ -282,3 +282,8 @@ None of these may be scored before N20.
   - 05 scores all seven extension cells.
   - 07 computes the 14 exploratory rows (X1a–X1c and X2a–X2c for D2 and D5).
 - **Order.** 01b and the E2 generation are held until the owner's Zenodo release `v0.2-extensions` timestamps deviation 15. 05 and 06 wait for every extension cell, so all cells are scored in one sealed run.
+## D026 — 2026-11-28 — Deviation 15 timestamped on Zenodo; extension hold released
+- **Record.** GitHub release `v0.2-extensions` (tag at commit 4e84b32, which contains deviation 15, D024 and D025) was archived by Zenodo as **10.5281/zenodo.24629702** (same concept DOI 10.5281/zenodo.24627572). It was created on 2026-11-28 at 14:24:19 UTC.
+- **What the record holds:** the same six creators, the MIT licence, and a single 1.8 MB repository archive (md5 a28af14f0e1f54d3c21dadd6f5030510).
+- **Timing.** The snapshot predates the E1 data collection (01b), every extension generation run (03 ext3, 03 e2), every detector training and scoring run (05, 06) and the evaluation (07). The only earlier contact with Apache data is the API checks already disclosed in deviation 15 and D025; no message content from them enters any result.
+- **Action.** The pipeline holds on `01b-ext3` and `03-e2-qwen2.5-14b` were released after this record existed.
