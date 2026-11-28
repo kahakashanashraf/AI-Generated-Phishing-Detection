@@ -9,6 +9,7 @@
 - **Study 2** is confirmatory. Its protocol is frozen in `docs/PREREGISTRATION_V2.md` (v2.1, with every deviation logged in §9).
 - **Protocol snapshot** archived **before any detector was trained or scored**: Zenodo [10.5281/zenodo.24627573](https://doi.org/10.5281/zenodo.24627573) (`v0.1-protocol`, 2026-11-28).
 - **Exploratory extensions pre-specified** (deviation 15) **before any extension data were collected**: Zenodo [10.5281/zenodo.24629702](https://doi.org/10.5281/zenodo.24629702) (`v0.2-extensions`, 2026-11-28).
+- **Pipeline runner:** the scheduled GitHub Actions workflow `kaggle-pipeline` runs one tick of `scripts/pipeline.py --once` every 15 minutes and commits the text-free results and `pipeline_state/` (D027).
 - **All versions:** concept DOI [10.5281/zenodo.24627572](https://doi.org/10.5281/zenodo.24627572).
 
 ## START HERE (v2 plan, 2026-11-26)
