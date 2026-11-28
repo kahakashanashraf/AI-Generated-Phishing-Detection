@@ -32,7 +32,7 @@
     "state": "pending"
   },
   "05-classical": {
-    "state": "pending"
+    "state": "blocked"
   },
   "07": {
     "state": "pending"
@@ -53,7 +53,7 @@
     "state": "pending"
   },
   "03-phi-3.5-mini-cont": {
-    "state": "pending",
+    "state": "running",
     "note": "v1 (queued ~3 h) and v2 (queued) were cancelled by the owner in the Kaggle UI on 2026-11-28 without running; re-pushed unchanged when a GPU slot frees",
     "previous": {
       "state": "failed",
@@ -66,7 +66,9 @@
       "pushed": "2026-11-28T15:05:44.031553+00:00",
       "commit": "8ff7170830e5b1ffdcbc16267e18ba08433a142d",
       "finished": "2026-11-28T15:12:02.196141+00:00"
-    }
+    },
+    "pushed": "2026-11-28T15:42:32.772361+00:00",
+    "commit": "57631b21180e1b30c53edafb2042eb7c4ca29633"
   },
   "01b-ext3": {
     "state": "done",
@@ -76,9 +78,10 @@
     "finished": "2026-11-28T15:01:32.702632+00:00"
   },
   "03-ext3-qwen2.5-7b": {
-    "state": "running",
+    "state": "failed",
     "pushed": "2026-11-28T15:03:18.710767+00:00",
-    "commit": "b10744b6caca1f04191376b1c3d7262f9915cd75"
+    "commit": "b10744b6caca1f04191376b1c3d7262f9915cd75",
+    "finished": "2026-11-28T15:42:22.145607+00:00"
   },
   "03-ext3-phi-3.5-mini": {
     "state": "pending"

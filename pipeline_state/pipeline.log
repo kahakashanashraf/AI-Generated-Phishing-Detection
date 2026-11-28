@@ -26,3 +26,6 @@
 2026-11-28 15:12:15Z 03-olmo-2-7b: pushed (Kernel version 4 successfully pushed.  Please check progress at https://www.kaggle.com/cod)
 2026-11-28 15:12:15Z 04-kit: blocked by a failed dependency
 2026-11-28 15:12:15Z 05-classical: blocked by a failed dependency
+2026-11-28 15:42:22Z 03-ext3-qwen2.5-7b: kernel ERROR -> failed
+2026-11-28 15:42:32Z 03-phi-3.5-mini-cont: pushed (Kernel version 3 successfully pushed.  Please check progress at https://www.kaggle.com/cod)
+2026-11-28 15:42:32Z 05-classical: blocked by a failed dependency
