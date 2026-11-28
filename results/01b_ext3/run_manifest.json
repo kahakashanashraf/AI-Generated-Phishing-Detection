@@ -1,0 +1,211 @@
+{
+  "notebook": "01b_Extension_Newer_Human_Email",
+  "status": "COMPLETED",
+  "gates": {
+    "every_planned_month_attempted": true,
+    "no_record_linked_to_train_or_val": true,
+    "privacy_no_text_in_safe_outputs": true
+  },
+  "counts": {
+    "n": 500,
+    "target": 500,
+    "by_list": {
+      "users@kafka.apache.org": 47,
+      "users@maven.apache.org": 46,
+      "user@flink.apache.org": 43,
+      "general@incubator.apache.org": 36,
+      "users@httpd.apache.org": 45,
+      "user@spark.apache.org": 47,
+      "users@tomcat.apache.org": 42,
+      "user@hadoop.apache.org": 35,
+      "dev@airflow.apache.org": 40,
+      "dev@community.apache.org": 44,
+      "user@cassandra.apache.org": 42,
+      "dev@httpd.apache.org": 33
+    },
+    "by_year": {
+      "2019": 108,
+      "2020": 179,
+      "2021": 134,
+      "2022": 79
+    },
+    "median_words": 135.0,
+    "candidates": 2379,
+    "stage1": 694
+  },
+  "n_at_target": true,
+  "plan": {
+    "user@spark.apache.org": [
+      "2019-02",
+      "2019-08",
+      "2020-05",
+      "2020-10",
+      "2021-05",
+      "2021-11"
+    ],
+    "users@kafka.apache.org": [
+      "2019-08",
+      "2021-06",
+      "2021-08",
+      "2021-09",
+      "2022-03",
+      "2022-04"
+    ],
+    "user@flink.apache.org": [
+      "2020-01",
+      "2021-04",
+      "2021-06",
+      "2021-11",
+      "2022-03",
+      "2022-09"
+    ],
+    "user@hadoop.apache.org": [
+      "2019-07",
+      "2020-01",
+      "2020-03",
+      "2020-07",
+      "2020-08",
+      "2022-10"
+    ],
+    "user@cassandra.apache.org": [
+      "2019-01",
+      "2019-12",
+      "2020-09",
+      "2021-04",
+      "2021-12",
+      "2022-10"
+    ],
+    "users@tomcat.apache.org": [
+      "2020-02",
+      "2020-07",
+      "2021-01",
+      "2021-06",
+      "2022-09",
+      "2022-10"
+    ],
+    "users@httpd.apache.org": [
+      "2019-09",
+      "2020-04",
+      "2020-09",
+      "2020-10",
+      "2021-02",
+      "2022-08"
+    ],
+    "dev@httpd.apache.org": [
+      "2019-01",
+      "2020-02",
+      "2020-06",
+      "2020-07",
+      "2021-08",
+      "2022-01"
+    ],
+    "dev@airflow.apache.org": [
+      "2019-10",
+      "2020-06",
+      "2020-10",
+      "2020-12",
+      "2021-03",
+      "2022-09"
+    ],
+    "general@incubator.apache.org": [
+      "2019-02",
+      "2020-05",
+      "2020-07",
+      "2020-11",
+      "2021-03",
+      "2022-10"
+    ],
+    "dev@community.apache.org": [
+      "2019-02",
+      "2020-08",
+      "2021-02",
+      "2021-05",
+      "2021-11",
+      "2022-07"
+    ],
+    "users@maven.apache.org": [
+      "2020-02",
+      "2020-03",
+      "2020-10",
+      "2020-11",
+      "2021-08",
+      "2022-08"
+    ]
+  },
+  "fetch_failures": [],
+  "records_01_sha256": "70efc17975c102fdc1a0c37ce734e7c4d150bd9c1493c198320c37b910fb7e48",
+  "private_files_sha256": {
+    "content_sha256": {
+      "records_ext3": "0b05a0abe3bf4fe960518ec56783d54b1edf3903f0294c16603ed1c577621cbb"
+    }
+  },
+  "phishbench_commit": "bdeae8d26af73b5dab3c032a7eceb65031dbd666",
+  "runtime_seconds": 1901.3,
+  "params": {
+    "REPO_URL": "https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection.git",
+    "CODE_COMMIT": "bdeae8d26af73b5dab3c032a7eceb65031dbd666",
+    "SEED": 2026,
+    "EXPECTED_VERSIONS": {
+      "sklearn": "1.6.1"
+    },
+    "INPUT_ROOT": "/kaggle/input",
+    "LISTS": [
+      "user@spark.apache.org",
+      "users@kafka.apache.org",
+      "user@flink.apache.org",
+      "user@hadoop.apache.org",
+      "user@cassandra.apache.org",
+      "users@tomcat.apache.org",
+      "users@httpd.apache.org",
+      "dev@httpd.apache.org",
+      "dev@airflow.apache.org",
+      "general@incubator.apache.org",
+      "dev@community.apache.org",
+      "users@maven.apache.org"
+    ],
+    "WINDOW": [
+      "2019-01",
+      "2022-10"
+    ],
+    "MONTHS_PER_LIST": 6,
+    "N_EXT3": 500,
+    "PER_LIST_CAP": 60,
+    "HUMAN_FILTERS": {
+      "min_words": 20,
+      "max_words": 1500,
+      "require_english": true
+    },
+    "MINHASH": {
+      "num_perm": 128,
+      "bands": 16,
+      "threshold": 0.8,
+      "shingle_words": 5
+    },
+    "API": "https://lists.apache.org/api/mbox.lua?list={lst}&date={month}",
+    "REQUEST_DELAY_S": 3,
+    "USER_AGENT": "phishbench-research/1.0 (academic study; message text is never redistributed)"
+  },
+  "environment": {
+    "utc": "2026-11-28T14:27:32.017992+00:00",
+    "python": "3.13.16",
+    "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "pkg_numpy": "2.1.3",
+    "pkg_pandas": "2.3.3",
+    "pkg_sklearn": "1.6.1",
+    "pkg_torch": "2.11.0+cu130",
+    "pkg_transformers": "5.20.2",
+    "pkg_vllm": null,
+    "pkg_langdetect": "present",
+    "git_commit": "bdeae8d26af73b5dab3c032a7eceb65031dbd666",
+    "kaggle_docker_image": "gcr.io/kaggle-gpu-images/python@sha256:fc720c15545eb096a510e1f085b17fc118387a007599424d953a4f327b71cacf",
+    "phishbench": "2.1.0",
+    "cuda_devices": []
+  },
+  "selftest": "Ran 44 tests in 5.994s",
+  "files": {
+    "cell_counts.json": "2c27a46190a4001b3f2e94b49fe75795dfdfebd68315955900dc8750a90cb603",
+    "exclusions.csv": "f6d769282dd3e67805a397e439220a3ebaca901c4f2e091ac80e8d4890b3d140",
+    "fetch_provenance.csv": "d20556d9a5b991cfdd8790c1ba83000d92cf0ff81bab3e8716cba66fe2332353",
+    "private_files_sha256.json": "e21068b5ba7b5d331e6e2eeac45378a696062ea6ee9f762e94f318e2b3f7d3b6"
+  }
+}

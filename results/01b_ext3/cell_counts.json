@@ -1,0 +1,27 @@
+{
+  "n": 500,
+  "target": 500,
+  "by_list": {
+    "users@kafka.apache.org": 47,
+    "users@maven.apache.org": 46,
+    "user@flink.apache.org": 43,
+    "general@incubator.apache.org": 36,
+    "users@httpd.apache.org": 45,
+    "user@spark.apache.org": 47,
+    "users@tomcat.apache.org": 42,
+    "user@hadoop.apache.org": 35,
+    "dev@airflow.apache.org": 40,
+    "dev@community.apache.org": 44,
+    "user@cassandra.apache.org": 42,
+    "dev@httpd.apache.org": 33
+  },
+  "by_year": {
+    "2019": 108,
+    "2020": 179,
+    "2021": 134,
+    "2022": 79
+  },
+  "median_words": 135.0,
+  "candidates": 2379,
+  "stage1": 694
+}
