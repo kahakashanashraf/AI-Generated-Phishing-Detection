@@ -42,6 +42,11 @@ GEN = {g: f"{OWNER}/03-generation-{g.replace('.', '-')}" for g in ("qwen2.5-7b",
 # so downstream steps read Qwen from the dataset, not from the kernel.
 QWEN_DS = f"{OWNER}/phishbench-03-qwen2-5-7b-outputs"
 GEN_SRC = {g: k for g, k in GEN.items() if g != "qwen2.5-7b"}
+# Deviation 14: Phi run 1 stopped at the time guard (and lost tasks to an OOM-recovery bug); a continuation kernel keeps its
+# outputs and redoes only the technically failed tasks. Downstream steps read Phi from the continuation, never from run 1.
+PHI_CONT = f"{OWNER}/03-generation-phi-3-5-mini-cont"
+GEN_SRC["phi-3.5-mini"] = PHI_CONT
+GEN_STEP = {"qwen2.5-7b": "03-qwen2.5-7b", "phi-3.5-mini": "03-phi-3.5-mini-cont", "olmo-2-7b": "03-olmo-2-7b"}
 
 STEPS = {
     "02": dict(builder=["build_02.py"], nb="02_Study1_Exploratory_Reproduction.ipynb", slug=f"{OWNER}/02-study1-exploratory-reproduction",
@@ -49,14 +54,14 @@ STEPS = {
     **{f"03-{g}": dict(builder=["build_03.py", g], nb="03_Graded_AI_Assistance_Generation.ipynb", slug=GEN[g], deps=[],
                        sources=[K01], safe=f"safe_03/{g}", results=f"results/03_generation/{g}") for g in GEN},
     "05-classical": dict(builder=["build_05.py", "classical"], nb="05_Detector_Training_and_Sealed_Scoring.ipynb",
-                         slug=f"{OWNER}/05-training-classical", deps=[f"03-{g}" for g in GEN], sources=[K01, *GEN_SRC.values()], datasets=[QWEN_DS],
+                         slug=f"{OWNER}/05-training-classical", deps=list(GEN_STEP.values()), sources=[K01, *GEN_SRC.values()], datasets=[QWEN_DS],
                          safe="safe_05/classical", results="results/05_training/classical"),
     **{f"05-{part}": dict(builder=["build_05.py", part], nb="05_Detector_Training_and_Sealed_Scoring.ipynb",
-                          slug=f"{OWNER}/05-training-{part}", deps=[f"03-{g}" for g in GEN], sources=[K01, *GEN_SRC.values()],
+                          slug=f"{OWNER}/05-training-{part}", deps=list(GEN_STEP.values()), sources=[K01, *GEN_SRC.values()],
                           datasets=[QWEN_DS], safe=f"safe_05/{part}", results=f"results/05_training/{part}")
        for part in ("transformers-a", "transformers-b")},   # D019: two shards of the pre-registered transformer plan
     "04-kit": dict(builder=["build_04.py", "kit"], nb="04_Human_Validation.ipynb", slug=f"{OWNER}/04-human-validation-kit",
-                   deps=["03-qwen2.5-7b", "03-phi-3.5-mini"], sources=[K01, GEN["phi-3.5-mini"]], datasets=[QWEN_DS],
+                   deps=["03-qwen2.5-7b", "03-phi-3.5-mini-cont"], sources=[K01, PHI_CONT], datasets=[QWEN_DS],
                    safe="safe_04/kit", results="results/04_human_validation/kit"),
     # 04-score waits until both raters' answers and the adjudication are committed (docs/HUMAN_VALIDATION_PROTOCOL.md)
     "04-score": dict(builder=["build_04.py", "score"], nb="04_Human_Validation.ipynb", slug=f"{OWNER}/04-human-validation-score",
@@ -64,14 +69,14 @@ STEPS = {
                      results="results/04_human_validation/score",
                      requires=[f"results/04_human_validation/ratings/{n}" for n in ("rater_A.csv", "rater_B.csv", "adjudication.csv")]),
     "06": dict(builder=["build_06.py"], nb="06_Zero_Shot_LLM_Judge.ipynb", slug=f"{OWNER}/06-zero-shot-llm-judge",
-               deps=["03-qwen2.5-7b", "03-phi-3.5-mini"], sources=[K01, GEN["phi-3.5-mini"]], datasets=[QWEN_DS],
+               deps=["03-qwen2.5-7b", "03-phi-3.5-mini-cont"], sources=[K01, PHI_CONT], datasets=[QWEN_DS],
                safe="safe_06", results="results/06_judge"),
     "08": dict(builder=["build_08.py"], nb="08_Paper_Tables_Figures_and_Reproducibility.ipynb",
                slug=f"{OWNER}/08-paper-tables-figures-reproducibility", deps=["07"], datasets=[QWEN_DS],
-               sources=[K01, GEN["phi-3.5-mini"], GEN["olmo-2-7b"]], safe="safe_08", results="results/08_paper", gpu=False),
+               sources=[K01, PHI_CONT, GEN["olmo-2-7b"]], safe="safe_08", results="results/08_paper", gpu=False),
     "07": dict(builder=["build_07.py"], nb="07_Confirmatory_Evaluation.ipynb", slug=f"{OWNER}/07-confirmatory-evaluation",
                deps=["05-classical", "05-transformers-a", "05-transformers-b", "06", "04-score"],   # §3.5 decisions first
-               datasets=[QWEN_DS], sources=[K01, GEN["phi-3.5-mini"], f"{OWNER}/05-training-classical",
+               datasets=[QWEN_DS], sources=[K01, PHI_CONT, f"{OWNER}/05-training-classical",
                         f"{OWNER}/05-training-transformers-a", f"{OWNER}/05-training-transformers-b",
                         f"{OWNER}/06-zero-shot-llm-judge"],
                safe="safe_07", results="results/07_confirmatory"),
@@ -79,7 +84,10 @@ STEPS = {
 # CPU-only steps run in CPU sessions (same pinned image, no GPU quota, not counted against the 2 GPU slots; D018)
 for _n in ("04-kit", "04-score", "05-classical", "07"):
     STEPS[_n]["gpu"] = False
-ORDER = ["02", "03-qwen2.5-7b", "03-phi-3.5-mini", "03-olmo-2-7b", "04-kit", "06", "05-classical", "05-transformers-a", "05-transformers-b", "07",
+STEPS["03-phi-3.5-mini-cont"] = dict(
+    builder=["build_03.py", "phi-3.5-mini", "cont"], nb="03_Graded_AI_Assistance_Generation.ipynb", slug=PHI_CONT, deps=[],
+    sources=[K01, GEN["phi-3.5-mini"]], safe="safe_03/phi-3.5-mini", results="results/03_generation/phi-3.5-mini")
+ORDER = ["02", "03-qwen2.5-7b", "03-phi-3.5-mini", "03-phi-3.5-mini-cont", "03-olmo-2-7b", "04-kit", "06", "05-classical", "05-transformers-a", "05-transformers-b", "07",
          "04-score", "08"]
 
 
@@ -209,7 +217,9 @@ def main(only: list[str] | None) -> int:
                 continue
             if not available(n):
                 continue   # builder or required committed inputs (for example ratings) not there yet; the step waits
-            if kstatus(STEPS[n]["slug"]) in ("RUNNING", "QUEUED") and st[n].get("adopt", True):
+            if kstatus(STEPS[n]["slug"]) in ("RUNNING", "QUEUED"):
+                if not st[n].get("adopt", True):
+                    continue   # an older, unwanted run is still active (for example awaiting cancellation): wait
                 st[n].update(state="running", adopted=True); log(f"{n}: adopted an already running kernel"); save_state(st)
                 running.append(n); continue
             kdir = prepare(n)

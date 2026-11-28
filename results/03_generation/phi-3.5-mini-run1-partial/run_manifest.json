@@ -1,0 +1,117 @@
+{
+  "notebook": "03_Graded_AI_Assistance_Generation[phi-3.5-mini]",
+  "status": "PARTIAL_TIME_LIMIT",
+  "attrition_flags_kept_rate_below_0.80": {
+    "EXT-legit-L1-phi-3.5-mini": 0.665,
+    "EXT-legit-L2-phi-3.5-mini": 0.462,
+    "EXT-legit-L3-phi-3.5-mini": 0.424,
+    "EXT-phish-L3-phi-3.5-mini": 0.4577,
+    "IN-legit-L1-phi-3.5-mini": 0.6259,
+    "IN-legit-L2-phi-3.5-mini": 0.4173,
+    "IN-legit-L3-phi-3.5-mini": 0.3957,
+    "IN-phish-L3-phi-3.5-mini": 0.2585
+  },
+  "private_files_sha256": {
+    "file_sha256": {
+      "generated_phi-3.5-mini.jsonl.gz": "8fd5e83ceb602f3098b45036080c17f0fc47259cfd66b2218c5de2bbd04a32b8",
+      "rejected_ids_phi-3.5-mini.json": "f075c24c66a961d843b7a8b8a6af9d138d39c008cb46a7872651dfec71c900f3"
+    },
+    "content_sha256": {
+      "generated_phi-3.5-mini": "71ca6b41ec26bba92438820ff0d2f31732295ee1348906c6822af9ac173a63dd"
+    }
+  },
+  "gates": {
+    "privacy_no_text_in_safe_outputs": true,
+    "every_task_attempted": false
+  },
+  "generator": "phi-3.5-mini",
+  "model_repo": "microsoft/Phi-3.5-mini-instruct",
+  "model_revision": "2fe192450127e6a83f7441aef6e3ca586c338b77",
+  "role": "test",
+  "dtype": "float16",
+  "decoding": {
+    "temperature": 0.7,
+    "top_p": 0.95,
+    "max_new_tokens": 2048,
+    "do_sample": true
+  },
+  "seeding": "per batch (deviation 2)",
+  "embedder": {
+    "repo": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "cosine_threshold": 0.7
+  },
+  "records_01_sha256": "bbf544db7cc0145a31c4ab558ad8cb275e30165de9e440a67212c8c495c69616",
+  "phishbench_commit": "4759335cb7d61263e30ce247640cd181423cca16",
+  "requests": 4845,
+  "kept": 2915,
+  "batches": 254,
+  "new_tokens": 1235338,
+  "runtime_seconds": 38157.2,
+  "gpus": [
+    "Tesla T4",
+    "Tesla T4"
+  ],
+  "params": {
+    "REPO_URL": "https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection.git",
+    "CODE_COMMIT": "4759335cb7d61263e30ce247640cd181423cca16",
+    "SEED": 2026,
+    "GENERATOR": "phi-3.5-mini",
+    "GENERATORS": {
+      "qwen2.5-7b": {
+        "repo": "Qwen/Qwen2.5-7B-Instruct",
+        "role": "test",
+        "kv_budget_gb": 6.0,
+        "dtype": "float16"
+      },
+      "phi-3.5-mini": {
+        "repo": "microsoft/Phi-3.5-mini-instruct",
+        "role": "test",
+        "kv_budget_gb": 12.0,
+        "dtype": "float16"
+      },
+      "olmo-2-7b": {
+        "repo": "allenai/OLMo-2-1124-7B-Instruct",
+        "role": "train",
+        "kv_budget_gb": 10.0,
+        "dtype": "float16"
+      }
+    },
+    "EMBED_REPO": "sentence-transformers/all-MiniLM-L6-v2",
+    "COSINE_THRESHOLD": 0.7,
+    "MAX_BATCH": 32,
+    "FIRST_BATCH_MIN_PASS": 0.5,
+    "MAX_GEN_SECONDS": 37800,
+    "ATTRITION_FLAG_BELOW": 0.8,
+    "EXPECTED_VERSIONS": {
+      "sklearn": "1.6.1",
+      "transformers": "5.20.2",
+      "sentence_transformers": "5.7.0"
+    }
+  },
+  "environment": {
+    "utc": "2026-11-27T05:21:04.292267+00:00",
+    "python": "3.13.16",
+    "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "pkg_numpy": "2.1.3",
+    "pkg_pandas": "2.3.3",
+    "pkg_sklearn": "1.6.1",
+    "pkg_torch": "2.11.0+cu130",
+    "pkg_transformers": "5.20.2",
+    "pkg_vllm": null,
+    "pkg_langdetect": "present",
+    "git_commit": "4759335cb7d61263e30ce247640cd181423cca16",
+    "kaggle_docker_image": "gcr.io/kaggle-gpu-images/python@sha256:fc720c15545eb096a510e1f085b17fc118387a007599424d953a4f327b71cacf",
+    "phishbench": "2.1.0",
+    "cuda_devices": [
+      "Tesla T4",
+      "Tesla T4"
+    ]
+  },
+  "selftest": "Ran 43 tests in 5.135s",
+  "files": {
+    "generation_summary.csv": "6e949e378d3648a74ce845319e3b66c647f56995a4010663c8b28e87f1601361",
+    "manipulation_check.csv": "342b77d2887f37705220b880681a6f014e6e5fe4cb6916d47fb507643a449151",
+    "private_files_sha256.json": "f47f5b07826224ce0c943b47354699d8d3c5c1b077ba80fca16cd05d931523d3"
+  }
+}

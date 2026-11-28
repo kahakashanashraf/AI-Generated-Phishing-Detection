@@ -213,3 +213,11 @@ None of these may be scored before N20.
 - **If any author is a university supervisor,** the affiliation and ethics route of deviation 10 should be re-checked before the human rating starts.
 - **Release metadata:** `CITATION.cff` and `.zenodo.json` hold the list. `scripts/check_release_metadata.py` blocks a release while any name is a placeholder.
 - **Licences:** code is MIT (`LICENSE`). Results and documents are CC BY 4.0 (`LICENSE-CC-BY-4.0.md`). The authors can still change either before the first Zenodo release.
+
+## D021 — 2026-11-28 — Phi continued, OLMo re-run (deviation 14)
+- **Phi run 1:** `PARTIAL_TIME_LIMIT` at 10.5 h.
+  - Kept 2,915 of 4,845. The rest were 766 not run, 374 `oom` caused by a recovery bug, and §3.4 exclusions.
+  - **Early quality signal (descriptive):** Phi's L2 polish often changes length beyond the 0.5–2.0 ratio (223 cases), and its L3 rewrite often drops or alters placeholders (360 cases). Attrition will be reported in full (deviation 12).
+- **Continuation:** `03-generation-phi-3-5-mini-cont` generates only the 1,140 technically failed tasks and merges the result with run 1. The fixed OLMo run starts once the owner has cancelled the buggy version 2.
+- **Runner:** a pending step whose kernel still runs from an older push now waits (`adopt: false`) instead of adopting it.
+- **Lesson:** the editor session ended twice while kernels were running, and nothing was collected in the meantime. The coordinator keeps the session open; on return, the runner resumes from its saved state.

@@ -417,3 +417,23 @@ Mitigations are claimed as useful **only** if they pass all of §5 (a), (b) and 
   - The §7 claims use the primary rows. If no generator passes, PE1 is "not estimable".
 - *Why:* to apply §3.5 mechanically, once, inside the single confirmatory run, rather than adjusting results afterwards.
 - *Results affected:* none yet. Both scenarios were verified on synthetic sealed inputs (all generators pass; one generator fails).
+
+**Deviation 14 (2026-11-28, before any detector is trained or scored): out-of-memory recovery bug, safer batching, continuation of partial runs.**
+- *Observed:* Phi run 1 (float16) stopped at the 10.5-hour time guard. Of 4,845 tasks it had kept 2,915, while 766 had not run and 374 were recorded as `oom`.
+- *Cause of the `oom` tasks:* a software bug, not a property of the emails. The recovery code split an out-of-memory batch and retried the halves *inside* the exception handler. The retained traceback kept GPU memory allocated, so every smaller retry also failed. Qwen had no `oom` tasks and is unaffected.
+- *What changed:*
+  1. Recovery now happens after the exception handler exits, with garbage collection and a cache flush.
+  2. The KV-cache budgets leave headroom for outputs longer than the batching estimate: Phi 9 GB, OLMo 7 GB.
+  3. A **continuation mode**:
+     - It reads one previous partial run of the same generator and keeps all of its kept records and §3.4 exclusions.
+     - It generates only the tasks lost to technical failures (`not_run_time_limit`, `oom`), using the previous run's model and embedder revisions.
+     - It writes one merged output.
+     - Its first-batch check tests for garbage output only (unparseable or non-English), because the redo set holds the longest emails.
+  4. Cosine-filter exclusions (`low_similarity`) are now also written to the list of rejected IDs.
+- *Applied to:*
+  - Phi: run 1 continues in kernel `03-generation-phi-3-5-mini-cont`. Downstream steps read Phi only from that kernel.
+  - OLMo: version 2, launched with the bug, was cancelled by the owner and is re-run fresh.
+  - Run 1's partial outputs are committed for transparency under `results/03_generation/phi-3.5-mini-run1-partial/`.
+- *Verified:* a local dry run with a small model went through a partial run and then a continuation. The continuation redid 18 of 24 tasks. Afterwards kept + rejected = 24 unique IDs, with no technical failure left.
+- *Why:* technical failures must not masquerade as §3.4 quality exclusions, and §3.4 is a single pass, so tasks that already received a §3.4 verdict are never regenerated.
+- *Results affected:* Phi and OLMo generation only. No detector has been trained or scored.

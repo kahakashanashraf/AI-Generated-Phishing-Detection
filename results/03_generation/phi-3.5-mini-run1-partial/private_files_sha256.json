@@ -1,0 +1,9 @@
+{
+  "file_sha256": {
+    "generated_phi-3.5-mini.jsonl.gz": "8fd5e83ceb602f3098b45036080c17f0fc47259cfd66b2218c5de2bbd04a32b8",
+    "rejected_ids_phi-3.5-mini.json": "f075c24c66a961d843b7a8b8a6af9d138d39c008cb46a7872651dfec71c900f3"
+  },
+  "content_sha256": {
+    "generated_phi-3.5-mini": "71ca6b41ec26bba92438820ff0d2f31732295ee1348906c6822af9ac173a63dd"
+  }
+}
