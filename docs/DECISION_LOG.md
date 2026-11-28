@@ -252,3 +252,9 @@ None of these may be scored before N20.
     - OLMo v1 and v2.
   - These kernels are private, and their history agrees with the deviation log.
 - **Git:** history is not rewritten. Every pushed notebook pins its code commit, and 08 audits rebuilds against those commits, so rewriting history would break reproducibility. Superseded result folders, such as `results/03_generation/phi-3.5-mini-run1-partial/`, are kept on purpose because they document deviation 14.
+## D023 — 2026-11-28 — Protocol snapshot archived on Zenodo (replaces OSF)
+- **Record.** GitHub release `v0.1-protocol` was archived by Zenodo as **10.5281/zenodo.24627573** (concept DOI 10.5281/zenodo.24627572). It was created on 2026-11-28 at 12:39:13 UTC.
+- **What the record holds:** six creators in the confirmed order, the MIT licence, and a single 1.8 MB repository archive.
+- **Timing.** The snapshot predates every detector training and scoring run (05, 06) and the confirmatory evaluation (07). It is therefore the independent timestamp of the frozen protocol (v2.1) and deviations 1–14.
+- **OSF.** The owners chose Zenodo instead of OSF, which PLOS ONE does not require for this study type.
+- **Final package.** It will be a new version under the same concept DOI.

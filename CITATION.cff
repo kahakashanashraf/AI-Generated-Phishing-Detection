@@ -16,6 +16,14 @@ authors:
   - family-names: "Liew"
     given-names: "Tze Hui"
 license: MIT
+doi: 10.5281/zenodo.24627572
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.24627572
+    description: Concept DOI (all versions)
+  - type: doi
+    value: 10.5281/zenodo.24627573
+    description: v0.1-protocol, the protocol snapshot taken before the confirmatory analysis
 repository-code: https://github.com/kahakashanashraf/AI-Generated-Phishing-Detection
 keywords:
   - "phishing detection"

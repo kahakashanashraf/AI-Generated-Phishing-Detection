@@ -2,7 +2,13 @@
 
 **Primary target: [PLOS ONE](docs/PLOS_ONE_TARGET.md) (journal switch recorded 2026-10-24).**
 
-**Status (2026-11-26):** Study 1 (N05–N14) has been executed and is **exploratory**. Study 2, the confirmatory study, is **pre-registered as a draft** and awaiting owner approval.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24627572.svg)](https://doi.org/10.5281/zenodo.24627572)
+
+**Status (2026-11-28):**
+- **Study 1** (N05–N14) is exploratory. It was re-executed in the unified Kaggle image (`results/02_study1/`).
+- **Study 2** is confirmatory. Its protocol is frozen in `docs/PREREGISTRATION_V2.md` (v2.1, with every deviation logged in §9).
+- **Protocol snapshot** archived **before any detector was trained or scored**: Zenodo [10.5281/zenodo.24627573](https://doi.org/10.5281/zenodo.24627573) (`v0.1-protocol`, 2026-11-28).
+- **All versions:** concept DOI [10.5281/zenodo.24627572](https://doi.org/10.5281/zenodo.24627572).
 
 ## START HERE (v2 plan, 2026-11-26)
 - **[Research overview: what, why, gap, contributions, novelty](docs/RESEARCH_OVERVIEW.md)**: read this first.
