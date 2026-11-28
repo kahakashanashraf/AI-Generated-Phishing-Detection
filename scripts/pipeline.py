@@ -125,7 +125,16 @@ def sh(*args, cwd=REPO, check=True) -> str:
     return (out.stdout + out.stderr).strip()
 
 
+def redact(text: str) -> str:
+    """No Kaggle token in anything printed or committed (a CLI error can echo the Authorization header)."""
+    tok = os.environ.get("KAGGLE_API_TOKEN", "").strip()
+    if tok:
+        text = text.replace(tok, "***")
+    return re.sub(r"KGAT_[0-9A-Za-z]+", "KGAT_***", text)
+
+
 def log(msg: str) -> None:
+    msg = redact(msg)
     for local, label in ((str(PRIVATE), "<private>"), (str(REPO.parent), "<root>"), (str(Path.home()), "<home>")):
         msg = msg.replace(local, label)   # the log is committed to a public repository: no machine paths in it
     line = f"{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}Z {msg}"
@@ -261,11 +270,15 @@ def main(only: list[str] | None, once: bool = False) -> int:
     STATE_DIR.mkdir(parents=True, exist_ok=True)
     if once:
         # the scheduled cloud runner: do nothing at all unless Kaggle answers for a known, finished kernel
-        if not os.environ.get("KAGGLE_API_TOKEN") and not (Path.home() / ".kaggle").is_dir():
+        tok = os.environ.get("KAGGLE_API_TOKEN", "")
+        if tok != tok.strip():   # a secret pasted with a trailing newline or space breaks the Authorization header
+            os.environ["KAGGLE_API_TOKEN"] = tok = tok.strip()
+        if not tok and not (Path.home() / ".kaggle").is_dir():
             print("no Kaggle credentials (repository secret KAGGLE_API_TOKEN is not set): runner inactive, nothing changed")
             return 0
-        if kstatus(K01) != "COMPLETE":
-            print("Kaggle API not reachable or not authenticated: nothing changed")
+        probe = sh(CLI, "kernels", "status", K01, check=False)
+        if "COMPLETE" not in probe:
+            print("Kaggle API not reachable or not authenticated: nothing changed\n" + redact(probe)[-800:])
             return 1
         sh("git", "pull", "--rebase", "--autostash", "-q", "origin", "main")
     else:
@@ -305,7 +318,7 @@ if __name__ == "__main__":
         sys.exit(main(only, once))
     except Exception:   # record the reason (committed, so the cloud runner's crash is visible too), release the lock
         import traceback
-        log("CRASH: " + " | ".join(traceback.format_exc().splitlines())[-1500:])
+        log("CRASH: " + " | ".join(traceback.format_exc().splitlines())[-1500:])   # log() redacts tokens and paths
         try:
             commit_state()
         except Exception:
